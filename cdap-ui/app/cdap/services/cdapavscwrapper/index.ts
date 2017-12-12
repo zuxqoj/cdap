@@ -19,8 +19,7 @@ import { LogicalTypes } from 'services/cdapavscwrapper/LogicalTypes';
 import DateLogicalType from 'services/cdapavscwrapper/DateLogicalType';
 import TimestampMicrosLogicalType from 'services/cdapavscwrapper/TimestampMicrosLogicalType';
 import TimeMicrosLogicalType from 'services/cdapavscwrapper/TimeMicrosLogicalType';
-import invert from 'lodash/invert';
-import { IJsonResponse } from 'services/cdapavscwrapper/AbstractLogicalType';
+import { invert, Dictionary } from 'lodash';
 
 // this dictionary is keeping the real AVRO logical type as the key
 const LogicalTypesDictionary = {
@@ -38,15 +37,13 @@ enum UI_TYPES {
 
 type IUiToAvro = { [key in UI_TYPES]: LogicalTypes };
 
-type IAvroToUi = { [key in LogicalTypes]: UI_TYPES };
-
 const UI_TO_AVRO_MAPPING: IUiToAvro = {
   [UI_TYPES.DATE]: LogicalTypes.DATE,
   [UI_TYPES.TIME]: LogicalTypes.TIME_MICROS,
   [UI_TYPES.TIMESTAMP]: LogicalTypes.TIMESTAMP_MICROS,
 };
 
-const AVRO_TO_UI_MAPPING: IAvroToUi = invert(UI_TO_AVRO_MAPPING);
+const AVRO_TO_UI_MAPPING: Dictionary<string> = invert(UI_TO_AVRO_MAPPING);
 
 const CdapAvscWrapper = {
   parse: (schema, opts: object) => {

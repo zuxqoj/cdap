@@ -66,6 +66,9 @@ export default class Duration extends Component {
     if (!newTime) {
       return;
     }
+    if (!newTime) {
+      return;
+    }
 
     let targetTime = newTime;
 

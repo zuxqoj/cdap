@@ -17,7 +17,7 @@
 import cssVars from 'css-vars-ponyfill';
 import { objectQuery, isNilOrEmpty } from 'services/helpers';
 import isColor from 'is-color';
-import isBoolean from 'lodash/isBoolean';
+import { isBoolean } from 'lodash';
 
 interface IThemeJSON {
   'spec-version': string;
