@@ -34,6 +34,8 @@ import BreadCrumb from 'components/BreadCrumb';
 import PlusButton from 'components/PlusButton';
 import Helmet from 'react-helmet';
 import queryString from 'query-string';
+import {Route, Switch} from 'react-router-dom';
+import FieldLevelLineage from 'components/FieldLevelLineage';
 require('./DatasetDetailedView.scss');
 
 export default class DatasetDetailedView extends Component {
@@ -228,11 +230,24 @@ export default class DatasetDetailedView extends Component {
           fastActionToOpen={this.state.modalToOpen}
           showFullCreationTime={true}
         />
-        <DatasetDetaildViewTab
-          params={this.props.match.params}
-          pathname={this.props.location.pathname}
-          entity={this.state.entityDetail}
-        />
+        <Switch>
+          {/*
+            Currently, the field level lineage is a separate page. The intent is to eventually move
+            this to a dedicated page that will replace the metadata view.
+          */}
+          <Route exact path="/ns/:namespace/datasets/:datasetId/fields" component={FieldLevelLineage} />
+          <Route path="/ns/:namespace/datasets/:datasetId/" render={
+            () => {
+              return (
+                <DatasetDetaildViewTab
+                  params={this.props.match.params}
+                  pathname={this.props.location.pathname}
+                  entity={this.state.entityDetail}
+                />
+              );
+            }
+          } />
+        </Switch>
         {
           this.state.routeToHome ?
             <Redirect to={`/ns/${this.state.selectedNamespace}`} />
