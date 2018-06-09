@@ -16,14 +16,29 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {getFields} from 'components/FieldLevelLineage/store/ActionCreator';
+import {Provider} from 'react-redux';
+import Store from 'components/FieldLevelLineage/store/Store';
+import Fields from 'components/FieldLevelLineage/Fields';
 
 export default class FieldLevelLineage extends Component {
+  static propTypes = {
+    entityId: PropTypes.string
+  };
+
+  componentWillMount() {
+    getFields(this.props.entityId);
+  }
+
   render() {
     return (
-      <div className="field-level-lineage-container">
-        <h1 className="text-xs-center">Awesomeness Coming Soon</h1>
+      <Provider store={Store}>
+        <div className="field-level-lineage-container">
+          <h1 className="text-xs-center">Field Level Lineage</h1>
 
-      </div>
+          <Fields />
+        </div>
+      </Provider>
     );
   }
 }

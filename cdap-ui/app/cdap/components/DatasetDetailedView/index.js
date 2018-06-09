@@ -210,10 +210,13 @@ export default class DatasetDetailedView extends Component {
       pathname: this.state.previousPathName,
       label: T.translate('commons.back')
     }];
+
+    let datasetId = this.props.match.params.datasetId;
+
     return (
       <div className="app-detailed-view dataset-detailed-view">
         <Helmet
-          title={T.translate('features.DatasetDetailedView.Title', {datasetId: this.props.match.params.datasetId})}
+          title={T.translate('features.DatasetDetailedView.Title', {datasetId: datasetId})}
         />
         <div className="bread-crumb-wrapper">
           <BreadCrumb
@@ -235,7 +238,11 @@ export default class DatasetDetailedView extends Component {
             Currently, the field level lineage is a separate page. The intent is to eventually move
             this to a dedicated page that will replace the metadata view.
           */}
-          <Route exact path="/ns/:namespace/datasets/:datasetId/fields" component={FieldLevelLineage} />
+          <Route exact path="/ns/:namespace/datasets/:datasetId/fields" render={
+            () => {
+              return <FieldLevelLineage entityId={datasetId} />;
+            }
+          } />
           <Route path="/ns/:namespace/datasets/:datasetId/" render={
             () => {
               return (
