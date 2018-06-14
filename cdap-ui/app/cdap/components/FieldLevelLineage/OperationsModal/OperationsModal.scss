@@ -17,9 +17,16 @@
 @import '../../../styles/variables.scss';
 $disabled-font-color: $grey-04;
 $highlight-color: $yellow-01;
+$table-border-color: $grey-04;
 
-.field-level-lineage-modal.modal-dialog {
+.modal .field-level-lineage-modal.modal-dialog {
+  margin-top: 0;
+  transform: translateY(-50%);
+  top: 50%;
   max-width: 85vw;
+  max-height: 80vh;
+
+  .modal-content { border-radius: 0; }
 
   .modal-header,
   .modal-body {
@@ -49,10 +56,55 @@ $highlight-color: $yellow-01;
       }
     }
 
+    .summary-text,
+    .last-execution {
+      line-height: 2;
+    }
+
     .operations-table-container {
-      .table {
+      .grid-wrapper { max-height: 70vh; }
+
+      .grid.grid-container {
+        max-height: 100%;
+
+        .grid-header,
+        .grid-body {
+          .grid-row {
+            grid-template-columns: 1fr 2fr 2fr 2fr 40% 2fr 2fr;
+          }
+        }
+
+        .grid-header {
+          font-weight: 600;
+
+          .grid-row > div { padding-left: 7px; }
+        }
+
+        .grid-body .grid-row {
+          padding: 0;
+
+          > div {
+            padding: 7px;
+
+            &:first-child { text-align: right; }
+
+            &:not(:last-child) {
+              border-right: 1px solid $table-border-color;
+              min-height: 100%;
+            }
+          }
+        }
+
         .active { background-color: yellow; }
-        .input-field { cursor: pointer; }
+
+        .input-field {
+          cursor: pointer;
+
+          &.selected {
+            color: $highlight-color;
+            font-style: italic;
+          }
+        }
       }
     }
   }

@@ -21,7 +21,6 @@ import {Actions} from 'components/FieldLevelLineage/store/Store';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import LoadingSVG from 'components/LoadingSVG';
 import ModalContent from 'components/FieldLevelLineage/OperationsModal/ModalContent';
-import IconSVG from 'components/IconSVG';
 
 require('./OperationsModal.scss');
 
@@ -52,7 +51,7 @@ function OperationsModalView({showOperations, loading, closeModal, fieldName}) {
           className="close-section float-xs-right"
           onClick={closeModal}
         >
-          <IconSVG name="icon-times" />
+          <span className="fa fa-times" />
         </div>
       </ModalHeader>
 

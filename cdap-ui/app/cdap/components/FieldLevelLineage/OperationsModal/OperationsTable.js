@@ -33,13 +33,7 @@ export default class OperationsTable extends Component {
     });
   }
 
-  convertId(id) {
-    return id.replace(/\./g, '_');
-  }
-
-  handleInputClick(field) {
-    const id = this.convertId(field.origin);
-
+  handleInputClick(id) {
     this.setState({
       activeId: id
     });
@@ -69,8 +63,8 @@ export default class OperationsTable extends Component {
       return (
         <span>
           <span
-            className="input-field"
-            onClick={this.handleInputClick.bind(this, field)}
+            className={classnames('input-field', { 'selected': this.state.activeId === field.origin })}
+            onClick={this.handleInputClick.bind(this, field.origin)}
           >
             {field.name}
           </span>
@@ -87,44 +81,56 @@ export default class OperationsTable extends Component {
       .join(', ');
   }
 
+  renderHeader() {
+    return (
+      <div className="grid-header">
+        <div className="grid-row">
+          <div></div>
+          <div>Input</div>
+          <div>Input fields</div>
+          <div>Operations</div>
+          <div>Description</div>
+          <div>Output fields</div>
+          <div>Output</div>
+        </div>
+      </div>
+    );
+  }
+
+  renderBody() {
+    return (
+      <div className="grid-body">
+        {
+          this.props.operations.map((operation, i) => {
+            return (
+              <div
+                key={operation.id}
+                className={classnames('grid-row', {'active': operation.id === this.state.activeId})}
+              >
+                <div>{ i + 1 }</div>
+                <div>{ this.renderInput(operation) }</div>
+                <div>{ this.renderInputFields(operation) }</div>
+                <div>{ operation.name }</div>
+                <div>{ operation.description }</div>
+                <div>{ this.renderOutputFields(operation) }</div>
+                <div>{ this.renderOutput(operation) }</div>
+              </div>
+            );
+          })
+        }
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="operations-table-container">
-        <table className="table">
-          <thead>
-            <th></th>
-            <th>Input</th>
-            <th>Input fields</th>
-            <th>Operations</th>
-            <th>Description</th>
-            <th>Output</th>
-            <th>Output fields</th>
-          </thead>
-
-          <tbody>
-            {
-              this.props.operations.map((operation, i) => {
-                const id = this.convertId(operation.id);
-
-                return (
-                  <tr
-                    key={operation.id}
-                    id={id}
-                    className={classnames({'active': id === this.state.activeId})}
-                  >
-                    <td>{ i + 1 }</td>
-                    <td>{ this.renderInput(operation) }</td>
-                    <td>{ this.renderInputFields(operation) }</td>
-                    <td>{ operation.name }</td>
-                    <td>{ operation.description }</td>
-                    <td>{ this.renderOutput(operation) }</td>
-                    <td>{ this.renderOutputFields(operation) }</td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
+        <div className="grid-wrapper">
+          <div className="grid grid-container">
+            {this.renderHeader()}
+            {this.renderBody()}
+          </div>
+        </div>
       </div>
     );
   }

@@ -107,8 +107,6 @@ export function getOperations() {
 
   MyMetadataApi.getFieldOperations(params)
     .subscribe((res) => {
-      console.log('operations', res);
-
       Store.dispatch({
         type: Actions.setBackwardOperations,
         payload: {

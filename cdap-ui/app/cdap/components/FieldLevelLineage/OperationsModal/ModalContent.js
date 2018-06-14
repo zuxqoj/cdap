@@ -21,33 +21,56 @@ import {humanReadableDate, objectQuery} from 'services/helpers';
 import Navigation from 'components/FieldLevelLineage/OperationsModal/Navigation';
 import OperationsTable from 'components/FieldLevelLineage/OperationsModal/OperationsTable';
 
-function ModalContentView({operations, activeIndex}) {
+function getInputDatasets(operations) {
+  let inputDatasets = [];
+
+  operations.forEach((operation) => {
+    if (operation.inputs.endPoints) {
+      operation.inputs.endPoints.forEach((inputDataset) => {
+        inputDatasets.push(inputDataset.name);
+      });
+    }
+  });
+
+  return inputDatasets
+    .map((dataset) => `'${dataset}'`)
+    .join('; ');
+}
+
+function ModalContentView({operations, activeIndex, datasetId}) {
   const activeSet = operations[activeIndex];
   const lastApp = objectQuery(activeSet, 'programs', 0);
   const programInfo = objectQuery(lastApp, 'program');
+  const activeOperations = activeSet.operations;
 
   return (
     <div className="operations-container">
       <Navigation />
 
+      <div className="summary-text">
+        Operations between {getInputDatasets(activeOperations)} and {`'${datasetId}'`}
+      </div>
+
       <div className="last-execution">
         Last executed by {`'${programInfo.application}'`} on {humanReadableDate(lastApp.lastExecutedTimeInSeconds)}
       </div>
 
-      <OperationsTable operations={activeSet.operations} />
+      <OperationsTable operations={activeOperations} />
     </div>
   );
 }
 
 ModalContentView.propTypes = {
   operations: PropTypes.array,
-  activeIndex: PropTypes.number
+  activeIndex: PropTypes.number,
+  datasetId: PropTypes.string
 };
 
 const mapStateToProps = (state) => {
   return {
     operations: state.operations.backwardOperations,
-    activeIndex: state.operations.activeIndex
+    activeIndex: state.operations.activeIndex,
+    datasetId: state.lineage.datasetId
   };
 };
 
