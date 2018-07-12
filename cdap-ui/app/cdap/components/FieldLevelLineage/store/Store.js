@@ -27,7 +27,6 @@ export const TIME_OPTIONS = [
 ];
 
 const Actions = {
-  setDatasetId: 'FLL_SET_DATASETID',
   setFields: 'FLL_SET_FIELDS',
   setIncomingLineage: 'FLL_SET_INCOMING_LINEAGE',
   closeSummary: 'FLL_CLOSE_SUMMARY',
@@ -65,16 +64,13 @@ const operationsInitialState = {
 
 const lineage = (state = defaultInitialState, action = defaultAction) => {
   switch (action.type) {
-    case Actions.setDatasetId:
-      return {
-        ...state,
-        datasetId: action.payload.datasetId
-      };
     case Actions.setFields:
       return {
         ...state,
         datasetId: action.payload.datasetId,
-        fields: action.payload.fields
+        fields: action.payload.fields,
+        incoming: [],
+        activeField: null
       };
     case Actions.setIncomingLineage:
       return {
@@ -95,9 +91,7 @@ const lineage = (state = defaultInitialState, action = defaultAction) => {
     case Actions.setTimeSelection:
       return {
         ...state,
-        timeSelection: action.payload.timeSelection,
-        incoming: [],
-        activeField: null
+        timeSelection: action.payload.timeSelection
       };
     case Actions.reset:
       return defaultInitialState;
