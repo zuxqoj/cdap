@@ -18,6 +18,7 @@ import {MyMetadataApi} from 'api/metadata';
 import {getCurrentNamespace} from 'services/NamespaceStore';
 import Store, {Actions, TIME_OPTIONS} from 'components/FieldLevelLineage/store/Store';
 import debounce from 'lodash/debounce';
+import {parseQueryString} from 'services/helpers';
 
 const TIME_OPTIONS_MAP = {
   [TIME_OPTIONS[1]]: {
@@ -54,6 +55,67 @@ function getTimeRange() {
   }
 
   return TIME_OPTIONS_MAP[selection];
+}
+
+export function init(datasetId) {
+  const queryParams = parseQueryString();
+
+  if (!queryParams) {
+    getFields(datasetId);
+    return;
+  }
+
+  let timeObj = TIME_OPTIONS_MAP[TIME_OPTIONS[1]];
+
+  if (queryParams.time && TIME_OPTIONS.indexOf(queryParams.time) !== -1) {
+    Store.dispatch({
+      type: Actions.setTimeSelection,
+      payload: {
+        timeSelection: queryParams.time
+      }
+    });
+
+    timeObj = TIME_OPTIONS_MAP[queryParams.time];
+  }
+
+  if (queryParams.time === TIME_OPTIONS[0]) {
+    timeObj = {
+      start: parseInt(queryParams.start, 10),
+      end: parseInt(queryParams.end, 10)
+    };
+
+    Store.dispatch({
+      type: Actions.setCustomTime,
+      payload: {
+        start: timeObj.start,
+        end: timeObj.end
+      }
+    });
+  }
+
+  const params = {
+    namespace: getCurrentNamespace(),
+    entityId: datasetId,
+    start: timeObj.start,
+    end: timeObj.end
+  };
+
+  MyMetadataApi.getFields(params)
+    .subscribe((fields) => {
+      Store.dispatch({
+        type: Actions.setFields,
+        payload: {
+          datasetId,
+          fields
+        }
+      });
+
+      if (queryParams.field) {
+        getLineageSummary(queryParams.field);
+      } else {
+        replaceHistory();
+      }
+    });
 }
 
 export function getFields(datasetId, prefix, start = 'now-7d', end = 'now') {
@@ -178,10 +240,7 @@ export function setCustomTimeRange({start, end}) {
 }
 
 export function setTimeRange(option) {
-  if (TIME_OPTIONS.indexOf(option) === -1) {
-    replaceHistory();
-    return;
-  }
+  if (TIME_OPTIONS.indexOf(option) === -1) { return; }
 
   Store.dispatch({
     type: Actions.setTimeSelection,
@@ -212,13 +271,22 @@ export function getTimeQueryParams() {
   return url;
 }
 
-function replaceHistory() {
+export function replaceHistory() {
+  const url = constructQueryParamsURL();
+  const currentLocation = location.pathname + location.search;
+
+  if (url === currentLocation) { return; }
+
   const stateObj = {
     title: 'CDAP',
-    url: constructQueryParamsURL()
+    url
   };
 
-  history.replaceState(stateObj, stateObj.title, stateObj.url);
+  // This timeout is to make sure rendering by store update is finished before changing the state.
+  // Otherwise, some fonts will not render because it is referencing wrong path.
+  setTimeout(() => {
+    history.replaceState(stateObj, stateObj.title, stateObj.url);
+  });
 }
 
 function constructQueryParamsURL() {
