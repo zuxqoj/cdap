@@ -57,6 +57,10 @@ function getTimeRange() {
 }
 
 export function getFields(datasetId, prefix, start = 'now-7d', end = 'now') {
+  Store.dispatch({
+    type: Actions.closeSummary
+  });
+
   const namespace = getCurrentNamespace();
 
   let params = {
@@ -105,6 +109,8 @@ export function getLineageSummary(fieldName) {
           activeField: fieldName
         }
       });
+
+      replaceHistory();
     });
 }
 
@@ -167,9 +173,16 @@ export function setCustomTimeRange({start, end}) {
   const state = Store.getState().lineage;
 
   getFields(state.datasetId, state.search, start, end);
+
+  replaceHistory();
 }
 
 export function setTimeRange(option) {
+  if (TIME_OPTIONS.indexOf(option) === -1) {
+    replaceHistory();
+    return;
+  }
+
   Store.dispatch({
     type: Actions.setTimeSelection,
     payload: {
@@ -183,4 +196,41 @@ export function setTimeRange(option) {
   const state = Store.getState().lineage;
 
   getFields(state.datasetId, state.search, start, end);
+
+  replaceHistory();
+}
+
+export function getTimeQueryParams() {
+  const state = Store.getState();
+
+  let url = `time=${state.lineage.timeSelection}`;
+
+  if (state.lineage.timeSelection === TIME_OPTIONS[0]) {
+    url += `&start=${state.customTime.start}&end=${state.customTime.end}`;
+  }
+
+  return url;
+}
+
+function replaceHistory() {
+  const stateObj = {
+    title: 'CDAP',
+    url: constructQueryParamsURL()
+  };
+
+  history.replaceState(stateObj, stateObj.title, stateObj.url);
+}
+
+function constructQueryParamsURL() {
+  const state = Store.getState();
+
+  let url = location.pathname;
+
+  url += `?${getTimeQueryParams()}`;
+
+  if (state.lineage.activeField) {
+    url += `&field=${state.lineage.activeField}`;
+  }
+
+  return url;
 }

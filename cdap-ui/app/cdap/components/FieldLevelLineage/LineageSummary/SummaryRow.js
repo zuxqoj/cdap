@@ -17,9 +17,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {getTimeQueryParams} from 'components/FieldLevelLineage/store/ActionCreator';
 
 export default function SummaryRow({entity}) {
-  const linkPath = `/ns/${entity.dataset.namespace}/datasets/${entity.dataset.dataset}/fields`;
+  const linkPath = `/ns/${entity.dataset.namespace}/datasets/${entity.dataset.dataset}/fields?${getTimeQueryParams()}`;
 
   return (
     <div className="summary-row">
@@ -40,7 +41,7 @@ export default function SummaryRow({entity}) {
             return (
               <div className="field-row">
                 <Link
-                  to={`${linkPath}?field=${field}`}
+                  to={`${linkPath}&field=${field}`}
                   className="field-link"
                 >
                   {field}

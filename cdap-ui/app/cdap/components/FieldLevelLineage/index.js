@@ -16,9 +16,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {getFields} from 'components/FieldLevelLineage/store/ActionCreator';
+import {getFields, setTimeRange, setCustomTimeRange, getLineageSummary} from 'components/FieldLevelLineage/store/ActionCreator';
 import {Provider} from 'react-redux';
-import Store, {Actions} from 'components/FieldLevelLineage/store/Store';
+import Store, {Actions, TIME_OPTIONS} from 'components/FieldLevelLineage/store/Store';
 import Fields from 'components/FieldLevelLineage/Fields';
 import TimePicker from 'components/FieldLevelLineage/TimePicker';
 
@@ -30,13 +30,62 @@ export default class FieldLevelLineage extends Component {
   };
 
   componentWillMount() {
-    getFields(this.props.entityId);
+    const queryParams = this.parseQueryString();
+
+    if (!queryParams) {
+      getFields(this.props.entityId);
+      return;
+    }
+
+    Store.dispatch({
+      type: Actions.setDatasetId,
+      payload: {
+        datasetId: this.props.entityId
+      }
+    });
+
+    if (queryParams.time) {
+      setTimeRange(queryParams.time);
+    }
+
+    if (queryParams.time === TIME_OPTIONS[0]) {
+      const timeObj = {
+        start: parseInt(queryParams.start, 10),
+        end: parseInt(queryParams.end, 10)
+      };
+
+      setCustomTimeRange(timeObj);
+    }
+
+    if (queryParams.field) {
+      getLineageSummary(queryParams.field);
+    }
   }
 
   componentWillUnmount() {
     Store.dispatch({
       type: Actions.reset
     });
+  }
+
+  parseQueryString() {
+    const queryStr = location.search.slice(1);
+
+    if (queryStr.length === 0) { return null; }
+
+    let queryObj = {};
+
+    queryStr
+      .split('&')
+      .forEach((pair) => {
+        const index = pair.indexOf('=');
+        const key = pair.slice(0, index);
+        const value = pair.slice(index + 1);
+
+        queryObj[key] = value;
+      });
+
+    return queryObj;
   }
 
   render() {
