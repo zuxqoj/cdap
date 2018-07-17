@@ -93,10 +93,21 @@ class TimeRangePopoverView extends Component {
   };
 
   renderApplyButton = () => {
+    const startTime = parseInt(this.state.start, 10);
+    const endTime = parseInt(this.state.end, 10);
+
+    /**
+     * Disabled Rule
+     *  1. Must have time selection
+     *  2. If time selection is custom range:
+     *    a. Must have start and end time
+     *    b. End time must be greater than startTime
+     **/
     let disabled = !this.state.selection ||
                     (
                       this.state.selection === 'custom' &&
-                      (!this.state.start || !this.state.end)
+                      ((!startTime || !endTime) ||
+                      !(startTime < endTime))
                     );
 
     return (
