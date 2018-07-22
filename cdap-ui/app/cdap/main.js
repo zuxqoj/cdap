@@ -61,6 +61,11 @@ import { IntrospectionFragmentMatcher, InMemoryCache } from 'apollo-cache-inmemo
 import introspectionQueryResultData from '../../graphql/fragments/fragmentTypes.json';
 import SessionTokenStore, { fetchSessionToken } from 'services/SessionTokenStore';
 
+const DAG = Loadable({
+  loader: () => import(/* webpackChunkName: "DAG" */ 'components/DAG'),
+  loading: LoadingSVGCentered,
+});
+
 const Administration = Loadable({
   loader: () => import(/* webpackChunkName: "Administration" */ 'components/Administration'),
   loading: LoadingSVGCentered,
@@ -259,6 +264,15 @@ class CDAP extends Component {
                         </ErrorBoundary>
                       );
                     }}
+                  />
+                  <Route
+                    exact
+                    path="/playground"
+                    render={(props) => (
+                      <ErrorBoundary>
+                        <DAG {...props} />
+                      </ErrorBoundary>
+                    )}
                   />
                   {/*
                     Eventually handling 404 should move to the error boundary and all container components will have the error object.
