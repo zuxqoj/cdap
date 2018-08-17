@@ -1,5 +1,5 @@
 /*
- * Copyright © 2015 Cask Data, Inc.
+ * Copyright © 2015-2018 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -198,8 +198,6 @@ gulp.task('js:lib', function() {
       './bower_components/ngstorage/ngStorage.js',
       './bower_components/angular-loading-bar/build/loading-bar.js',
 
-      './bower_components/sockjs-client/dist/sockjs.js',
-
       './bower_components/d3/d3.min.js',
       // './bower_components/d3-tip/index.js', FIXME: add this when we fix multiple versions of d3 issue.
       './bower_components/d3-timeline/src/d3-timeline.js',
@@ -214,6 +212,7 @@ gulp.task('js:lib', function() {
       './bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 
       './bower_components/node-uuid/uuid.js',
+
       './bower_components/angular-cookies/angular-cookies.min.js',
       // './bower_components/c3/c3.js',
       './app/lib/c3.js',
@@ -238,7 +237,8 @@ gulp.task('js:lib', function() {
       './node_modules/ngreact/ngReact.min.js',
 
       './node_modules/cdap-avsc/dist/cdap-avsc-lib.js',
-      './node_modules/svg4everybody/dist/svg4everybody.min.js'
+      './node_modules/svg4everybody/dist/svg4everybody.min.js',
+      './node_modules/sockjs-client/dist/sockjs.js'
     ].concat([
       './bower_components/cask-angular-*/*/module.js'
     ], mainBowerFiles({
