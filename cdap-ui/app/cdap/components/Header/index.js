@@ -88,7 +88,7 @@ export default class Header extends Component {
   componentDidMount() {
     // TODO: setting this to false right now, because there is no mechanism
     // to not show again yet
-    if (true) {
+    if (false) {
       setTimeout(() => {
         Tour.start();
       }, 500);

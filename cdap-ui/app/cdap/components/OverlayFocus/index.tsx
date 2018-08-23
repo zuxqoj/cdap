@@ -87,7 +87,7 @@ export default class OverlayFocus extends React.Component {
       height: elemRect.height,
       display: DISPLAY_BLOCK,
     });
-  };
+  }
 
   private onHide = () => {
     this.setState({
@@ -98,7 +98,7 @@ export default class OverlayFocus extends React.Component {
       right: 0,
       height: 0,
     });
-  };
+  }
 
   private getTopStyle = () => {
     let height = this.state.top - PADDING;
@@ -111,7 +111,7 @@ export default class OverlayFocus extends React.Component {
       height: convertToPixel(height),
       display: this.state.display,
     };
-  };
+  }
 
   private getBottomStyle = () => {
     const top = this.state.bottom + PADDING;
@@ -120,7 +120,7 @@ export default class OverlayFocus extends React.Component {
       top: convertToPixel(top),
       display: this.state.display,
     };
-  };
+  }
 
   private getLeftStyle = () => {
     const height = this.state.height + (PADDING * 2);
@@ -137,7 +137,7 @@ export default class OverlayFocus extends React.Component {
       top: convertToPixel(top),
       display: this.state.display,
     };
-  };
+  }
 
   private getRightStyle = () => {
     const height = this.state.height + (PADDING * 2);
@@ -150,7 +150,7 @@ export default class OverlayFocus extends React.Component {
       top: convertToPixel(top),
       display: this.state.display,
     };
-  };
+  }
 
   public render() {
     return (

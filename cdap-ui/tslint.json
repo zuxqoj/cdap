@@ -9,7 +9,7 @@
     "interface-name" : [true, "always-prefix"],
     "no-var-requires": false,
     "object-literal-sort-keys": false,
-    "member-ordering": false,
+    "member-ordering": false
   },
   "jsRules": {
     "arrow-parens": false,
