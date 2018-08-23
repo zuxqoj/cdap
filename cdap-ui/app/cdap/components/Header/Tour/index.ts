@@ -14,36 +14,38 @@
  * the License.
  */
 
-import Shepherd from 'shepherd.js';
-import GuidedTour from 'services/GuidedTour';
+import GuidedTour, { ITourStep } from 'services/GuidedTour';
 
 const tour = new GuidedTour();
 
-const steps = [
+const steps: ITourStep[] = [
   {
     id: 'welcome',
     title: 'Welcome to CDAP',
     text: [
-      'CDAP is an open source framework that simplifies data application development, data integration and data management.',
-      'Take a short tour to discover all that you can do.'
+      'CDAP is an open source framework that simplifies data application development,' +
+      ' data integration and data management.',
+      'Take a short tour to discover all that you can do.',
     ],
     attachTo: '.brand-section bottom',
-    shouldFocus: true
+    shouldFocus: true,
   },
   {
     id: 'control-center',
     title: 'Control Center',
     text: 'Control Center allows you to create, manage, operate and monitor datasets and applications. ',
     attachTo: '#navbar-control-center bottom',
-    shouldFocus: true
+    shouldFocus: true,
   },
   {
     id: 'preparation',
     title: 'Preparation',
-    text: 'Preparation allows you to easily connect to a variety of data sources and cleanse data using point and click interactions. Once you are satisfied, you can operationalize your transformations in a pipeline. ',
+    text: 'Preparation allows you to easily connect to a variety of data sources and cleanse data' +
+      ' using point and click interactions. Once you are satisfied, you can operationalize your' +
+      ' transformations in a pipeline. ',
     attachTo: '#navbar-preparation bottom',
-    shouldFocus: true
-  }
+    shouldFocus: true,
+  },
 ];
 
 tour.addSteps(steps);

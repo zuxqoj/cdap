@@ -14,8 +14,7 @@
  * the License.
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import Shepherd from 'shepherd.js';
 import './OverlayFocus.scss';
 
@@ -23,25 +22,25 @@ const PADDING = 15;
 const DISPLAY_BLOCK = 'block';
 const DISPLAY_NONE = 'none';
 
-const convertToPixel = (unit) => {
+const convertToPixel = (unit: number): string => {
   return `${unit}px`;
-}
+};
 
-/**
+/*
  * This component is used by GuidedTour to create a focus effect. It is binded directly
  * to events from GuidedTour (Shepherd).
- **/
-export default class OverlayFocus extends Component {
-  state = {
+ */
+export default class OverlayFocus extends React.Component {
+  public state = {
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
     height: 0,
-    display: DISPLAY_NONE
+    display: DISPLAY_NONE,
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     Shepherd.on('show', this.onShow);
 
     const HIDE_EVENTS = ['hide', 'complete', 'cancel'];
@@ -51,7 +50,7 @@ export default class OverlayFocus extends Component {
     });
   }
 
-  onShow = (obj) => {
+  private onShow = (obj) => {
     const step = obj.step;
     if (!step.options.shouldFocus) {
       if (this.state.display === DISPLAY_BLOCK) {
@@ -74,7 +73,7 @@ export default class OverlayFocus extends Component {
       // e.g. attachTo = '.some #element bottom';
       // we need to get '.some #element' as the selector;
 
-      let selector = attachTo.slice(0, attachTo.lastIndexOf(' '));
+      const selector = attachTo.slice(0, attachTo.lastIndexOf(' '));
       elem = document.querySelector(selector);
     }
 
@@ -86,22 +85,22 @@ export default class OverlayFocus extends Component {
       left: elemRect.left,
       right: elemRect.right,
       height: elemRect.height,
-      display: DISPLAY_BLOCK
+      display: DISPLAY_BLOCK,
     });
   };
 
-  onHide = () => {
+  private onHide = () => {
     this.setState({
       display: DISPLAY_NONE,
       top: 0,
       bottom: 0,
       left: 0,
       right: 0,
-      height: 0
+      height: 0,
     });
   };
 
-  getTopStyle() {
+  private getTopStyle = () => {
     let height = this.state.top - PADDING;
 
     if (height < 0) {
@@ -110,23 +109,23 @@ export default class OverlayFocus extends Component {
 
     return {
       height: convertToPixel(height),
-      display: this.state.display
+      display: this.state.display,
     };
-  }
+  };
 
-  getBottomStyle() {
-    let top = this.state.bottom + PADDING;
+  private getBottomStyle = () => {
+    const top = this.state.bottom + PADDING;
 
     return {
       top: convertToPixel(top),
-      display: this.state.display
+      display: this.state.display,
     };
-  }
+  };
 
-  getLeftStyle() {
-    let height = this.state.height + (PADDING * 2);
+  private getLeftStyle = () => {
+    const height = this.state.height + (PADDING * 2);
     let width = this.state.left - PADDING;
-    let top = this.state.top - PADDING;
+    const top = this.state.top - PADDING;
 
     if (width < 0) {
       width = 0;
@@ -136,24 +135,24 @@ export default class OverlayFocus extends Component {
       height: convertToPixel(height),
       width: convertToPixel(width),
       top: convertToPixel(top),
-      display: this.state.display
+      display: this.state.display,
     };
-  }
+  };
 
-  getRightStyle() {
-    let height = this.state.height + (PADDING * 2);
-    let left = this.state.right + PADDING;
-    let top = this.state.top - PADDING;
+  private getRightStyle = () => {
+    const height = this.state.height + (PADDING * 2);
+    const left = this.state.right + PADDING;
+    const top = this.state.top - PADDING;
 
     return {
       height: convertToPixel(height),
       left: convertToPixel(left),
       top: convertToPixel(top),
-      display: this.state.display
+      display: this.state.display,
     };
-  }
+  };
 
-  render() {
+  public render() {
     return (
       <React.Fragment>
         <div

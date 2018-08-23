@@ -15,16 +15,36 @@
  */
 
 import Shepherd from 'shepherd.js';
-import "shepherd.js/dist/css/shepherd-theme-arrows-plain-buttons.css";
+import 'shepherd.js/dist/css/shepherd-theme-arrows-plain-buttons.css';
 import 'services/GuidedTour/GuidedTour.scss';
 
-const GuidedTour = function (options) {
-  this.addSteps = (stepsArray) => {
-    stepsArray.forEach((step, index) => {
-      const stepId = step.id;
+interface IStepButton {
+  text: string;
+  classes?: string;
+  action: () => void;
+}
 
-      let stepObj = {
-        ...step
+export interface ITourStep {
+  id: string;
+  title?: string;
+  text: string | string[] | HTMLElement;
+  buttons?: IStepButton[];
+  shouldFocus?: boolean;
+  classes?: string;
+  attachTo: string | {
+    element: string | HTMLElement;
+    on: string;
+  };
+  popperOptions?: object;
+}
+
+const GuidedTour = function() {
+  this.addSteps = (stepsArray: ITourStep[]) => {
+    stepsArray.forEach((step, index) => {
+      const stepId: string = step.id;
+
+      const stepObj = {
+        ...step,
       };
 
       delete stepObj.id;
@@ -34,7 +54,7 @@ const GuidedTour = function (options) {
       if (typeof stepObj.text === 'string') {
         stepObj.text = [
           stepObj.text,
-          countText
+          countText,
         ];
       } else if (Array.isArray(stepObj.text)) {
         stepObj.text.push(countText);
@@ -45,7 +65,7 @@ const GuidedTour = function (options) {
         classes: 'btn btn-primary',
         action: () => {
           this.next();
-        }
+        },
       };
 
       const completeButton = {
@@ -53,7 +73,7 @@ const GuidedTour = function (options) {
         classes: 'btn btn-primary',
         action: () => {
           this.complete();
-        }
+        },
       };
 
       const previousButton = {
@@ -61,7 +81,7 @@ const GuidedTour = function (options) {
         classes: 'btn btn-secondary float-xs-left',
         action: () => {
           this.back();
-        }
+        },
       };
 
       if (!stepObj.buttons) {
@@ -80,14 +100,14 @@ const GuidedTour = function (options) {
 
       this.addStep(stepId, stepObj);
     });
-  }
-}
+  };
+};
 
 GuidedTour.prototype = new Shepherd.Tour({
   defaults: {
     classes: 'guided-tour-tooltip',
-    showCancelLink: true
-  }
+    showCancelLink: true,
+  },
 });
 GuidedTour.prototype.constructor = GuidedTour;
 
