@@ -18,14 +18,6 @@
 @import './DropdownStyling.scss';
 @import "../../styles/bootstrap_4_patch.scss";
 
-my-global-navbar,
-cask-header {
-  display: block;
-  height: 50px;
-  position: fixed;
-  top: 0;
-}
-
 .global-navbar {
   height: 50px;
   background: var(--navbar-color);
