@@ -20,7 +20,7 @@
   .schema-header {
     padding: 5px 0;
     .field-name {
-      width: calc(100% - 80px - 75px);
+      width: calc(100% - 105px - 75px);
     }
     .field-isnull {
       width: 70px;
@@ -54,10 +54,10 @@
         box-shadow: 1px -2px 1px rgba(0, 0, 0, 0.25);
       }
       > .field-name {
-        width: calc(100% - 80px - 75px);
+        width: calc(100% - 105px - 75px);
       }
       > .field-type {
-        width: 80px;
+        width: 105px;
         padding: 0 5px;
         vertical-align: top;
         position: relative;
