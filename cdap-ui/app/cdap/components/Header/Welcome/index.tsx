@@ -30,11 +30,16 @@ import './Welcome.scss';
 const USER_STORE_KEY = 'showWelcome';
 const USER_STORE_VALUE = 1;
 const SESSION_STORAGE_KEY = USER_STORE_KEY;
-const SESSION_STORAGE_VALUE = 'true';
+const SESSION_STORAGE_VALUE = 'false';
 const PREFIX = 'features.NUX.Welcome';
 
+interface IWelcomeState {
+  showModal: boolean;
+  showAgain: boolean;
+}
+
 export default class Welcome extends React.PureComponent {
-  public state = {
+  public state: IWelcomeState = {
     showModal: false,
     showAgain: false,
   };
@@ -85,9 +90,8 @@ export default class Welcome extends React.PureComponent {
       .subscribe((res) => {
         const obj = {
           ...res.property,
+          [USER_STORE_KEY]: USER_STORE_VALUE,
         };
-
-        obj[USER_STORE_KEY] = USER_STORE_VALUE;
 
         MyUserStoreApi.set(null, obj);
       });
@@ -100,7 +104,6 @@ export default class Welcome extends React.PureComponent {
           isOpen={true}
           size="md"
           backdrop={false}
-          centered={true}
           zIndex="1061"
           className="welcome-modal"
         >
@@ -144,7 +147,7 @@ export default class Welcome extends React.PureComponent {
               </button>
 
               <button
-                className="btn btn-link"
+                className="btn btn-secondary"
                 onClick={this.close}
               >
                 {T.translate(`${PREFIX}.close`)}

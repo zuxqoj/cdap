@@ -19,8 +19,7 @@ $header-height: 150px;
 
 .cdap-body-container .modal.fade.show {
   .welcome-modal.modal-dialog {
-    transform: translateY(-50%);
-    margin-top: 50vh;
+    margin-top: 30vh;
     box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.4);
 
     .modal-header,
@@ -69,6 +68,8 @@ $header-height: 150px;
         .btn {
           padding-left: 30px;
           padding-right: 30px;
+
+          &:first-child { margin-right: 15px; }
         }
       }
     }
