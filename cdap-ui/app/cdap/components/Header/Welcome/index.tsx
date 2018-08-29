@@ -38,7 +38,7 @@ interface IWelcomeState {
   showAgain: boolean;
 }
 
-export default class Welcome extends React.PureComponent {
+export default class Welcome extends React.PureComponent<void, IWelcomeState> {
   public state: IWelcomeState = {
     showModal: false,
     showAgain: false,
