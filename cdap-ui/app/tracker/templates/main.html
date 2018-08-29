@@ -26,34 +26,36 @@
   </div>
 
   <div class="search-tips">
-    <h3 class="title">
+    <div class="title">
       Search Tips
-    </h3>
+    </div>
     <div class="subtitle">
       Search by keyword: a property, tag, and dataset name
     </div>
 
-    <div class="tips-table">
-      <table class="table table-responsive">
-        <thead>
-          <th>Search by</th>
-          <th>Pattern</th>
-          <th>Examples</th>
-        </thead>
+    <div class="tips-table grid-wrapper">
+      <div class="grid grid-container">
+        <div class="grid-header">
+          <div class="grid-row">
+            <div>Search by</div>
+            <div>Pattern</div>
+            <div>Examples</div>
+          </div>
+        </div>
 
-        <tbody>
-          <tr ng-repeat="tips in MainController.searchTips">
-            <td>{{ ::tips.search }}</td>
-            <td>{{ ::tips.pattern }}</td>
-            <td>
+        <div class="grid-body">
+          <div class="grid-row" ng-repeat="tips in MainController.searchTips">
+            <div>{{ ::tips.search }}</div>
+            <div>{{ ::tips.pattern }}</div>
+            <div>
               <span ng-repeat="example in tips.examples track by $index">
                 {{ example }}
                 <span class="separator" ng-if="$index !== tips.examples.length - 1">or</span>
               </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

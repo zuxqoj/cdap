@@ -113,29 +113,31 @@ body.state-tracker-home.state-tracker {
       color: @tips-highlight-color;
       font-size: 18px;
       margin-top: 45px;
-      font-weight: 400;
+      margin-bottom: 10px;
     }
 
     .subtitle { font-size: 14px; }
 
-    .table {
-      background-color: white;
+    .tips-table.grid-wrapper {
       border-top: 2px solid @tracker-grey;
       border-bottom: 2px solid @tracker-grey;
+      margin-top: 15px;
 
-      thead th {
-        cursor: initial;
+      .grid.grid-container { max-height: 300px; }
+
+      .grid-header {
         color: @tracker-grey;
         font-size: 14px;
         font-weight: 500;
       }
 
-      td { color: @title-font-color; }
+      .grid-row {
+        padding: 0;
+        grid-template-columns: 1fr 1fr 2fr;
 
-      th,
-      td {
-        padding-left: 20px;
-        padding-right: 20px;
+        &:hover { background-color: white; }
+
+        > div { padding: 10px 20px; }
       }
 
       .separator { color: @tracker-grey; }
