@@ -119,17 +119,9 @@ body.state-tracker-home.state-tracker {
     .subtitle { font-size: 14px; }
 
     .tips-table.grid-wrapper {
-      border-top: 2px solid @tracker-grey;
-      border-bottom: 2px solid @tracker-grey;
       margin-top: 15px;
 
       .grid.grid-container { max-height: 300px; }
-
-      .grid-header {
-        color: @tracker-grey;
-        font-size: 14px;
-        font-weight: 500;
-      }
 
       .grid-row {
         padding: 0;
@@ -137,7 +129,10 @@ body.state-tracker-home.state-tracker {
 
         &:hover { background-color: white; }
 
-        > div { padding: 10px 20px; }
+        > div,
+        > strong {
+          padding: 10px 20px;
+        }
       }
 
       .separator { color: @tracker-grey; }
