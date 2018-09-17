@@ -26,17 +26,30 @@ export default class EntityTopPanel extends PureComponent {
     breadCrumbAnchorLink: PropTypes.string,
     breadCrumbAnchorLabel: PropTypes.string,
     title: PropTypes.string,
-    closeBtnAnchorLink: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+    entityIcon: PropTypes.string,
+    entityType: PropTypes.string,
+    closeBtnAnchorLink: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    historyBack: PropTypes.bool
   };
 
   renderBreadCrumnAnchorLink = () => {
-    if (!this.props.breadCrumbAnchorLink) {
+    if (!this.props.breadCrumbAnchorLink && !this.props.historyBack) {
       return null;
     }
+
+    let link = this.props.breadCrumbAnchorLink;
+    let Tag = Link;
+
+    if (this.props.historyBack) {
+      link = document.referrer;
+      Tag = 'a';
+    }
+
     return (
-      <div>
-        <Link
-          to={this.props.breadCrumbAnchorLink}
+      <div className="link-section">
+        <Tag
+          to={link}
+          href={link}
         >
           <span className="arrow-left">
             &laquo;
@@ -44,13 +57,29 @@ export default class EntityTopPanel extends PureComponent {
           <span className="breadcrumb-label">
             {this.props.breadCrumbAnchorLabel}
           </span>
-        </Link>
+        </Tag>
         <span className="divider"> | </span>
       </div>
     );
   };
 
   renderTitle = () => {
+    if (this.props.entityIcon && this.props.entityType) {
+      return (
+        <div className="multiline-title">
+          <h5 className="overview-heading">
+            {this.props.title}
+          </h5>
+          <div className="entity-type">
+            <IconSVG name={this.props.entityIcon} />
+            <span className="entity-type-text">
+              {this.props.entityType}
+            </span>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <h5 className="overview-heading">{this.props.title}</h5>
     );
