@@ -37,19 +37,23 @@ export default class EntityTopPanel extends PureComponent {
       return null;
     }
 
-    let link = this.props.breadCrumbAnchorLink;
     let Tag = Link;
 
     if (this.props.historyBack) {
-      link = document.referrer;
-      Tag = 'a';
+      Tag = 'span';
     }
+
+    const onClickHandler = () => {
+      if (!this.props.historyBack) { return; }
+      history.back();
+    };
 
     return (
       <div className="link-section">
         <Tag
-          to={link}
-          href={link}
+          to={this.props.breadCrumbAnchorLink}
+          onClick={onClickHandler}
+          className="link-container"
         >
           <span className="arrow-left">
             &laquo;

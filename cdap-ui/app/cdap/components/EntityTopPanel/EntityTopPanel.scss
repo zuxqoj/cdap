@@ -16,6 +16,7 @@
 
 @import "~styles/variables.scss";
 $entity-type-color: $grey-03;
+$link-color: $blue-02;
 
 .entity-top-panel {
   height: 50px;
@@ -39,7 +40,15 @@ $entity-type-color: $grey-03;
       color: black;
     }
   }
-  .link-section { align-self: center; }
+  .link-section {
+    align-self: center;
+    span.link-container {
+      color: $link-color;
+      cursor: pointer;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
 
   .multiline-title {
     .overview-heading {
