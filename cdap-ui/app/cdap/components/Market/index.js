@@ -15,30 +15,27 @@
  */
 
 import React, {Component} from 'react';
-import TabConfig from './TabConfig';
 import ConfigurableTab from '../ConfigurableTab';
 import {MyMarketApi} from 'api/market';
 import MarketAction from './action/market-action.js';
 import find from 'lodash/find';
 import MarketStore from 'components/Market/store/market-store.js';
-import sortedUniq from 'lodash/sortedUniq';
-import cloneDeep from 'lodash/cloneDeep';
-import MarketCategoriesIconMap from 'services/market-category-icon-map';
-import uuidV4 from 'uuid/v4';
+import T from 'i18n-react';
+import AllTabContents from 'components/Market/AllTab';
+import UsecaseTab from 'components/Market/UsecaseTab';
+import {CATEGORY_MAP} from 'components/Market/CategoryMap';
 
 export default class Market extends Component {
   constructor(props) {
     super(props);
 
-    let searchFilter = find(TabConfig.tabs, { filter: MarketStore.getState().filter });
-
     this.state = {
       tabsList: [],
-      tabConfig: cloneDeep(TabConfig),
-      activeTab: searchFilter ? searchFilter.id : 1
+      tabConfig: null,
+      activeTab: 1
     };
   }
-  componentWillMount () {
+  componentDidMount() {
     this.sub = MarketStore.subscribe(() => {
       let activeFilter = MarketStore.getState().filter;
       let filter = find(this.state.tabConfig.tabs, { filter: activeFilter });
@@ -51,37 +48,97 @@ export default class Market extends Component {
     });
 
     MyMarketApi.list()
+      .combineLatest(MyMarketApi.getCategories())
       .subscribe((res) => {
-        MarketAction.setList(res);
+        const newState = {
+          tabConfig: this.constructTabConfig(res[1])
+        };
+        const searchFilter = find(newState.tabConfig.tabs, { filter: MarketStore.getState().filter });
+
+        if (searchFilter) {
+          newState.activeTab = searchFilter.id;
+        }
+
+        this.setState(newState);
+        MarketAction.setList(res[0]);
       }, (err) => {
         MarketAction.setError();
         console.log('Error', err);
       });
-      this.marketStoreSubscription = MarketStore.subscribe(() => {
-        let state = MarketStore.getState();
-        let tabConfig = this.state.tabConfig;
-        let tabsList = sortedUniq(state.list.map(a => a.categories).reduce((prev, curr) => prev.concat(curr), []) || []);
+  }
 
-        let tabCategoriesFromConfig = tabConfig.tabs.map(tab => tab.filter);
-        let missingTabsFromConfig = sortedUniq(tabsList.filter(tab => tabCategoriesFromConfig.indexOf(tab) === -1));
-        const getDefaultTabConfig = (missingTab) => {
-          let placeholderIcon = MarketCategoriesIconMap[missingTab] || `icon-${missingTab[0].toUpperCase()}`;
-          return {
-            id: uuidV4(),
-            icon: `${placeholderIcon}`,
-            content: TabConfig.defaultTabContent
-          };
+  componentWillUnmount() {
+    MarketStore.dispatch({ type: 'RESET' });
+
+    if (this.sub) {
+      this.sub();
+    }
+  }
+
+  constructTabConfig(categories) {
+    const tabConfig = {
+      defaultTab: 1,
+      defaultTabContent: <AllTabContents />,
+      layout: 'vertical',
+    };
+
+    const tabs = [
+      {
+        id: 1,
+        filter: '*',
+        icon: {
+          type: 'font-icon',
+          arguments: {
+            data: 'icon-all'
+          }
+        },
+        name: T.translate('features.Market.tabs.all'),
+        content: <AllTabContents />
+      }
+    ];
+
+    categories.forEach((category) => {
+      const categoryContent = CATEGORY_MAP[category.name] || {};
+      const name = categoryContent.displayName || category.name;
+
+      let icon;
+
+      if (category.hasIcon) {
+        icon = {
+          type: 'link',
+          arguments: {
+            url: MyMarketApi.getCategoryIcon(category.name)
+          }
         };
-        if (missingTabsFromConfig.length) {
-          missingTabsFromConfig = missingTabsFromConfig.map(missingTab => Object.assign({}, getDefaultTabConfig(missingTab), { filter: missingTab, name: missingTab}));
-        }
-        tabConfig.tabs = tabConfig.tabs.concat(missingTabsFromConfig);
+      } else if (categoryContent.displayName) {
+        icon = {
+          type: 'font-icon',
+          arguments: {
+            data: categoryContent.icon
+          }
+        };
+      } else {
+        icon = {
+          type: 'font-icon',
+          arguments: {
+            data: `icon-${category.name[0].toUpperCase()}`
+          }
+        };
+      }
 
-        this.setState({
-          tabsList,
-          tabConfig
-        });
-      });
+      const config = {
+        id: category.name,
+        filter: category.name,
+        name,
+        icon,
+        content: category.name === 'usecase' ? <UsecaseTab /> : <AllTabContents />
+      };
+
+      tabs.push(config);
+    });
+
+    tabConfig.tabs = tabs;
+    return tabConfig;
   }
 
   handleTabClick(id) {
@@ -91,15 +148,9 @@ export default class Market extends Component {
     MarketAction.setFilter(searchFilter);
   }
 
-  componentWillUnmount() {
-    MarketStore.dispatch({type: 'RESET'});
-    this.marketStoreSubscription();
-
-    if (this.sub) {
-      this.sub();
-    }
-  }
   render() {
+    if (!this.state.tabConfig) { return null; }
+
     return (
       <ConfigurableTab
         tabConfig={this.state.tabConfig}
