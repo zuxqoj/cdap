@@ -63,4 +63,18 @@ const CATEGORY_MAP = {
   },
 };
 
-export {CATEGORY_MAP};
+const DEFAULT_CATEGORIES = [
+  'usecase',
+  'pipeline',
+  'example',
+  'hydrator-plugin',
+  'datapack',
+  '3rd-party-artifact',
+  'EDW Offloading',
+  'gcp',
+  'Azure',
+  'AWS',
+  'Directives'
+];
+
+export {CATEGORY_MAP, DEFAULT_CATEGORIES};

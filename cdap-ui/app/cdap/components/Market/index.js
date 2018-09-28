@@ -23,7 +23,7 @@ import MarketStore from 'components/Market/store/market-store.js';
 import T from 'i18n-react';
 import AllTabContents from 'components/Market/AllTab';
 import UsecaseTab from 'components/Market/UsecaseTab';
-import {CATEGORY_MAP} from 'components/Market/CategoryMap';
+import { CATEGORY_MAP, DEFAULT_CATEGORIES } from 'components/Market/CategoryMap';
 
 export default class Market extends Component {
   constructor(props) {
@@ -35,6 +35,7 @@ export default class Market extends Component {
       activeTab: 1
     };
   }
+
   componentDidMount() {
     this.sub = MarketStore.subscribe(() => {
       let activeFilter = MarketStore.getState().filter;
@@ -48,22 +49,9 @@ export default class Market extends Component {
     });
 
     MyMarketApi.list()
-      .combineLatest(MyMarketApi.getCategories())
-      .subscribe((res) => {
-        const newState = {
-          tabConfig: this.constructTabConfig(res[1])
-        };
-        const searchFilter = find(newState.tabConfig.tabs, { filter: MarketStore.getState().filter });
-
-        if (searchFilter) {
-          newState.activeTab = searchFilter.id;
-        }
-
-        this.setState(newState);
-        MarketAction.setList(res[0]);
-      }, (err) => {
-        MarketAction.setError();
+      .subscribe(this.getCategories, (err) => {
         console.log('Error', err);
+        MarketAction.setError();
       });
   }
 
@@ -73,6 +61,57 @@ export default class Market extends Component {
     if (this.sub) {
       this.sub();
     }
+  }
+
+  getCategories = (packages) => {
+    MyMarketApi.getCategories()
+      .subscribe((categories) => {
+        this.processPackagesAndCategories(packages, categories);
+      }, () => {
+        // If categories do not come from backend, revert back to get categories from existing packages
+        const categoriesMap = {};
+        packages.forEach((pack) => {
+          pack.categories.forEach((category) => {
+            categoriesMap[category] = true;
+          });
+        });
+
+        let aggregateCategories = [];
+
+        DEFAULT_CATEGORIES.forEach((cat) => {
+          if (categoriesMap[cat]) {
+            aggregateCategories.push(cat);
+            delete categoriesMap[cat];
+          }
+        });
+
+        const remainingCategories = Object.keys(categoriesMap);
+
+        aggregateCategories = aggregateCategories
+          .concat(remainingCategories)
+          .map((cat) => {
+            return {
+              name: cat,
+              hasIcon: false
+            };
+          });
+
+        this.processPackagesAndCategories(packages, aggregateCategories);
+      });
+  }
+
+  processPackagesAndCategories(packages, categories) {
+    const newState = {
+      tabConfig: this.constructTabConfig(categories)
+    };
+    const searchFilter = find(newState.tabConfig.tabs, { filter: MarketStore.getState().filter });
+
+    if (searchFilter) {
+      newState.activeTab = searchFilter.id;
+    }
+
+    this.setState(newState);
+    MarketAction.setList(packages);
   }
 
   constructTabConfig(categories) {
