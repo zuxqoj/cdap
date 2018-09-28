@@ -74,7 +74,7 @@ const DEFAULT_CATEGORIES = [
   'gcp',
   'Azure',
   'AWS',
-  'Directives'
+  'Directives',
 ];
 
 export {CATEGORY_MAP, DEFAULT_CATEGORIES};
