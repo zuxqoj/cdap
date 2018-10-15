@@ -47,6 +47,27 @@ $brand-info:            rgb(102, 110, 131); // #666e83
 $brand-warning:         rgb(244, 180, 0);   // #f4b400
 $brand-danger:          rgb(209, 86, 104);  // #d15668
 
+$primary: $brand-primary;
+$success: $brand-success;
+$info: $brand-info;
+$warning: $brand-warning;
+$danger: $brand-danger;
+$secondary: white;
+
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+  ),
+  ()
+);
+
 
 
 // ALERT
