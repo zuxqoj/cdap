@@ -352,7 +352,7 @@ export default class DatabaseDetail extends Component {
 
     return (
       <div className="form-group row">
-        <div className="col-8 offset-xs-4 col-offset-4">
+        <div className="col-8 offset-4 col-offset-4">
           <button className="btn btn-secondary" onClick={this.testConnection} disabled={disabled}>
             {T.translate(`${PREFIX}.testConnection`)}
           </button>
@@ -540,7 +540,7 @@ export default class DatabaseDetail extends Component {
 
     return (
       <div className="row">
-        <div className="col-8 offset-xs-4 col-offset-4">
+        <div className="col-8 offset-4 col-offset-4">
           <button className="btn btn-primary" onClick={onClickFn} disabled={disabled}>
             {T.translate(`${PREFIX}.Buttons.${this.props.mode}`)}
           </button>
