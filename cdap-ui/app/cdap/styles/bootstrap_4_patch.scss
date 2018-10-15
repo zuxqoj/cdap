@@ -43,12 +43,12 @@
 
   // col-xs-NUM is now col-NUM :sigh:
 
-  @for $i from 1 through 12 {
-    .col-#{$i} {
-      @include make-col($size: $i);
-      @include make-gutters();
-    }
-  }
+  // @for $i from 1 through 12 {
+  //   .col-#{$i} {
+  //     @include make-col($size: $i);
+  //     @include make-gutters();
+  //   }
+  // }
 
   .badge {
     display: inline-block;
