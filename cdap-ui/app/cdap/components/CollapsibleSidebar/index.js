@@ -83,7 +83,7 @@ export default class CollapsibleSidebar extends Component {
         <div className={classnames('collapsible-content', { 'show-content': this.state.expanded })}>
           <div
             className={classnames(
-              'collapsible-toggle-tab text-xs-center text-center',
+              'collapsible-toggle-tab text-center text-center',
               this.props.toggleTabClass
             )}
             onClick={this.onToggleClick}

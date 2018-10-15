@@ -37,7 +37,7 @@ const TableListComp = ({ tableList, datasetId, createWorkspace }) => {
   if (!tableList.length) {
     return (
       <div className="empty-search-container">
-        <div className="empty-search text-xs-center">
+        <div className="empty-search text-center">
           <strong>
             {T.translate(`${PREFIX}.EmptyMessage.emptyTableList`, {
               datasetName: datasetId,

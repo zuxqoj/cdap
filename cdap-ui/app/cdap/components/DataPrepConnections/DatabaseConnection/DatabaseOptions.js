@@ -246,7 +246,7 @@ export default class DatabaseOptions extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className="database-options text-xs-center">
+        <div className="database-options text-center">
           <LoadingSVG />
         </div>
       );

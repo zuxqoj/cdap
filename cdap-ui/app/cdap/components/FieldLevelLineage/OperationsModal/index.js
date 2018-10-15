@@ -34,7 +34,7 @@ function OperationsModalView({ showOperations, loading, closeModal, fieldName, d
   }
 
   const loadingIndicator = (
-    <div className="loading-container text-xs-center">
+    <div className="loading-container text-center">
       <LoadingSVG />
     </div>
   );

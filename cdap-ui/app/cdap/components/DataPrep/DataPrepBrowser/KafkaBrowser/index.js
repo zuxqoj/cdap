@@ -159,7 +159,7 @@ export default class KafkaBrowser extends Component {
 
     return (
       <div className="empty-search-container">
-        <div className="empty-search text-xs-center">
+        <div className="empty-search text-center">
           <strong>
             {T.translate(`${PREFIX}.EmptyMessage.emptyKafka`, {
               connectionName: this.state.connectionName,

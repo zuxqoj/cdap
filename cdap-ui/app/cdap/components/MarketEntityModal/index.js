@@ -106,7 +106,7 @@ export default class MarketEntityModal extends Component {
               let actionIcon = getIcon(action.type);
               return (
                 <div
-                  className="action-container text-xs-center"
+                  className="action-container text-center"
                   key={uuidV4()}
                   onClick={this.openWizard.bind(this, index, action.type, action)}
                 >
@@ -114,7 +114,7 @@ export default class MarketEntityModal extends Component {
                     className="action"
                     key={index}
                   >
-                    <div className="step text-xs-center">
+                    <div className="step text-center">
                       <span className={classnames("tag tag-pill", {'completed' : isCompletedAction})}>{index + 1}</span>
                     </div>
                     <div className="action-icon">

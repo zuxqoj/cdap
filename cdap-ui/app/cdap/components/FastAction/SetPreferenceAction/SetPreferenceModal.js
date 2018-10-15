@@ -407,7 +407,7 @@ export default class SetPreferenceModal extends Component {
               </table>
             </div>
           ) : (
-            <div className="text-xs-center">{T.translate(`${PREFIX}.noInheritedPrefs`)}</div>
+            <div className="text-center">{T.translate(`${PREFIX}.noInheritedPrefs`)}</div>
           )}
         </div>
       </div>

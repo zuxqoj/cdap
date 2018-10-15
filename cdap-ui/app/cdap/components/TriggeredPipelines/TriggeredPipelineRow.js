@@ -44,7 +44,7 @@ export default function TriggeredPipelineRow({
   }
 
   const loadingIcon = (
-    <div className="text-xs-center text-center">
+    <div className="text-center text-center">
       <LoadingSVG />
     </div>
   );

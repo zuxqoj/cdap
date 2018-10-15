@@ -67,7 +67,7 @@ export default class ConfirmationModal extends Component {
     if (this.props.isLoading) {
       return (
         <ModalBody className="loading">
-          <h3 className="text-xs-center">
+          <h3 className="text-center">
             <IconSVG name="icon-spinner" className="fa-spin" />
           </h3>
         </ModalBody>

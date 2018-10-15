@@ -144,7 +144,7 @@ export default class ConnectionsUpload extends Component {
               <span className="helper-text">{T.translate(`${PREFIX}.helperText`)}</span>
             </div>
 
-            <div className="col-6 text-xs-right">
+            <div className="col-6 text-right">
               <form className="form-inline">
                 <div className="form-group">
                   <label className="control-label">

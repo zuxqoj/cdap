@@ -162,8 +162,8 @@ class ReportsListView extends Component {
   renderEmpty() {
     return (
       <div className="list-container empty">
-        <div className="text-xs-center">{T.translate(`${PREFIX}.noReports`)}</div>
-        <div className="text-xs-center">{T.translate(`${PREFIX}.makeSelection`)}</div>
+        <div className="text-center">{T.translate(`${PREFIX}.noReports`)}</div>
+        <div className="text-center">{T.translate(`${PREFIX}.makeSelection`)}</div>
       </div>
     );
   }

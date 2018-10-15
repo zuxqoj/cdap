@@ -46,7 +46,7 @@ export default class SpotlightModalHeader extends Component {
             tag: this.props.tag,
           })}
         </span>
-        <div className="close-section float-right text-xs-right">
+        <div className="close-section float-right text-right">
           <span className="search-results-total">
             {this.props.total === 1
               ? T.translate('features.SpotlightSearch.SpotlightModal.numResult', {

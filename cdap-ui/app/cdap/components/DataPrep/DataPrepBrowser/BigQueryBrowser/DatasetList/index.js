@@ -87,7 +87,7 @@ class DatasetListView extends Component {
     if (!datasetList.length) {
       return (
         <div className="empty-search-container">
-          <div className="empty-search text-xs-center">
+          <div className="empty-search text-center">
             <strong>
               {T.translate(`${PREFIX}.EmptyMessage.emptyDatasetList`, {
                 connectionName: this.props.connectionId,

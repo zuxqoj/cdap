@@ -383,7 +383,7 @@ export default class FileBrowser extends Component {
     if (this.state.contents.length === 0) {
       return (
         <div className="empty-search-container">
-          <div className="empty-search text-xs-center">
+          <div className="empty-search text-center">
             <strong>{T.translate(`${PREFIX}.EmptyMessage.noFilesOrDirectories`)}</strong>
           </div>
         </div>

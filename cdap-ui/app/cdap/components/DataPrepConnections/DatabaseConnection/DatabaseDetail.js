@@ -35,7 +35,7 @@ const CONN_TYPE = {
   advanced: 'ADVANCED',
 };
 
-const LABEL_COL_CLASS = 'col-4 col-form-label text-xs-right';
+const LABEL_COL_CLASS = 'col-4 col-form-label text-right';
 const INPUT_COL_CLASS = 'col-8';
 
 const PREFIX = 'features.DataPrepConnections.AddConnections.Database.DatabaseDetail';
@@ -491,7 +491,7 @@ export default class DatabaseDetail extends Component {
 
     return (
       <div className="row driver-info">
-        <div className="col-4 text-xs-right">
+        <div className="col-4 text-right">
           <div className="image-container">
             <div className={`db-image db-${db.tag}`} />
           </div>

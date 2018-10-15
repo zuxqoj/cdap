@@ -54,7 +54,7 @@ function NamespacesPickerView({ namespacesPick, setNamespacesPick }) {
     <div className="namespace-picker float-right">
       {monitorTitle}
 
-      <div className="monitor-more text-xs-right">
+      <div className="monitor-more text-right">
         <div className="d-inline-block">
           <NamespacesPopover setNamespacesPick={setNamespacesPick} />
         </div>

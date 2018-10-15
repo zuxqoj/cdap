@@ -253,7 +253,7 @@ export default class DataPrep extends Component {
       : T.translate(`${prefix}.expand`);
     return (
       <div
-        className={classnames('panel-toggle float-left text-xs-center', {
+        className={classnames('panel-toggle float-left text-center', {
           disabled: isEmpty(this.state.currentWorkspace),
         })}
         onClick={this.onSidePanelToggle}
@@ -276,7 +276,7 @@ export default class DataPrep extends Component {
 
     if (this.state.loading) {
       return (
-        <div className="dataprep-container text-xs-center">
+        <div className="dataprep-container text-center">
           <LoadingSVGCentered />
         </div>
       );

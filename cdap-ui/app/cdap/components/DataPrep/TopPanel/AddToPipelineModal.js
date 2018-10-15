@@ -176,7 +176,7 @@ export default class AddToHydratorModal extends Component {
     if (this.state.loading) {
       content = (
         <div className="loading-container">
-          <h4 className="text-xs-center">
+          <h4 className="text-center">
             <span className="fa fa-spin fa-spinner" />
           </h4>
         </div>

@@ -296,7 +296,7 @@ export default class NamespaceDropdown extends Component {
                     </div>
                   </div>
                 </LinkEl>
-                <div className="current-namespace-preferences text-xs-center">
+                <div className="current-namespace-preferences text-center">
                   <h4 className="btn-group">
                     <SetPreferenceAction
                       setAtLevel={PREFERENCES_LEVEL.NAMESPACE}
@@ -338,7 +338,7 @@ export default class NamespaceDropdown extends Component {
                 })}
             </div>
             <If condition={Theme.showAddNamespace}>
-              <div className="namespace-action text-xs-center" onClick={this.showNamespaceWizard}>
+              <div className="namespace-action text-center" onClick={this.showNamespaceWizard}>
                 {T.translate('features.Navbar.NamespaceDropdown.addNS')}
               </div>
             </If>

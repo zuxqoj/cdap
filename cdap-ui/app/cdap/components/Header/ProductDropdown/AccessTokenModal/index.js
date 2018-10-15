@@ -116,7 +116,7 @@ export default class AccessTokenModal extends Component {
             onChange={this.handlePasswordChange}
           />
         </div>
-        <div className="text-xs-left submit-button">
+        <div className="text-left submit-button">
           <button className="btn btn-primary" onClick={this.onSubmit} disabled={disabled}>
             {T.translate('features.AccessTokenModal.login.submit')}
           </button>
@@ -132,7 +132,7 @@ export default class AccessTokenModal extends Component {
           {T.translate('features.AccessTokenModal.accessToken')}
           <strong>{this.state.accessToken}</strong>
         </span>
-        <div className="text-xs-left done-button">
+        <div className="text-left done-button">
           <button className="btn btn-primary" onClick={this.toggleModal}>
             {T.translate('features.AccessTokenModal.close')}
           </button>

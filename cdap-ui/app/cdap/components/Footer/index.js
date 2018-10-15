@@ -27,7 +27,7 @@ export default function Footer() {
       <div className="container">
         <div className="row text-muted">
           <div>
-            <p className="text-xs-center">
+            <p className="text-center">
               <a href={footerUrl} target="_blank" rel="noopener noreferrer">
                 {footerText}
               </a>

@@ -138,7 +138,7 @@ export default class EditProperty extends Component {
             </div>
           </div>
 
-          <div className="text-xs-right">
+          <div className="text-right">
             <button className="btn btn-primary" onClick={this.saveProperty} disabled={disabled}>
               {T.translate('features.PropertiesEditor.EditProperty.button')}
             </button>

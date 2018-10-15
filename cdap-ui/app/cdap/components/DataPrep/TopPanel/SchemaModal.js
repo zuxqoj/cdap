@@ -175,7 +175,7 @@ export default class SchemaModal extends Component {
 
     if (this.state.loading) {
       content = (
-        <div className="text-xs-center">
+        <div className="text-center">
           <h4>
             <span className="fa fa-spin fa-spinner" />
           </h4>

@@ -101,7 +101,7 @@ export default class UpgradeModal extends Component {
     if (this.state.loading) {
       content = (
         <div className="loading-container">
-          <h3 className="text-xs-center">
+          <h3 className="text-center">
             <span className="fa fa-spin fa-spinner" />
           </h3>
         </div>
