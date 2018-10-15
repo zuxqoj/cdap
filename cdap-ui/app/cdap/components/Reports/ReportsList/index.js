@@ -191,7 +191,7 @@ class ReportsListView extends Component {
     return (
       <div className="reports-container">
         <div className="header">
-          <div className="reports-view-options float-xs-left">
+          <div className="reports-view-options float-left">
             <span>{featureName}</span>
           </div>
 

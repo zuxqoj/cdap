@@ -253,7 +253,7 @@ export default class DataPrep extends Component {
       : T.translate(`${prefix}.expand`);
     return (
       <div
-        className={classnames('panel-toggle float-xs-left text-xs-center', {
+        className={classnames('panel-toggle float-left text-xs-center', {
           disabled: isEmpty(this.state.currentWorkspace),
         })}
         onClick={this.onSidePanelToggle}
@@ -304,7 +304,7 @@ export default class DataPrep extends Component {
         <div className="top-section clearfix">
           {this.renderTogglePanel()}
 
-          <div className="top-section-content float-xs-left">
+          <div className="top-section-content float-left">
             {this.renderTabs()}
             <DataPrepTopPanel
               singleWorkspaceMode={this.props.singleWorkspaceMode}

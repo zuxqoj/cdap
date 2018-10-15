@@ -204,7 +204,7 @@ export default class WorkspaceTabs extends Component {
                 </Link>
 
                 <span
-                  className="fa float-xs-right"
+                  className="fa float-right"
                   onClick={this.toggleDeleteWorkspace.bind(this, workspace)}
                 >
                   <IconSVG name="icon-close" />

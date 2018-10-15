@@ -756,7 +756,7 @@ export default class IngestDataFromDataPrep extends Component {
             <span>{T.translate(`${PREFIX}.modalTitle`)}</span>
 
             <div
-              className={classnames('close-section float-xs-right', {
+              className={classnames('close-section float-right', {
                 disabled:
                   this.state.copyInProgress && !this.state.copyTaskStarted && !this.state.error,
               })}

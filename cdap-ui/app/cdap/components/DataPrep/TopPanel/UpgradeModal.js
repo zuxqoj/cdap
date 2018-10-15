@@ -133,7 +133,7 @@ export default class UpgradeModal extends Component {
         <ModalHeader>
           <span>{T.translate(`${PREFIX}.modalHeader`)}</span>
           {this.state.loading ? null : (
-            <div className="close-section float-xs-right">
+            <div className="close-section float-right">
               <span className="fa fa-times" onClick={this.attemptClose} />
             </div>
           )}

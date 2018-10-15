@@ -218,7 +218,7 @@ export default class SchemaModal extends Component {
         <ModalHeader>
           <span>Schema</span>
 
-          <div className="close-section float-xs-right">
+          <div className="close-section float-right">
             <button
               disabled={this.state.error ? 'disabled' : null}
               className="btn btn-link"

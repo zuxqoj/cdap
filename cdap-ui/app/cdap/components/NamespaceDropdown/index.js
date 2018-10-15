@@ -321,14 +321,14 @@ export default class NamespaceDropdown extends Component {
                         className="namespace-link"
                       >
                         <span
-                          className="namespace-name float-xs-left"
+                          className="namespace-name float-left"
                           onClick={this.selectNamespace.bind(this, item.name)}
                         >
                           {item.name}
                         </span>
                       </LinkEl>
                       <span
-                        className="default-ns-section float-xs-right"
+                        className="default-ns-section float-right"
                         onClick={this.setDefault.bind(this, item.name)}
                       >
                         <IconSVG name={starIcon} />

@@ -249,7 +249,7 @@ export default class AddToHydratorModal extends Component {
         <ModalHeader>
           <span>{T.translate(`${PREFIX}.addToPipelineBtnLabel`)}</span>
 
-          <div className="close-section float-xs-right" onClick={this.props.toggle}>
+          <div className="close-section float-right" onClick={this.props.toggle}>
             <span className="fa fa-times" />
           </div>
         </ModalHeader>

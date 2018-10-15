@@ -145,10 +145,10 @@ export default class MarketEntityModal extends Component {
         size="md"
       >
         <ModalHeader toggle={this.props.onCloseHandler.bind(this)}>
-          <span className="float-xs-left">
+          <span className="float-left">
             { this.props.entity.label }
           </span>
-          <span className="version float-xs-right">
+          <span className="version float-right">
             <span className="version-text">
               {T.translate('features.MarketEntityModal.version')}
             </span>

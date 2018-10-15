@@ -99,8 +99,8 @@ export default class MarketPlaceUsecaseEntity extends Component {
       <Card size="LG" cardClass="market-place-usecase-package-card">
         {this.props.entity.beta ? <ExperimentalBanner /> : null}
         <div className="title clearfix">
-          <span className="float-xs-left">{this.props.entity.label}</span>
-          <span className="float-xs-right">Version: {this.props.entity.version}</span>
+          <span className="float-left">{this.props.entity.label}</span>
+          <span className="float-right">Version: {this.props.entity.version}</span>
         </div>
         <div className="entity-information">
           <div className="entity-modal-image">

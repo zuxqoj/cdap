@@ -51,7 +51,7 @@ function OperationsModalView({ showOperations, loading, closeModal, fieldName, d
       <ModalHeader>
         <span>{T.translate(`${PREFIX}.Title.${direction}`, { fieldName })}</span>
 
-        <div className="close-section float-xs-right" onClick={closeModal}>
+        <div className="close-section float-right" onClick={closeModal}>
           <IconSVG name="icon-close" />
         </div>
       </ModalHeader>

@@ -163,7 +163,7 @@ export default class AccessTokenModal extends Component {
       >
         <ModalHeader>
           <span>{T.translate('features.AccessTokenModal.modalHeader')}</span>
-          <div className="close-section float-xs-right" onClick={this.toggleModal}>
+          <div className="close-section float-right" onClick={this.toggleModal}>
             <span className="fa fa-times" />
           </div>
         </ModalHeader>

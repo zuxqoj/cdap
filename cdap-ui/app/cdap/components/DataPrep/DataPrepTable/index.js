@@ -274,7 +274,7 @@ export default class DataPrepTable extends Component {
                           <span>{head.name}</span>
                         </span>
                       ) : (
-                        <div className="warning-container-wrapper float-xs-left">
+                        <div className="warning-container-wrapper float-left">
                           <TextboxOnValium
                             onChange={this.handleSaveEditedColumnName.bind(this, index)}
                             value={head.name}
@@ -317,7 +317,7 @@ export default class DataPrepTable extends Component {
                       )}
                       <span
                         onClick={this.toggleColumnSelect.bind(this, head.name)}
-                        className={classnames('float-xs-right fa column-header-checkbox', {
+                        className={classnames('float-right fa column-header-checkbox', {
                           'fa-square-o': !this.columnIsSelected(head.name),
                           'fa-check-square': this.columnIsSelected(head.name),
                         })}

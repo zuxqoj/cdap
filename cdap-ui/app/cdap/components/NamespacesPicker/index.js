@@ -51,7 +51,7 @@ function NamespacesPickerView({ namespacesPick, setNamespacesPick }) {
   }
 
   return (
-    <div className="namespace-picker float-xs-right">
+    <div className="namespace-picker float-right">
       {monitorTitle}
 
       <div className="monitor-more text-xs-right">

@@ -144,7 +144,7 @@ export default class AddPropertyModal extends Component {
             })}
           </span>
 
-          <div className="close-section float-xs-right" onClick={this.toggleModal}>
+          <div className="close-section float-right" onClick={this.toggleModal}>
             <span className="fa fa-times" />
           </div>
         </ModalHeader>

@@ -174,8 +174,8 @@ export default class ViewEventsModal extends Component {
         backdrop="static"
       >
         <ModalHeader className="clearfix">
-          <div className="float-xs-left">{headerTitle}</div>
-          <div className="float-xs-right">
+          <div className="float-left">{headerTitle}</div>
+          <div className="float-right">
             <div className="close-modal-btn" onClick={this.props.onClose}>
               <span className={'button-icon fa fa-times'} />
             </div>

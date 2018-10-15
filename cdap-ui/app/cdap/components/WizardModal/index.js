@@ -33,8 +33,8 @@ export default function WizardModal({ children, title, isOpen, toggle, className
       zIndex="1061"
     >
       <ModalHeader>
-        <span className="float-xs-left">{title}</span>
-        <div className="close-section float-xs-right" onClick={toggle}>
+        <span className="float-left">{title}</span>
+        <div className="close-section float-right" onClick={toggle}>
           <span className="fa fa-times" />
         </div>
       </ModalHeader>

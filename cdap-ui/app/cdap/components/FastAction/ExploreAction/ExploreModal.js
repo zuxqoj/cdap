@@ -356,7 +356,7 @@ export default class ExploreModal extends Component {
       >
         <ModalHeader>
           {T.translate(`${PREFIX}.label`)}
-          <div onClick={this.onModalToggle.bind(this)} className="float-xs-right">
+          <div onClick={this.onModalToggle.bind(this)} className="float-right">
             <span className="fa fa-times" />
           </div>
         </ModalHeader>
@@ -370,10 +370,10 @@ export default class ExploreModal extends Component {
             />
             <div className="clearfix">
               {this.state.error ? (
-                <span className="float-xs-left text-danger">{this.state.error}</span>
+                <span className="float-left text-danger">{this.state.error}</span>
               ) : null}
               <button
-                className="btn btn-primary float-xs-right"
+                className="btn btn-primary float-right"
                 onClick={this.submitQuery}
                 disabled={this.state.loading ? 'disabled' : null}
               >
