@@ -189,7 +189,7 @@ export default class ViewEventsModal extends Component {
           </h4>
 
           <div className="row">
-            <div className="col-xs-8">
+            <div className="col-8">
               <h6>{T.translate('features.FastAction.viewEvents.timeRangeTitle')}</h6>
 
               <span className="date-container">
@@ -203,7 +203,7 @@ export default class ViewEventsModal extends Component {
               </span>
             </div>
 
-            <div className="col-xs-4">
+            <div className="col-4">
               <h6>{T.translate('features.FastAction.viewEvents.numEventsTitle')}</h6>
 
               <strong>{T.translate('features.FastAction.viewEvents.limit')}</strong>

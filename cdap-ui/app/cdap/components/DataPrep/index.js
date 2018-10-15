@@ -314,7 +314,7 @@ export default class DataPrep extends Component {
         </div>
 
         <div className="row dataprep-body">
-          <div className="dataprep-main col-xs-12">
+          <div className="dataprep-main col-12">
             <DataPrepContentWrapper />
           </div>
         </div>

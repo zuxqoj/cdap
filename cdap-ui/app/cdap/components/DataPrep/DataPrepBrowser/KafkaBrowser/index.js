@@ -178,7 +178,7 @@ export default class KafkaBrowser extends Component {
       <div className="kafka-content-table">
         <div className="kafka-content-header">
           <div className="row">
-            <div className="col-xs-12">
+            <div className="col-12">
               <span>{T.translate(`${PREFIX}.table.topics`)}</span>
             </div>
           </div>
@@ -191,7 +191,7 @@ export default class KafkaBrowser extends Component {
                 onClick={this.prepTopic.bind(this, topic)}
                 key={topic}
               >
-                <div className="col-xs-12">
+                <div className="col-12">
                   <span>{topic}</span>
                 </div>
               </div>

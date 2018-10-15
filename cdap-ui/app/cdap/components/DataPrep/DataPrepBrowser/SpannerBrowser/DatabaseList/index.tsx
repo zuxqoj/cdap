@@ -121,7 +121,7 @@ class SpannerDatabaseListView extends React.PureComponent<ISpannerDatabaseListVi
         <div className="list-table">
           <div className="table-header">
             <div className="row">
-              <div className="col-xs-12">
+              <div className="col-12">
                 {T.translate(`${PREFIX}.name`)}
               </div>
             </div>
@@ -141,7 +141,7 @@ class SpannerDatabaseListView extends React.PureComponent<ISpannerDatabaseListVi
                     onClick={this.clickHandler.bind(null, database.name)}
                   >
                     <div className="row content-row">
-                      <div className="col-xs-12">
+                      <div className="col-12">
                         <IconSVG name="icon-database" />
                         {database.name}
                       </div>

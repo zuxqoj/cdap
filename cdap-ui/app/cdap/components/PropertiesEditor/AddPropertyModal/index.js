@@ -150,7 +150,7 @@ export default class AddPropertyModal extends Component {
         </ModalHeader>
         <ModalBody>
           <div className="row input-properties">
-            <div className="col-xs-3">
+            <div className="col-3">
               <input
                 type="text"
                 id="add-property-modal-key-input"
@@ -161,7 +161,7 @@ export default class AddPropertyModal extends Component {
               />
             </div>
 
-            <div className="col-xs-9">
+            <div className="col-9">
               <input
                 type="text"
                 className="form-control"

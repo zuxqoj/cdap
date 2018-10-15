@@ -99,7 +99,7 @@ export default class DataPrepSidePanel extends Component {
 
   render() {
     return (
-      <div className="col-xs-3 dataprep-side-panel">
+      <div className="col-3 dataprep-side-panel">
         <div className="tabs">
           <div className="tabs-headers">
             <div

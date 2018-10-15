@@ -126,7 +126,7 @@ export default class EditProperty extends Component {
         </ModalHeader>
         <ModalBody>
           <div className="row input-properties">
-            <div className="col-xs-12">
+            <div className="col-12">
               <input
                 type="text"
                 id="edit-property-modal-value-input"

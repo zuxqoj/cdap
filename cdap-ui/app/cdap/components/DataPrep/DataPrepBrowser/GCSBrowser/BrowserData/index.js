@@ -39,16 +39,16 @@ const TableHeader = ({ enableRouting }) => {
   if (enableRouting) {
     return (
       <div className="row">
-        <div className="col-xs-3">{T.translate(`${PREFIX}.Headers.Name`)}</div>
-        <div className="col-xs-3">{T.translate(`${PREFIX}.Headers.Type`)}</div>
-        <div className="col-xs-3">{T.translate(`${PREFIX}.Headers.Size`)}</div>
-        <div className="col-xs-3">{T.translate(`${PREFIX}.Headers.LastModified`)}</div>
+        <div className="col-3">{T.translate(`${PREFIX}.Headers.Name`)}</div>
+        <div className="col-3">{T.translate(`${PREFIX}.Headers.Type`)}</div>
+        <div className="col-3">{T.translate(`${PREFIX}.Headers.Size`)}</div>
+        <div className="col-3">{T.translate(`${PREFIX}.Headers.LastModified`)}</div>
       </div>
     );
   }
   return (
     <div className="row">
-      <div className="col-xs-12">{T.translate(`${PREFIX}.Headers.Name`)}</div>
+      <div className="col-12">{T.translate(`${PREFIX}.Headers.Name`)}</div>
     </div>
   );
 };

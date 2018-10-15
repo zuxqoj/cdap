@@ -52,7 +52,7 @@ const TableListComp = ({ tableList, datasetId, createWorkspace }) => {
     <div className="list-table">
       <div className="table-header">
         <div className="row">
-          <div className="col-xs-12">{T.translate(`${PREFIX}.name`)}</div>
+          <div className="col-12">{T.translate(`${PREFIX}.name`)}</div>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ const TableListComp = ({ tableList, datasetId, createWorkspace }) => {
           return (
             <div key={table.id} onClick={createWorkspace.bind(null, table.id)}>
               <div className="row content-row">
-                <div className="col-xs-12">
+                <div className="col-12">
                   <IconSVG name="icon-table" />
                   {table.id}
                 </div>
