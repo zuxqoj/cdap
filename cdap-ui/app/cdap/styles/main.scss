@@ -16,9 +16,11 @@
 
 @import '~styles/variables.scss';
 
-body {
+html {
   font-size: $font-size-root;
+}
 
+body {
   .cdap-container {
     height: inherit;
     .container-fluid {
