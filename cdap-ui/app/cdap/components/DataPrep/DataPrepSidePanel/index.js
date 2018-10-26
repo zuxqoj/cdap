@@ -74,9 +74,7 @@ export default class DataPrepSidePanel extends Component {
 
   renderDirectives() {
     if (this.state.directives.length === 0) {
-      return (
-        <h5 className="empty-message text-center">{T.translate(`${PREFIX}.noDirectives`)}</h5>
-      );
+      return <h5 className="empty-message text-center">{T.translate(`${PREFIX}.noDirectives`)}</h5>;
     }
 
     return (

@@ -127,10 +127,7 @@ export default class MarketPlaceUsecaseEntity extends Component {
           </div>
         </div>
         <div className="actions-container">
-          <div
-            className="arrow-container text-center"
-            onClick={this.fetchEntityDetail.bind(this)}
-          >
+          <div className="arrow-container text-center" onClick={this.fetchEntityDetail.bind(this)}>
             {this.state.showActions ? (
               <span className="fa fa-angle-double-up" />
             ) : (

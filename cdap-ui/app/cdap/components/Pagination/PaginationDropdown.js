@@ -46,9 +46,7 @@ export default class PaginationDropdown extends Component {
       dropdownItems.push(
         <div className="dropdownItems clearfix">
           <span className="page-number float-left">{i + 1}</span>
-          {this.props.currentPage === i + 1 ? (
-            <span className="fa fa-check float-right" />
-          ) : null}
+          {this.props.currentPage === i + 1 ? <span className="fa fa-check float-right" /> : null}
         </div>
       );
     }
