@@ -223,14 +223,14 @@ export default class EntityListHeader extends Component {
                 key={option.id}
                 onClick={this.onFilterClick.bind(this, option)}
               >
-                <div className="form-check">
+                <div className="form-group form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.activeFilters.indexOf(option.id) !== -1}
+                    onChange={this.onFilterClick.bind(this, option)}
+                  />
                   <label className="form-check-label" onClick={(e) => e.stopPropagation()}>
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      checked={this.state.activeFilters.indexOf(option.id) !== -1}
-                      onChange={this.onFilterClick.bind(this, option)}
-                    />
                     {option.displayName}
                   </label>
                 </div>

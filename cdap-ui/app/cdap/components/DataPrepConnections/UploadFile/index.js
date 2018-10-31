@@ -144,8 +144,8 @@ export default class ConnectionsUpload extends Component {
               <span className="helper-text">{T.translate(`${PREFIX}.helperText`)}</span>
             </div>
 
-            <div className="col-6 text-right">
-              <form className="form-inline">
+            <div className="col-6">
+              <form className="form-inline float-right">
                 <div className="form-group">
                   <label className="control-label">
                     {T.translate(`${PREFIX}.recordDelimiter`)}

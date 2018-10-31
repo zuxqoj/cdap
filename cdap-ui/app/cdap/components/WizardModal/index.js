@@ -27,7 +27,7 @@ export default function WizardModal({ children, title, isOpen, toggle, className
     <Modal
       isOpen={isOpen}
       toggle={toggle}
-      className={classnames('wizard-modal', className)}
+      className={classnames('wizard-modal cdap-modal', className)}
       size="lg"
       backdrop="static"
       zIndex="1061"

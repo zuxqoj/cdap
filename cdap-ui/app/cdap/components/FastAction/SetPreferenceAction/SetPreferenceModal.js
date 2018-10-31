@@ -423,7 +423,7 @@ export default class SetPreferenceModal extends Component {
       <Modal
         isOpen={this.props.isOpen}
         toggle={this.props.toggleModal}
-        className="confirmation-modal set-preference-modal"
+        className="confirmation-modal set-preference-modal cdap-modal"
         size="lg"
         backdrop="static"
       >
