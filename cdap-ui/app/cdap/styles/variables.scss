@@ -22,25 +22,13 @@ $cdap_body_min_width:   700px;
 // new variables for use in themes
 $cdap-white:            rgb(255, 255, 255); // #fff, white
 $cdap-white-light:      rgba(255, 255, 255, 0.3);
-// $cdap-orange:           rgb(255, 102, 0);   // #ff6600
-// $cdap-light-orange:     rgb(255, 167, 38);
-// $cdap-darkorange:       rgb(138, 56, 0);    // #8A3800
-// $cdap-header:           rgb(60, 67, 85);    // #3c4355
 $cdap-darkness:         rgb(102, 110, 130); // #666e82
-// $cdap-bluegray:         rgb(111, 124, 157); // #6f7c9d
 // until today we were defining the same name twice with different colors.
 // rgray represents regular gray and its not even gray. Its bluegray from above :sigh:
 // We should remove all these colors soon and use the ones from style guide
-// $cdap-rgray:             rgb(111, 124, 159); // #6f7c9f
 $cdap-lightgray:        rgb(102, 110, 131); // #666e83
-// $cdap-darkblue:         rgb(44, 73, 138);   // #2c498a
-// $cdap-header-icons:     rgb(121, 127, 141); // #797f8d
-// $cdap-gray:             rgb(238, 238, 238); // #eeeeee
-// $cdap-red-text:         rgb(212, 0, 1);     // #d40001
-// $program-text:          rgb(150, 150, 150); // #969696
 
 // overrides from default bootstrap
-// $custom_table-border-color: $gray;
 $brand-primary:         rgb(90, 132, 228);  // #5a84e4
 $brand-success:         rgb(74, 182, 60);   // #4ab63c
 $brand-info:            rgb(102, 110, 131); // #666e83
@@ -74,19 +62,6 @@ $alert-danger-bg:       rgb(250, 67, 71);   // #FA4347
 $alert-success-bg:      $brand-success;     // #4ab63c
 $alert-warning-bg:      rgb(255, 234, 0);     // #ffea00
 
-/*
-
-// NAVS
-$nav-tabs-border-color:                       rgb(209, 211, 218);  // #d1d3da
-$nav-tabs-link-hover-border-color:            rgb(209, 211, 218);  // #d1d3da
-$nav-tabs-active-link-hover-bg:               $body-bg;            // #ebecf1
-$nav-tabs-active-link-hover-color:            $gray;               // #555
-$nav-tabs-active-link-hover-border-color:     rgb(209, 211, 218);  // #d1d3da
-$nav-tabs-justified-link-border-color:        rgb(221, 221, 221);  // #ddd
-$nav-tabs-justified-active-link-border-color: $body-bg;            // #ebecf1
-
-*/
-
 // TOOLTIPS
 $tooltip-color:         $grey-01;             // #333
 
@@ -102,20 +77,7 @@ $popover-arrow-outer-color: rgb(255, 255, 255); // #fff, white
 $font-size-root:            13px;
 $headings-font-weight:      400;
 
-// $btn-default-color:         rgb(106, 115, 135); // #6a7387
-
-
-// Hydrator when plugin added
-// $selected-plugin-bg:        rgb(44, 73, 139);   // #2c498b
-
-// $hydrator-source:            $brand-success;     // #4ab63c
-// $hydrator-transform:         rgb(68, 150, 232);  // #4496e8
-// $hydrator-sink:              rgb(12, 172, 196);  // #0cacc4
-
-
 // EXTENSIONS
-// $tracker-green: #35c853;
-// $hydrator-blue: #098cf9;
 $navbar-bg: rgba(51, 51, 51, 1);
 
 $artifact-entity-header-bg: #6399AB;
@@ -132,8 +94,6 @@ $height-of-footer: 53px;
 
 // EntityListView variables
 $overview-width: 626px;
-
-
 
 $brand-primary-color: #3b78e7;
 $brand-primary-color-lighter: transparentize($brand-primary-color, $amount: 0.5);
