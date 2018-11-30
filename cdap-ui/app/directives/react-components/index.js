@@ -65,6 +65,7 @@ angular.module(PKG.name + '.commons')
   })
   .directive('toggleSwitch', function(reactDirective) {
     return reactDirective(window.CaskCommon.ToggleSwitch);
+  })
   .directive('pipelineListView', function(reactDirective) {
     return reactDirective(window.CaskCommon.PipelineList);
   });

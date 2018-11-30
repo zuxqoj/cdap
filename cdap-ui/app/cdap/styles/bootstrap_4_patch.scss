@@ -15,8 +15,8 @@
  */
 
 @import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/input-group";
 @import "./variables.scss";
+@import "~bootstrap/scss/input-group";
 
 @mixin bootstrap_patch() {
   .dropdown-menu {
