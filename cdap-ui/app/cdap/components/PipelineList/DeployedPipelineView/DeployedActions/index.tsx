@@ -18,37 +18,75 @@ import * as React from 'react';
 import { deletePipeline } from 'components/PipelineList/DeployedPipelineView/store/ActionCreator';
 import { IPipeline } from 'components/PipelineList/DeployedPipelineView/types';
 import ActionsPopover, { IAction } from 'components/ActionsPopover';
+import { duplicatePipeline, getPipelineConfig } from 'services/PipelineUtils';
+import PipelineExportModal from 'components/PipelineExportModal';
 import T from 'i18n-react';
 
-interface IDeployedActionsProps {
+interface IProps {
   pipeline: IPipeline;
 }
 
-const DeployedActions: React.SFC<IDeployedActionsProps> = ({ pipeline }) => {
-  const actions: IAction[] = [
+interface IState {
+  showExport: boolean;
+}
+
+class DeployedActions extends React.PureComponent<IProps, IState> {
+  public state = {
+    showExport: false,
+  };
+
+  private pipelineConfig = {};
+
+  private showExportModal = () => {
+    getPipelineConfig(this.props.pipeline.name).subscribe((pipelineConfig) => {
+      this.pipelineConfig = pipelineConfig;
+
+      this.setState({
+        showExport: true,
+      });
+    });
+  };
+
+  private closeExportModal = () => {
+    this.pipelineConfig = {};
+
+    this.setState({
+      showExport: false,
+    });
+  };
+
+  private actions: IAction[] = [
     {
       label: T.translate('commons.duplicate'),
-      disabled: true,
+      actionFn: duplicatePipeline.bind(null, this.props.pipeline.name),
     },
     {
       label: T.translate('commons.export'),
-      disabled: true,
+      actionFn: this.showExportModal,
     },
     {
       label: 'separator',
     },
     {
       label: T.translate('commons.delete'),
-      actionFn: deletePipeline.bind(null, pipeline),
+      actionFn: deletePipeline.bind(null, this.props.pipeline),
       className: 'delete',
     },
   ];
 
-  return (
-    <div className="table-column action text-xs-center">
-      <ActionsPopover actions={actions} />
-    </div>
-  );
-};
+  public render() {
+    return (
+      <div className="table-column action text-xs-center">
+        <ActionsPopover actions={this.actions} />
+
+        <PipelineExportModal
+          isOpen={this.state.showExport}
+          onClose={this.closeExportModal}
+          pipelineConfig={this.pipelineConfig}
+        />
+      </div>
+    );
+  }
+}
 
 export default DeployedActions;

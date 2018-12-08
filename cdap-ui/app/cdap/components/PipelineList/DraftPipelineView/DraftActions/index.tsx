@@ -19,32 +19,72 @@ import T from 'i18n-react';
 import { deleteDraft } from 'components/PipelineList/DraftPipelineView/store/ActionCreator';
 import { IDraft } from 'components/PipelineList/DraftPipelineView/types';
 import ActionsPopover, { IAction } from 'components/ActionsPopover';
+import PipelineExportModal from 'components/PipelineExportModal';
 
 interface IProps {
   draft: IDraft;
 }
 
-const DraftActions: React.SFC<IProps> = ({ draft }) => {
-  const actions: IAction[] = [
+interface IState {
+  showExport: boolean;
+}
+
+class DraftActions extends React.PureComponent<IProps, IState> {
+  public state = {
+    showExport: false,
+  };
+
+  public pipelineConfig = {};
+
+  private openExportModal = (): void => {
+    const draft = this.props.draft;
+    this.pipelineConfig = {
+      name: draft.name,
+      description: draft.description,
+      artifact: draft.artifact,
+      config: draft.config,
+    };
+
+    this.setState({
+      showExport: true,
+    });
+  };
+
+  private closeExportModal = (): void => {
+    this.pipelineConfig = {};
+    this.setState({
+      showExport: false,
+    });
+  };
+
+  private actions: IAction[] = [
     {
       label: T.translate('commons.export'),
-      disabled: true,
+      actionFn: this.openExportModal,
     },
     {
       label: 'separator',
     },
     {
       label: T.translate('commons.delete'),
-      actionFn: deleteDraft.bind(null, draft),
+      actionFn: deleteDraft.bind(null, this.props.draft),
       className: 'delete',
     },
   ];
 
-  return (
-    <div className="table-column action text-xs-center">
-      <ActionsPopover actions={actions} />
-    </div>
-  );
-};
+  public render() {
+    return (
+      <div className="table-column action text-xs-center">
+        <ActionsPopover actions={this.actions} />
+
+        <PipelineExportModal
+          isOpen={this.state.showExport}
+          onClose={this.closeExportModal}
+          pipelineConfig={this.pipelineConfig}
+        />
+      </div>
+    );
+  }
+}
 
 export default DraftActions;
