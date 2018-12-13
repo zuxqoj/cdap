@@ -197,7 +197,7 @@ class DeployedActionsView extends React.PureComponent<IProps, IState> {
 
   public render() {
     return (
-      <div className="table-column action text-xs-center">
+      <div className="action" onClick={(e) => e.preventDefault()}>
         <ActionsPopover actions={this.actions} />
 
         <PipelineExportModal
