@@ -72,6 +72,8 @@ class DAGMinimapUtilities {
       scale,
       minX,
       minY,
+      width,
+      height,
       xOffset,
       yOffset,
     };
@@ -109,6 +111,33 @@ class DAGMinimapUtilities {
       width,
       left,
       top,
+    };
+  }
+
+  getViewportBox(graphMetadata, dagContainerSize, canvasScale, canvasPanning) {
+    if (!graphMetadata || !dagContainerSize) { return; }
+
+    const { scale } = graphMetadata;
+
+    const scaleRatio = scale / canvasScale ;
+
+    const height = dagContainerSize.height * scaleRatio;
+    const width = dagContainerSize.width * scaleRatio;
+
+    const xOffset = this.SIZE.width / 2;
+    const yOffset = this.SIZE.height / 2;
+
+    const panningTop = canvasPanning.top * scaleRatio;
+    const panningLeft = canvasPanning.left * scaleRatio;
+
+    const top = yOffset - panningTop;
+    const left = xOffset - panningLeft;
+
+    return {
+      height,
+      width,
+      top,
+      left,
     };
   }
 }
