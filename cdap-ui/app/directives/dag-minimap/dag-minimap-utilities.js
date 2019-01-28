@@ -23,6 +23,7 @@ class DAGMinimapUtilities {
       nodeHeight: 100,
       conditionNode: 105,
     };
+    this.MIN_SCALE = 0.5;
   }
 
   getGraphMetadata(nodes) {
@@ -53,7 +54,7 @@ class DAGMinimapUtilities {
     const widthScale = this.SIZE.width / width;
     const heightScale = this.SIZE.height / height;
 
-    const scale = Math.min(widthScale, heightScale) || 1;
+    const scale = Math.min(widthScale, heightScale, this.MIN_SCALE) || this.MIN_SCALE;
 
     // If width and height is less than the minimap size, center the graph.
     let xOffset = 0;
