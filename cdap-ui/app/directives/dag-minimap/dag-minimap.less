@@ -33,6 +33,7 @@
   background-color: @grey-06;
   padding: @minimap-padding;
   overflow: hidden;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.6);
 
   .nodes-container {
     position: relative;
@@ -84,8 +85,10 @@
 
   .viewport-container {
     position: absolute;
-    top: @minimap-padding;
-    left: @minimap-padding;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
   }
 
   .viewport-box {
