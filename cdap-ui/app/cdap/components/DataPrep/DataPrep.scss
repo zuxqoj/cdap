@@ -31,8 +31,8 @@ $toggle-btn-disabled-bg-color: #cccccc;
     .dataprep-body.row {
       // height calculations
       // 100vh - height of navbar - top panel - footer
-      // 100vh - 50px - 50px - 54px
-      height: calc(100vh - 154px);
+      // 100vh - 50px - 548px - 54px
+      height: calc(100vh - 152px);
     }
   }
 
@@ -78,7 +78,7 @@ $toggle-btn-disabled-bg-color: #cccccc;
     // 100vh - 50px - 50px - 54px - 50px
     margin-right: 0;
     margin-left: 0;
-    height: calc(100vh - 204px);
+    height: calc(100vh - 202px);
 
     .dataprep-main {
       height: 100%;

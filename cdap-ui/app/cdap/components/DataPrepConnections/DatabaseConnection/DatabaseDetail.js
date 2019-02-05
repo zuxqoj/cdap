@@ -82,7 +82,9 @@ export default class DatabaseDetail extends Component {
       properties: this.constructProperties(),
     };
 
-    MyDataPrepApi.getDatabaseList({ namespace }, requestBody).subscribe(
+    console.log('request', requestBody);
+
+    MyDataPrepApi.getDatabaseList({ context: namespace }, requestBody).subscribe(
       (databaseList) => {
         let list = databaseList.values.sort();
         let customId = this.state.customId;
@@ -119,21 +121,24 @@ export default class DatabaseDetail extends Component {
         database = '',
       } = this.props.connInfo.properties;
 
-      this.setState({
-        name,
-        connectionString,
-        password,
-        username,
-        hostname,
-        port,
-        database,
-        selectedDatabase: this.state.customId,
-        connType: connectionString ? CONN_TYPE.advanced : CONN_TYPE.basic,
-      });
-
-      if (this.props.mode === 'EDIT') {
-        this.fetchDatabases();
-      }
+      this.setState(
+        {
+          name,
+          connectionString,
+          password,
+          username,
+          hostname,
+          port,
+          database,
+          selectedDatabase: this.state.customId,
+          connType: connectionString ? CONN_TYPE.advanced : CONN_TYPE.basic,
+        },
+        () => {
+          if (this.props.mode === 'EDIT') {
+            this.fetchDatabases();
+          }
+        }
+      );
     }
   }
 
@@ -229,7 +234,7 @@ export default class DatabaseDetail extends Component {
       properties: this.constructProperties(),
     };
 
-    MyDataPrepApi.createConnection({ namespace }, requestBody).subscribe(
+    MyDataPrepApi.createConnection({ context: namespace }, requestBody).subscribe(
       () => {
         this.setState({ error: null });
         this.props.onAdd();
@@ -247,7 +252,7 @@ export default class DatabaseDetail extends Component {
     let namespace = NamespaceStore.getState().selectedNamespace;
 
     let params = {
-      namespace,
+      context: namespace,
       connectionId: this.props.connectionId,
     };
 
@@ -284,7 +289,7 @@ export default class DatabaseDetail extends Component {
       properties: this.constructProperties(),
     };
 
-    MyDataPrepApi.jdbcTestConnection({ namespace }, requestBody).subscribe(
+    MyDataPrepApi.jdbcTestConnection({ context: namespace }, requestBody).subscribe(
       (res) => {
         this.setState({
           connectionResult: {
