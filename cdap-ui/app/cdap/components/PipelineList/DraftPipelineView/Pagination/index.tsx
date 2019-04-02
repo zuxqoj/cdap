@@ -15,14 +15,14 @@
  */
 
 import { connect } from 'react-redux';
-import { Actions } from 'components/PipelineList/DeployedPipelineView/store';
+import { Actions } from 'components/PipelineList/DraftPipelineView/store';
 import PaginationView from 'components/PipelineList/PaginationView';
 
 const mapStateToProps = (state) => {
   return {
-    currentPage: state.deployed.currentPage,
-    numPipelines: state.deployed.pipelines.length,
-    pageLimit: state.deployed.pageLimit,
+    currentPage: state.drafts.currentPage,
+    numPipelines: state.drafts.list.length,
+    pageLimit: state.drafts.pageLimit,
   };
 };
 

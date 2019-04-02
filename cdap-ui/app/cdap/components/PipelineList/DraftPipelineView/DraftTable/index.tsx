@@ -24,21 +24,27 @@ import SortableHeader from 'components/PipelineList/DraftPipelineView/DraftTable
 
 interface IProps {
   drafts: IDraft[];
+  currentPage: number;
+  pageLimit: number;
 }
 
 require('./DraftTable.scss');
 
 const PREFIX = 'features.PipelineList';
 
-const DraftTableView: React.SFC<IProps> = ({ drafts }) => {
+const DraftTableView: React.SFC<IProps> = ({ drafts, currentPage, pageLimit }) => {
   function renderBody() {
     if (drafts.length === 0) {
       return <EmptyList type={VIEW_TYPES.draft} />;
     }
 
+    const startIndex = (currentPage - 1) * pageLimit;
+    const endIndex = startIndex + pageLimit;
+    const filteredDrafts = drafts.slice(startIndex, endIndex);
+
     return (
       <div className="grid-body">
-        {drafts.map((draft) => {
+        {filteredDrafts.map((draft) => {
           return <DraftTableRow draft={draft} key={draft.__ui__.draftId} />;
         })}
       </div>
@@ -66,6 +72,8 @@ const DraftTableView: React.SFC<IProps> = ({ drafts }) => {
 const mapStateToProps = (state) => {
   return {
     drafts: state.drafts.list,
+    currentPage: state.drafts.currentPage,
+    pageLimit: state.drafts.pageLimit,
   };
 };
 
