@@ -16,7 +16,6 @@
 
 import * as React from 'react';
 import DraftTableRow from 'components/PipelineList/DraftPipelineView/DraftTable/DraftTableRow';
-import T from 'i18n-react';
 import { connect } from 'react-redux';
 import { IDraft } from 'components/PipelineList/DraftPipelineView/types';
 import EmptyList, { VIEW_TYPES } from 'components/PipelineList/EmptyList';
@@ -29,8 +28,6 @@ interface IProps {
 }
 
 require('./DraftTable.scss');
-
-const PREFIX = 'features.PipelineList';
 
 const DraftTableView: React.SFC<IProps> = ({ drafts, currentPage, pageLimit }) => {
   function renderBody() {

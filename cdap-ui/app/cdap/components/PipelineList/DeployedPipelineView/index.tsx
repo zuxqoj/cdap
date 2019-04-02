@@ -28,8 +28,6 @@ import Store from 'components/PipelineList/DeployedPipelineView/store';
 
 import './DeployedPipelineView.scss';
 
-const PREFIX = 'features.PipelineList';
-
 export default class DeployedPipelineView extends React.PureComponent {
   public componentDidMount() {
     fetchPipelineList();

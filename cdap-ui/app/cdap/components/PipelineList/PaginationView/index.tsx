@@ -23,6 +23,7 @@ interface IPaginationProps {
   currentPage: number;
   numPipelines: number;
   pageLimit: number;
+  shouldDisplay: boolean;
 }
 
 const PaginationView: React.SFC<IPaginationProps> = ({
@@ -30,10 +31,11 @@ const PaginationView: React.SFC<IPaginationProps> = ({
   currentPage,
   numPipelines,
   pageLimit,
+  shouldDisplay = true,
 }) => {
   const numPages = Math.ceil(numPipelines / pageLimit);
 
-  if (numPages <= 1) {
+  if (!shouldDisplay || numPages <= 1) {
     return null;
   }
 
