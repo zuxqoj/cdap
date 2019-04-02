@@ -20,6 +20,7 @@ import T from 'i18n-react';
 import { connect } from 'react-redux';
 import { IDraft } from 'components/PipelineList/DraftPipelineView/types';
 import EmptyList, { VIEW_TYPES } from 'components/PipelineList/EmptyList';
+import SortableHeader from 'components/PipelineList/DraftPipelineView/DraftTable/SortableHeader';
 
 interface IProps {
   drafts: IDraft[];
@@ -49,12 +50,10 @@ const DraftTableView: React.SFC<IProps> = ({ drafts }) => {
       <div className="grid grid-container">
         <div className="grid-header">
           <div className="grid-row">
-            <strong className="table-column name">{T.translate(`${PREFIX}.name`)}</strong>
-            <strong className="table-column type">{T.translate(`${PREFIX}.type`)}</strong>
-            <strong className="table-column last-saved">
-              {T.translate(`${PREFIX}.lastSaved`)}
-            </strong>
-            <strong className="table-column action" />
+            <SortableHeader columnName="name" />
+            <SortableHeader columnName="type" />
+            <SortableHeader columnName="lastSaved" />
+            <strong />
           </div>
         </div>
 
