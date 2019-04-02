@@ -17,21 +17,54 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import PaginationStepper from 'components/PaginationStepper';
+import { Actions } from 'components/PipelineList/DeployedPipelineView/store';
 import './Pagination.scss';
 
 interface IPaginationProps {
-  onNext: () => void;
-  onPrev: () => void;
+  setPage: (page: number) => void;
+  currentPage: number;
+  numPipelines: number;
+  pageLimit: number;
 }
 
-const PaginationView: React.SFC<IPaginationProps> = ({ onNext, onPrev }) => {
+const PaginationView: React.SFC<IPaginationProps> = ({
+  setPage,
+  currentPage,
+  numPipelines,
+  pageLimit,
+}) => {
+  const numPages = Math.ceil(numPipelines / pageLimit);
+
+  if (numPages <= 1) {
+    return null;
+  }
+
+  const prevDisabled = currentPage === 1;
+  const nextDisabled = currentPage === numPages;
+
+  function handleNext() {
+    if (nextDisabled) {
+      return;
+    }
+
+    setPage(currentPage + 1);
+  }
+
+  function handlePrev() {
+    if (prevDisabled) {
+      return;
+    }
+
+    setPage(currentPage - 1);
+  }
+
   return (
     <div className="pagination-container float-right">
       <PaginationStepper
-        onNext={onNext}
-        onPrev={onPrev}
-        prevDisabled={false}
-        nextDisabled={false}
+        onNext={handleNext}
+        onPrev={handlePrev}
+        nextDisabled={nextDisabled}
+        prevDisabled={prevDisabled}
       />
     </div>
   );
@@ -40,19 +73,20 @@ const PaginationView: React.SFC<IPaginationProps> = ({ onNext, onPrev }) => {
 const mapStateToProps = (state) => {
   return {
     currentPage: state.deployed.currentPage,
+    numPipelines: state.deployed.pipelines.length,
+    pageLimit: state.deployed.pageLimit,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    onNext: () => {
-      // dispatch({
-      //   type:
-      // });
-      console.log('next');
-    },
-    onPrev: () => {
-      console.log('prev');
+    setPage: (page) => {
+      dispatch({
+        type: Actions.setPage,
+        payload: {
+          currentPage: page,
+        },
+      });
     },
   };
 };

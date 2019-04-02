@@ -39,6 +39,7 @@ interface IState {
   sortOrder: SORT_ORDER;
   search: string;
   currentPage: number;
+  pageLimit: number;
 }
 
 interface IStore {
@@ -67,6 +68,7 @@ const defaultInitialState: IState = {
   sortOrder: SORT_ORDER.asc,
   search: '',
   currentPage: 1,
+  pageLimit: 25,
 };
 
 const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction) => {
@@ -79,6 +81,7 @@ const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction)
         sortOrder: SORT_ORDER.asc,
         pipelinesLoading: false,
         deleteError: null,
+        currentPage: 1,
       };
     case Actions.setStatusMap:
       return {
@@ -111,6 +114,7 @@ const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction)
         sortColumn: action.payload.sortColumn,
         sortOrder: action.payload.sortOrder,
         pipelines: action.payload.pipelines,
+        currentPage: 1,
       };
     case Actions.setPage:
       return {

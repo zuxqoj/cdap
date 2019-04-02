@@ -38,6 +38,8 @@ interface IProps {
   onClear: () => void;
   statusMap: IStatusMap;
   runsCountMap: IRunsCountMap;
+  pageLimit: number;
+  currentPage: number;
 }
 
 const PREFIX = 'features.PipelineList';
@@ -49,6 +51,8 @@ const PipelineTableView: React.SFC<IProps> = ({
   onClear,
   statusMap,
   runsCountMap,
+  pageLimit,
+  currentPage,
 }) => {
   function renderBody() {
     if (pipelinesLoading) {
@@ -61,12 +65,16 @@ const PipelineTableView: React.SFC<IProps> = ({
 
     let filteredList = pipelines;
     if (search.length > 0) {
-      filteredList = filteredList.filter((pipeline) => {
+      filteredList = pipelines.filter((pipeline) => {
         const name = pipeline.name.toLowerCase();
         const searchFilter = search.toLowerCase();
 
         return name.indexOf(searchFilter) !== -1;
       });
+    } else {
+      const startIndex = (currentPage - 1) * pageLimit;
+      const endIndex = startIndex + pageLimit + 1;
+      filteredList = pipelines.slice(startIndex, endIndex);
     }
 
     if (filteredList.length === 0) {
@@ -127,6 +135,8 @@ const mapStateToProps = (state) => {
     search: state.deployed.search,
     statusMap: state.deployed.statusMap,
     runsCountMap: state.deployed.runsCountMap,
+    pageLimit: state.deployed.pageLimit,
+    currentPage: state.deployed.currentPage,
   };
 };
 
