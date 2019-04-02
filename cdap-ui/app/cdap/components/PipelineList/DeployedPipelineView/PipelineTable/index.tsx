@@ -18,24 +18,38 @@ import * as React from 'react';
 import PipelineTableRow from 'components/PipelineList/DeployedPipelineView/PipelineTable/PipelineTableRow';
 import { connect } from 'react-redux';
 import T from 'i18n-react';
-import { IPipeline } from 'components/PipelineList/DeployedPipelineView/types';
+import {
+  IPipeline,
+  IStatusMap,
+  IRunsCountMap,
+} from 'components/PipelineList/DeployedPipelineView/types';
 import EmptyList, { VIEW_TYPES } from 'components/PipelineList/EmptyList';
 import { Actions } from 'components/PipelineList/DeployedPipelineView/store';
 import LoadingSVGCentered from 'components/LoadingSVGCentered';
+import EmptyMessageContainer from 'components/EmptyMessageContainer';
+import SortableHeader from 'components/PipelineList/DeployedPipelineView/PipelineTable/SortableHeader';
 
 import './PipelineTable.scss';
-import EmptyMessageContainer from 'components/EmptyMessageContainer';
 
 interface IProps {
   pipelines: IPipeline[];
   pipelinesLoading: boolean;
   search: string;
   onClear: () => void;
+  statusMap: IStatusMap;
+  runsCountMap: IRunsCountMap;
 }
 
 const PREFIX = 'features.PipelineList';
 
-const PipelineTableView: React.SFC<IProps> = ({ pipelines, pipelinesLoading, search, onClear }) => {
+const PipelineTableView: React.SFC<IProps> = ({
+  pipelines,
+  pipelinesLoading,
+  search,
+  onClear,
+  statusMap,
+  runsCountMap,
+}) => {
   function renderBody() {
     if (pipelinesLoading) {
       return <LoadingSVGCentered />;
@@ -86,12 +100,15 @@ const PipelineTableView: React.SFC<IProps> = ({ pipelines, pipelinesLoading, sea
       <div className="grid grid-container">
         <div className="grid-header">
           <div className="grid-row">
-            <strong>{T.translate(`${PREFIX}.pipelineName`)}</strong>
-            <strong>{T.translate(`${PREFIX}.type`)}</strong>
-            <strong>{T.translate(`${PREFIX}.status`)}</strong>
-            <strong>{T.translate(`${PREFIX}.lastStartTime`)}</strong>
+            <SortableHeader columnName="name" />
+            <SortableHeader columnName="type" />
+            <SortableHeader columnName="status" disabled={Object.keys(statusMap).length === 0} />
+            <SortableHeader
+              columnName="lastStartTime"
+              disabled={Object.keys(statusMap).length === 0}
+            />
             <strong>{T.translate(`${PREFIX}.nextRun`)}</strong>
-            <strong>{T.translate(`${PREFIX}.runs`)}</strong>
+            <SortableHeader columnName="runs" disabled={Object.keys(runsCountMap).length === 0} />
             <strong>{T.translate(`${PREFIX}.tags`)}</strong>
             <strong />
           </div>
@@ -108,6 +125,8 @@ const mapStateToProps = (state) => {
     pipelines: state.deployed.pipelines,
     pipelinesLoading: state.deployed.pipelinesLoading,
     search: state.deployed.search,
+    statusMap: state.deployed.statusMap,
+    runsCountMap: state.deployed.runsCountMap,
   };
 };
 

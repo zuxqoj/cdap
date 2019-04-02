@@ -23,7 +23,11 @@ import {
 } from 'components/PipelineList/DeployedPipelineView/types';
 import { Reducer, Store as StoreInterface } from 'redux';
 import { IAction } from 'services/redux-helpers';
-import { Action } from 'rxjs/scheduler/Action';
+
+enum SORT_ORDER {
+  asc = 'asc',
+  desc = 'desc',
+}
 
 interface IState {
   pipelines: IPipeline[];
@@ -31,6 +35,8 @@ interface IState {
   statusMap: IStatusMap;
   runsCountMap: IRunsCountMap;
   deleteError?: string;
+  sortColumn: string;
+  sortOrder: SORT_ORDER;
   search: string;
 }
 
@@ -45,6 +51,7 @@ const Actions = {
   setSearch: 'DEPLOYED_SET_SEARCH',
   setDeleteError: 'DEPLOYED_PIPELINE_SET_DELETE_ERROR',
   clearDeleteError: 'DEPLOYED_PIPELINE_CLEAR_DELETE_ERROR',
+  setSort: 'DEPLOYED_PIPELINE_SET_SORT',
   reset: 'DEPLOYED_PIPELINE_RESET',
 };
 
@@ -54,6 +61,8 @@ const defaultInitialState: IState = {
   statusMap: {},
   runsCountMap: {},
   deleteError: null,
+  sortColumn: 'name',
+  sortOrder: SORT_ORDER.asc,
   search: '',
 };
 
@@ -63,6 +72,8 @@ const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction)
       return {
         ...state,
         pipelines: action.payload.pipelines,
+        sortColumn: 'name',
+        sortOrder: SORT_ORDER.asc,
         pipelinesLoading: false,
         deleteError: null,
       };
@@ -91,6 +102,13 @@ const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction)
         ...state,
         search: action.payload.search,
       };
+    case Actions.setSort:
+      return {
+        ...state,
+        sortColumn: action.payload.sortColumn,
+        sortOrder: action.payload.sortOrder,
+        pipelines: action.payload.pipelines,
+      };
     case Actions.reset:
       return defaultInitialState;
     default:
@@ -109,4 +127,4 @@ const Store: StoreInterface<IStore> = createStore(
 );
 
 export default Store;
-export { Actions };
+export { Actions, SORT_ORDER };

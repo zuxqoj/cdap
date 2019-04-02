@@ -25,6 +25,7 @@ export interface IPipeline {
 
 export interface IPipelineStatus {
   status?: string;
+  displayStatus?: string;
   lastStarting?: number;
 }
 
