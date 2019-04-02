@@ -38,6 +38,7 @@ interface IState {
   sortColumn: string;
   sortOrder: SORT_ORDER;
   search: string;
+  currentPage: number;
 }
 
 interface IStore {
@@ -52,6 +53,7 @@ const Actions = {
   setDeleteError: 'DEPLOYED_PIPELINE_SET_DELETE_ERROR',
   clearDeleteError: 'DEPLOYED_PIPELINE_CLEAR_DELETE_ERROR',
   setSort: 'DEPLOYED_PIPELINE_SET_SORT',
+  setPage: 'DEPLOYED_PIPELINE_SET_PAGE',
   reset: 'DEPLOYED_PIPELINE_RESET',
 };
 
@@ -64,6 +66,7 @@ const defaultInitialState: IState = {
   sortColumn: 'name',
   sortOrder: SORT_ORDER.asc,
   search: '',
+  currentPage: 1,
 };
 
 const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction) => {
@@ -108,6 +111,11 @@ const deployed: Reducer<IState> = (state = defaultInitialState, action: IAction)
         sortColumn: action.payload.sortColumn,
         sortOrder: action.payload.sortOrder,
         pipelines: action.payload.pipelines,
+      };
+    case Actions.setPage:
+      return {
+        ...state,
+        currentPage: action.payload.currentPage,
       };
     case Actions.reset:
       return defaultInitialState;

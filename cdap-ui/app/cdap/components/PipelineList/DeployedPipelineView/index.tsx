@@ -22,6 +22,7 @@ import {
 } from 'components/PipelineList/DeployedPipelineView/store/ActionCreator';
 import PipelineCount from 'components/PipelineList/DeployedPipelineView/PipelineCount';
 import SearchBox from 'components/PipelineList/DeployedPipelineView/SearchBox';
+import Pagination from 'components/PipelineList/DeployedPipelineView/Pagination';
 import { Provider } from 'react-redux';
 import Store from 'components/PipelineList/DeployedPipelineView/store';
 
@@ -45,6 +46,7 @@ export default class DeployedPipelineView extends React.PureComponent {
           <div className="deployed-header">
             <PipelineCount />
             <SearchBox />
+            <Pagination />
           </div>
 
           <PipelineTable />
