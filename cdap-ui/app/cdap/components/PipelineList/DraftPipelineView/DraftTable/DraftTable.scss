@@ -42,6 +42,11 @@ $action-width: 60px;
 
       > .grid-row {
         border-width: 3px;
+
+        .fa.fa-lg {
+          vertical-align: top;
+          margin-left: 5px;
+        }
       }
     }
 
