@@ -73,7 +73,7 @@ const PipelineTableView: React.SFC<IProps> = ({
       });
     } else {
       const startIndex = (currentPage - 1) * pageLimit;
-      const endIndex = startIndex + pageLimit + 1;
+      const endIndex = startIndex + pageLimit;
       filteredList = pipelines.slice(startIndex, endIndex);
     }
 

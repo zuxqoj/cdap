@@ -49,7 +49,7 @@ const DraftTableView: React.SFC<IProps> = ({ drafts }) => {
       <div className="grid grid-container">
         <div className="grid-header">
           <div className="grid-row">
-            <strong className="table-column name">{T.translate(`${PREFIX}.pipelineName`)}</strong>
+            <strong className="table-column name">{T.translate(`${PREFIX}.name`)}</strong>
             <strong className="table-column type">{T.translate(`${PREFIX}.type`)}</strong>
             <strong className="table-column last-saved">
               {T.translate(`${PREFIX}.lastSaved`)}

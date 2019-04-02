@@ -14,50 +14,9 @@
  * the License.
  */
 
-import * as React from 'react';
 import { connect } from 'react-redux';
-import { SORT_ORDER } from 'components/PipelineList/DeployedPipelineView/store';
 import { setSort } from 'components/PipelineList/DeployedPipelineView/store/ActionCreator';
-import If from 'components/If';
-import IconSVG from 'components/IconSVG';
-import T from 'i18n-react';
-import classnames from 'classnames';
-
-interface ISortableHeaderProps {
-  sortColumn: string;
-  sortOrder: SORT_ORDER;
-  columnName: string;
-  disabled: boolean;
-}
-
-const PREFIX = 'features.PipelineList';
-
-const SortableHeaderView: React.SFC<ISortableHeaderProps> = ({
-  sortColumn,
-  sortOrder,
-  columnName,
-  disabled,
-}) => {
-  function handleClick() {
-    if (disabled) {
-      return;
-    }
-
-    setSort(columnName);
-  }
-
-  return (
-    <strong className={classnames({ sortable: !disabled })} onClick={handleClick}>
-      {T.translate(`${PREFIX}.${columnName}`)}
-
-      <If condition={sortColumn === columnName}>
-        <span className="fa fa-lg">
-          <IconSVG name={sortOrder === SORT_ORDER.asc ? 'icon-caret-down' : 'icon-caret-up'} />
-        </span>
-      </If>
-    </strong>
-  );
-};
+import SortableHeaderView from 'components/PipelineList/SortableHeaderView';
 
 const mapStateToProps = (state, ownProp) => {
   return {
@@ -68,6 +27,15 @@ const mapStateToProps = (state, ownProp) => {
   };
 };
 
-const SortableHeader = connect(mapStateToProps)(SortableHeaderView);
+const mapDispatch = () => {
+  return {
+    setSort,
+  };
+};
+
+const SortableHeader = connect(
+  mapStateToProps,
+  mapDispatch
+)(SortableHeaderView);
 
 export default SortableHeader;
