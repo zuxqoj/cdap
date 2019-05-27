@@ -80,4 +80,7 @@ angular.module(PKG.name + '.commons')
   })
   .directive('number', function(reactDirective) {
     return reactDirective(window.CaskCommon.Number);
+  })
+  .directive('password', function(reactDirective){
+    return reactDirective(window.CaskCommon.Password);
   });

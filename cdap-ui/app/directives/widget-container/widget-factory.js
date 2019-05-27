@@ -44,10 +44,11 @@ angular.module(PKG.name + '.commons')
         }
       },
       'password': {
-        element: '<my-password></my-password>',
+        element: '<password></password>',
         attributes: {
-          'ng-model': 'model',
-          'ng-trim': 'false'
+          'value': 'model',
+          'on-change': 'onChange',
+          // 'ng-trim': 'false'
         }
       },
       'datetime': {

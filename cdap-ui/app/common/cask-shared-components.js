@@ -74,6 +74,7 @@ var CodeEditor = require('../cdap/components/CodeEditor').default;
 var JSONEditor = require('../cdap/components/CodeEditor/JSONEditor').default;
 var TextBox = require('../cdap/components/AbstractWidget/FormInputs/TextBox').default;
 var Number = require('../cdap/components/AbstractWidget/FormInputs/Number').default;
+var Password = require('../cdap/components/FormInputs/Password').default;
 
 export {
   Store,
@@ -129,4 +130,5 @@ export {
   JSONEditor,
   TextBox,
   Number,
+  Password,
 };
