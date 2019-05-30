@@ -48,7 +48,7 @@ angular.module(PKG.name + '.commons')
         attributes: {
           'value': 'model',
           'on-change': 'onChange',
-          // 'ng-trim': 'false'
+          placeholder: 'myconfig["widget-attributes"].placeholder'
         }
       },
       'datetime': {

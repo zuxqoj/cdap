@@ -24,31 +24,25 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-
 const styles = (theme) => {
   return {
     input: {
       padding: 10,
     },
     button: {
-      padding: 0
-    }
-  }
-}
+      padding: 0,
+    },
+  };
+};
 
-interface IPasswordProps extends WithStyles<typeof styles>{
+interface IPasswordProps extends WithStyles<typeof styles> {
   value: string;
   onChange: (value: string) => void;
+  placeholder?: string;
 }
 
-interface PasswordState {
-  showPassword: boolean;
-}
-
-function Password({ value, onChange, classes }: IPasswordProps) {
-  //state: need to know whether we are showing password
-  const [showPassword, setPwdVisibility] = React.useState<PasswordState>(false);
-
+function Password({ value, onChange, placeholder, classes }: IPasswordProps) {
+  const [showPassword, setPwdVisibility] = React.useState<boolean>(false);
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const v = event.target.value;
     if (v && typeof onChange === 'function') {
@@ -57,7 +51,7 @@ function Password({ value, onChange, classes }: IPasswordProps) {
   };
 
   const handleClickShowPassword = () => {
-    setPwdVisibility(!showPassword)
+    setPwdVisibility(!showPassword);
   };
 
   return (
@@ -65,27 +59,27 @@ function Password({ value, onChange, classes }: IPasswordProps) {
       fullWidth
       variant="outlined"
       className={classes.input}
-      type={showPassword? 'text' : 'password'}
+      type={showPassword ? 'text' : 'password'}
       value={value}
       onChange={onChangeHandler}
+      placeholder={placeholder}
       InputProps={{
         classes,
         startAdornment: (
           <InputAdornment position="start">
             <IconButton
-            className={classes.button}
-            aria-label="Toggle password visibility"
-            onClick={handleClickShowPassword}
+              className={classes.button}
+              aria-label="Toggle password visibility"
+              onClick={handleClickShowPassword}
             >
-              {showPassword? <Visibility/>: <VisibilityOff/>}
+              {showPassword ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>
         ),
       }}
     />
-  )
+  );
 }
-
 const StyledPassword = withStyles(styles)(Password);
 
 export default function StyledPasswordWrapper(props) {
@@ -98,4 +92,6 @@ export default function StyledPasswordWrapper(props) {
 
 (StyledPassword as any).propTypes = {
   value: PropTypes.string,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.func,
 };
