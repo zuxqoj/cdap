@@ -58,7 +58,10 @@ export default class AbstractMultiRowWidget<P extends IMultiRowProps> extends Re
 
     splitValues.forEach((value) => {
       const id = uuidV4();
-      this.values[id] = value;
+      this.values[id] = {
+        ref: React.createRef(),
+        value,
+      };
 
       rows.push(id);
     });
@@ -71,7 +74,10 @@ export default class AbstractMultiRowWidget<P extends IMultiRowProps> extends Re
     const id = uuidV4();
     rows.splice(index + 1, 0, id);
 
-    this.values[id] = '';
+    this.values[id] = {
+      ref: React.createRef(),
+      value: '',
+    };
 
     this.setState({
       rows,
@@ -104,15 +110,15 @@ export default class AbstractMultiRowWidget<P extends IMultiRowProps> extends Re
   };
 
   public editRow = (id, value) => {
-    this.values[id] = value;
+    this.values[id].value = value;
 
     this.onChange();
   };
 
   public onChange = () => {
     const values = this.state.rows
-      .filter((id) => this.values[id])
-      .map((id) => this.values[id])
+      .filter((id) => this.values[id].value)
+      .map((id) => this.values[id].value)
       .join(this.props.delimiter);
 
     if (this.props.onChange) {
@@ -126,9 +132,9 @@ export default class AbstractMultiRowWidget<P extends IMultiRowProps> extends Re
     }
 
     const focusId = this.state.rows[index];
-    const elem = document.getElementById(`multi-row-${focusId}`) as HTMLInputElement;
-
-    elem.focus();
+    if (this.values[focusId].ref.current) {
+      this.values[focusId].ref.current.focus();
+    }
   };
 
   public renderRow = (id, index) => {

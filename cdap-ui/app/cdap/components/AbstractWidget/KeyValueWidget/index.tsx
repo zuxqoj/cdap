@@ -34,7 +34,7 @@ class KeyValueWidget extends AbstractMultiRowWidget<IKeyValueWidgetProps> {
     return (
       <KeyValueRow
         key={id}
-        value={this.values[id]}
+        value={this.values[id].value}
         id={id}
         index={index}
         onChange={this.editRow}
@@ -47,6 +47,7 @@ class KeyValueWidget extends AbstractMultiRowWidget<IKeyValueWidgetProps> {
         valuePlaceholder={this.props.valuePlaceholder}
         kvDelimiter={this.props.kvDelimiter}
         isEncoded={this.props.isEncoded}
+        forwardedRef={this.values[id].ref}
       />
     );
   };

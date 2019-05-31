@@ -35,7 +35,7 @@ const styles = (theme) => {
     input: {
       width: 'calc(50% - 5px)',
       '&:first-child': {
-        'margin-right': '10px',
+        marginRight: '10px',
       },
     },
     disabled: {
@@ -109,7 +109,6 @@ class KeyValueRow extends AbstractRow<IKeyValueRowProps, IKeyValueState> {
     return (
       <div className={this.props.classes.inputContainer}>
         <Input
-          id={`multi-row-${this.props.id}`}
           className={this.props.classes.input}
           classes={{ disabled: this.props.classes.disabled }}
           placeholder={this.props.keyPlaceholder}
@@ -119,12 +118,13 @@ class KeyValueRow extends AbstractRow<IKeyValueRowProps, IKeyValueState> {
           onKeyPress={this.handleKeyPress}
           onKeyDown={this.handleKeyDown}
           disabled={this.props.disabled}
+          inputRef={this.props.forwardedRef}
         />
 
         <Input
           className={this.props.classes.input}
           classes={{ disabled: this.props.classes.disabled }}
-          placeholder={this.props.keyPlaceholder}
+          placeholder={this.props.valuePlaceholder}
           onChange={this.handleChange.bind(this, 'value')}
           value={this.state.value}
           onKeyPress={this.handleKeyPress}

@@ -30,7 +30,7 @@ const styles = (theme) => {
     },
     input: {
       width: 'calc(100% - 100px)',
-      'margin-right': '10px',
+      marginRight: '10px',
     },
     disabled: {
       color: `${theme.palette.grey['50']}`,
@@ -47,19 +47,29 @@ class CSVRow extends AbstractRow<ICSVRowProps, IAbstractRowState> {
     valuePlaceholder: 'Value',
   };
 
+  private handleChange = (e) => {
+    const value = e.target.value;
+
+    this.setState({
+      value,
+    });
+
+    this.onChange(value);
+  };
+
   public renderInput = () => {
     return (
       <Input
-        id={`multi-row-${this.props.id}`}
         className={this.props.classes.input}
         classes={{ disabled: this.props.classes.disabled }}
         placeholder={this.props.valuePlaceholder}
-        onChange={this.onChange}
+        onChange={this.handleChange}
         value={this.state.value}
         autoFocus={this.props.autofocus}
         onKeyPress={this.handleKeyPress}
         onKeyDown={this.handleKeyDown}
         disabled={this.props.disabled}
+        inputRef={this.props.forwardedRef}
       />
     );
   };

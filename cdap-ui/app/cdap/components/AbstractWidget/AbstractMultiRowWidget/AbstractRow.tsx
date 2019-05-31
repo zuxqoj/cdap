@@ -45,10 +45,11 @@ export interface IAbstractRowProps<S extends typeof styles> extends WithStyles<S
   addRow: () => void;
   removeRow: () => void;
   changeFocus: (index: number) => void;
+  forwardedRef: () => void;
 }
 
 export interface IAbstractRowState {
-  value?: string;
+  value: string;
 }
 
 export default class AbstractRow<
@@ -63,13 +64,7 @@ export default class AbstractRow<
     value: this.props.value,
   } as State;
 
-  public onChange = (e) => {
-    const value = e.target.value;
-
-    this.setState({
-      value,
-    });
-
+  public onChange = (value) => {
     this.props.onChange(this.props.id, value);
   };
 

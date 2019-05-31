@@ -31,7 +31,7 @@ class CSVWidget extends AbstractMultiRowWidget<ICSVWidgetProps> {
     return (
       <CSVRow
         key={id}
-        value={this.values[id]}
+        value={this.values[id].value}
         id={id}
         index={index}
         onChange={this.editRow}
@@ -41,6 +41,7 @@ class CSVWidget extends AbstractMultiRowWidget<ICSVWidgetProps> {
         changeFocus={this.changeFocus}
         disabled={this.props.disabled}
         valuePlaceholder={this.props.valuePlaceholder}
+        forwardedRef={this.values[id].ref}
       />
     );
   };
