@@ -100,7 +100,7 @@ class KeyValueRow extends AbstractRow<IKeyValueRowProps, IKeyValueState> {
         }
 
         const updatedValue = key.length > 0 ? [key, value].join(this.props.kvDelimiter) : '';
-        this.props.onChange(this.props.id, updatedValue);
+        this.onChange(updatedValue);
       }
     );
   };
