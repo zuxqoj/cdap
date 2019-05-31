@@ -45,7 +45,7 @@ function Password({ value, onChange, placeholder, classes }: IPasswordProps) {
   const [showPassword, setPwdVisibility] = React.useState<boolean>(false);
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const v = event.target.value;
-    if (v && typeof onChange === 'function') {
+    if (typeof onChange === 'function') {
       onChange(v);
     }
   };
@@ -63,6 +63,7 @@ function Password({ value, onChange, placeholder, classes }: IPasswordProps) {
       value={value}
       onChange={onChangeHandler}
       placeholder={placeholder}
+      autoComplete="new-password"
       InputProps={{
         classes,
         startAdornment: (
@@ -90,7 +91,7 @@ export default function StyledPasswordWrapper(props) {
   );
 }
 
-(StyledPassword as any).propTypes = {
+(StyledPasswordWrapper as any).propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   placeholder: PropTypes.func,
