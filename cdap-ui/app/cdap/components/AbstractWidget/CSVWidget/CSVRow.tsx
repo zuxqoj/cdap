@@ -20,7 +20,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import AbstractRow, {
   IAbstractRowProps,
-  IAbstractRowState,
 } from 'components/AbstractWidget/AbstractMultiRowWidget/AbstractRow';
 
 const styles = (theme) => {
@@ -42,9 +41,17 @@ interface ICSVRowProps extends IAbstractRowProps<typeof styles> {
   valuePlaceholder?: string;
 }
 
-class CSVRow extends AbstractRow<ICSVRowProps, IAbstractRowState> {
+interface ICSVRowState {
+  value: string;
+}
+
+class CSVRow extends AbstractRow<ICSVRowProps, ICSVRowState> {
   public static defaultProps = {
     valuePlaceholder: 'Value',
+  };
+
+  public state = {
+    value: this.props.value,
   };
 
   private handleChange = (e) => {

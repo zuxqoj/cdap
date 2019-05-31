@@ -98,15 +98,13 @@ export default class AbstractMultiRowWidget<P extends IMultiRowProps> extends Re
         rows,
       },
       () => {
+        delete this.values[id];
         if (rows.length === 0) {
           this.addRow();
         }
+        this.onChange();
       }
     );
-
-    delete this.values[id];
-
-    this.onChange();
   };
 
   public editRow = (id, value) => {

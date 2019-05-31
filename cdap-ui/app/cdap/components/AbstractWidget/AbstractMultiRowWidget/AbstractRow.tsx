@@ -48,21 +48,13 @@ export interface IAbstractRowProps<S extends typeof styles> extends WithStyles<S
   forwardedRef: () => void;
 }
 
-export interface IAbstractRowState {
-  value: string;
-}
-
 export default class AbstractRow<
   P extends IAbstractRowProps<typeof styles>,
-  State extends IAbstractRowState
+  State
 > extends React.PureComponent<P, State> {
   public static defaultProps = {
     valuePlaceholder: 'Value',
   };
-
-  public state = {
-    value: this.props.value,
-  } as State;
 
   public onChange = (value) => {
     this.props.onChange(this.props.id, value);
