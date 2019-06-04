@@ -52,10 +52,6 @@ export default class AbstractRow<
   P extends IAbstractRowProps<typeof styles>,
   State
 > extends React.PureComponent<P, State> {
-  public static defaultProps = {
-    valuePlaceholder: 'Value',
-  };
-
   public onChange = (value) => {
     this.props.onChange(this.props.id, value);
   };
