@@ -21,23 +21,16 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import AbstractRow, {
   IAbstractRowProps,
+  AbstractRowStyles,
 } from 'components/AbstractWidget/AbstractMultiRowWidget/AbstractRow';
 
 const styles = (theme) => {
   return {
-    root: {
-      height: '44px',
-    },
+    ...AbstractRowStyles(theme),
     inputContainer: {
-      width: 'calc(100% - 100px)',
-      display: 'inline-flex',
-      marginRight: '10px',
-    },
-    input: {
-      width: 'calc(50% - 5px)',
-      '&:first-child': {
-        marginRight: '10px',
-      },
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gridGap: '10px',
     },
     disabled: {
       color: `${theme.palette.grey['50']}`,
@@ -116,7 +109,6 @@ class KeyValueDropdownRow extends AbstractRow<IKeyValueDropdownRowProps, IKeyVal
     return (
       <div className={this.props.classes.inputContainer}>
         <Input
-          className={this.props.classes.input}
           classes={{ disabled: this.props.classes.disabled }}
           placeholder={this.props.keyPlaceholder}
           onChange={this.handleChange.bind(this, 'key')}
@@ -129,7 +121,6 @@ class KeyValueDropdownRow extends AbstractRow<IKeyValueDropdownRowProps, IKeyVal
         />
 
         <Select
-          className={this.props.classes.input}
           classes={{ disabled: this.props.classes.disabled }}
           value={this.state.value}
           onChange={this.handleChange.bind(this, 'value')}

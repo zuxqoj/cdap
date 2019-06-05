@@ -17,26 +17,18 @@
 import * as React from 'react';
 import Input from '@material-ui/core/Input';
 import withStyles from '@material-ui/core/styles/withStyles';
-
 import AbstractRow, {
   IAbstractRowProps,
+  AbstractRowStyles,
 } from 'components/AbstractWidget/AbstractMultiRowWidget/AbstractRow';
 
 const styles = (theme) => {
   return {
-    root: {
-      height: '44px',
-    },
+    ...AbstractRowStyles(theme),
     inputContainer: {
-      width: 'calc(100% - 100px)',
-      display: 'inline-flex',
-      marginRight: '10px',
-    },
-    input: {
-      width: 'calc(50% - 5px)',
-      '&:first-child': {
-        marginRight: '10px',
-      },
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gridGap: '10px',
     },
     disabled: {
       color: `${theme.palette.grey['50']}`,
@@ -109,7 +101,6 @@ class KeyValueRow extends AbstractRow<IKeyValueRowProps, IKeyValueState> {
     return (
       <div className={this.props.classes.inputContainer}>
         <Input
-          className={this.props.classes.input}
           classes={{ disabled: this.props.classes.disabled }}
           placeholder={this.props.keyPlaceholder}
           onChange={this.handleChange.bind(this, 'key')}
@@ -122,7 +113,6 @@ class KeyValueRow extends AbstractRow<IKeyValueRowProps, IKeyValueState> {
         />
 
         <Input
-          className={this.props.classes.input}
           classes={{ disabled: this.props.classes.disabled }}
           placeholder={this.props.valuePlaceholder}
           onChange={this.handleChange.bind(this, 'value')}

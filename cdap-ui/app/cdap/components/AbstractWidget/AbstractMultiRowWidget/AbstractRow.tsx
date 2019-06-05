@@ -27,15 +27,21 @@ enum KEY_CODE {
   Down = 40,
 }
 
-const styles = (theme) => {
+export const AbstractRowStyles = (theme) => {
   return {
     root: {
       height: '44px',
+      display: 'grid',
+      gridTemplateColumns: '1fr auto auto',
+      '& > *:first-child': {
+        marginRight: '10px',
+        alignSelf: 'end',
+      },
     },
   };
 };
 
-export interface IAbstractRowProps<S extends typeof styles> extends WithStyles<S> {
+export interface IAbstractRowProps<S extends typeof AbstractRowStyles> extends WithStyles<S> {
   value: string;
   id: string;
   index: number;
@@ -49,7 +55,7 @@ export interface IAbstractRowProps<S extends typeof styles> extends WithStyles<S
 }
 
 export default class AbstractRow<
-  P extends IAbstractRowProps<typeof styles>,
+  P extends IAbstractRowProps<typeof AbstractRowStyles>,
   State
 > extends React.PureComponent<P, State> {
   public onChange = (value) => {
