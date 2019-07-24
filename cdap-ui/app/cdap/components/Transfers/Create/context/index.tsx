@@ -24,8 +24,8 @@ export enum Stages {
 }
 
 export const defaultContext = {
-  stage: Stages.CONFIGURE,
-  activeStep: 0,
+  stage: Stages.ASSESSMENT,
+  activeStep: 1,
   name: '',
   description: '',
   source: {},
@@ -39,6 +39,7 @@ export const defaultContext = {
   setSource: (source, sourceConfig) => {},
   setTarget: (target, targetConfig) => {},
   setActiveStep: (step) => {},
+  setStage: (stage) => {},
   // tslint:enable:no-empty
 };
 

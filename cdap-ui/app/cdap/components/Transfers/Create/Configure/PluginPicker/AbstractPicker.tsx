@@ -18,7 +18,7 @@ import * as React from 'react';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
 import classnames from 'classnames';
 import IconSVG from 'components/IconSVG';
-import StepButtons from '../StepButtons';
+import StepButtons from '../../StepButtons';
 
 const styles = (theme): StyleRules => {
   return {

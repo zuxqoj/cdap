@@ -34,10 +34,14 @@ const styles = (theme): StyleRules => {
   };
 };
 
-const LeftPanelView: React.SFC<WithStyles<typeof styles>> = ({ classes }) => {
+interface IProps extends WithStyles<typeof styles> {
+  stage: string;
+}
+
+const LeftPanelView: React.SFC<IProps> = ({ classes, stage }) => {
   return (
     <div className={classes.root}>
-      <ExpansionPanel square expanded={true}>
+      <ExpansionPanel square expanded={stage === Stages.CONFIGURE}>
         <ExpansionPanelSummary>
           <div>{StageConfiguration[Stages.CONFIGURE].label}</div>
         </ExpansionPanelSummary>
@@ -45,10 +49,17 @@ const LeftPanelView: React.SFC<WithStyles<typeof styles>> = ({ classes }) => {
           <StepProgress />
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      <ExpansionPanel square expanded={false} disabled>
+      <ExpansionPanel
+        square
+        expanded={stage === Stages.ASSESSMENT}
+        disabled={stage === Stages.CONFIGURE}
+      >
         <ExpansionPanelSummary>
           <div>{StageConfiguration[Stages.ASSESSMENT].label}</div>
         </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <StepProgress />
+        </ExpansionPanelDetails>
       </ExpansionPanel>
       <ExpansionPanel square expanded={false} disabled>
         <ExpansionPanelSummary>

@@ -15,26 +15,26 @@
  */
 
 import * as React from 'react';
-import PluginConfiguration from 'components/Transfers/Create/PluginConfiguration';
+import PluginConfiguration from 'components/Transfers/Create/Configure/PluginConfiguration';
 import { transfersCreateConnect } from 'components/Transfers/Create/context';
 import { objectQuery } from 'services/helpers';
 
-interface ISourceConfigView {
-  setSource: (source) => void;
-  source: any;
+interface ITargetConfigProps {
+  setTarget: (target) => void;
+  target: any;
 }
 
-const SourceConfigView: React.SFC<ISourceConfigView> = ({ setSource, source }) => {
-  const artifactName = 'delta-mysql-plugins';
+const TargetConfigView: React.SFC<ITargetConfigProps> = ({ setTarget, target }) => {
+  const artifactName = 'delta-bigquery-plugins';
   const artifactScope = 'SYSTEM';
-  const pluginName = 'mysql';
-  const pluginType = 'cdcSource';
+  const pluginName = 'bigquery';
+  const pluginType = 'cdcTarget';
 
-  const initValues = objectQuery(source, 'plugin', 'properties') || {};
+  const initValues = objectQuery(target, 'plugin', 'properties') || {};
 
   return (
     <PluginConfiguration
-      onNext={setSource}
+      onNext={setTarget}
       artifactName={artifactName}
       artifactScope={artifactScope}
       pluginType={pluginType}
@@ -44,5 +44,5 @@ const SourceConfigView: React.SFC<ISourceConfigView> = ({ setSource, source }) =
   );
 };
 
-const SourceConfig = transfersCreateConnect(SourceConfigView);
-export default SourceConfig;
+const TargetConfig = transfersCreateConnect(TargetConfigView);
+export default TargetConfig;

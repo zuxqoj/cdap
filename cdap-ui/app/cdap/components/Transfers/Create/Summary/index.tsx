@@ -16,9 +16,9 @@
 
 import * as React from 'react';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
-import { transfersCreateConnect } from 'components/Transfers/Create/context';
+import { transfersCreateConnect, Stages } from 'components/Transfers/Create/context';
 import StepButtons from 'components/Transfers/Create/StepButtons';
-import { createTransfer } from 'components/Transfers/utilities';
+// import { createTransfer } from 'components/Transfers/utilities';
 import { Redirect } from 'react-router-dom';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import { objectQuery } from 'services/helpers';
@@ -71,6 +71,7 @@ interface ISummaryProps extends WithStyles<typeof styles> {
   target: any;
   targetConfig: any;
   setActiveStep: (step) => void;
+  setStage: (stage) => void;
 }
 
 const SummaryView: React.SFC<ISummaryProps> = ({
@@ -81,25 +82,28 @@ const SummaryView: React.SFC<ISummaryProps> = ({
   target,
   targetConfig,
   setActiveStep,
+  setStage,
   classes,
 }) => {
   const [redirect, setRedirect] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   function onComplete() {
-    setLoading(true);
-    createTransfer(name, description, source, target).subscribe(
-      () => {
-        setRedirect(true);
-      },
-      (err) => {
-        // tslint:disable-next-line:no-console
-        console.log('error', err);
-      },
-      () => {
-        setLoading(false);
-      }
-    );
+    // setLoading(true);
+    // createTransfer(name, description, source, target).subscribe(
+    //   () => {
+    //     setRedirect(true);
+    //   },
+    //   (err) => {
+    //     // tslint:disable-next-line:no-console
+    //     console.log('error', err);
+    //   },
+    //   () => {
+    //     setLoading(false);
+    //   }
+    // );
+
+    setStage(Stages.ASSESSMENT);
   }
 
   if (redirect) {

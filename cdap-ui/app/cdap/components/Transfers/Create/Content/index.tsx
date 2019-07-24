@@ -22,15 +22,17 @@ import {
 } from 'components/Transfers/Create/context';
 import StepProgress from 'components/Transfers/Create/StepProgress';
 import StepContent from 'components/Transfers/Create/StepContent';
-import NameDescription from 'components/Transfers/Create/NameDescription';
-import SourceConfig from 'components/Transfers/Create/SourceConfig';
-import TargetConfig from 'components/Transfers/Create/TargetConfig';
+import NameDescription from 'components/Transfers/Create/Configure/NameDescription';
+import SourceConfig from 'components/Transfers/Create/Configure/SourceConfig';
+import TargetConfig from 'components/Transfers/Create/Configure/TargetConfig';
 import Summary from 'components/Transfers/Create/Summary';
 import LeftPanel from 'components/Transfers/Create/LeftPanel';
 import { Theme } from 'services/ThemeHelper';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
-import Source from '../PluginPicker/Source';
-import Target from '../PluginPicker/Target';
+import Source from '../Configure/PluginPicker/Source';
+import Target from '../Configure/PluginPicker/Target';
+import GenerateAssessment from '../Assessment/GenerateAssessment';
+import ViewAssessment from '../Assessment/ViewAssessment';
 
 const styles = (): StyleRules => {
   return {
@@ -75,10 +77,12 @@ export const StageConfiguration = {
     label: 'Assessment',
     steps: [
       {
-        label: 'Generate report',
+        label: 'Generate assessment',
+        component: GenerateAssessment,
       },
       {
-        label: 'View report',
+        label: 'View assessment',
+        component: ViewAssessment,
       },
     ],
   },
@@ -132,6 +136,13 @@ class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof 
     });
   };
 
+  public setStage = (stage) => {
+    this.setState({
+      stage,
+      activeStep: 0,
+    });
+  };
+
   public state = {
     ...defaultContext,
     next: this.next,
@@ -140,6 +151,7 @@ class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof 
     setSource: this.setSource,
     setTarget: this.setTarget,
     setActiveStep: this.setActiveStep,
+    setStage: this.setStage,
   };
 
   public render() {

@@ -55,6 +55,7 @@ const NameDescriptionView: React.SFC<INameDescriptionProps> = ({
         variant="outlined"
         value={localName}
         onChange={(e) => setName(e.target.value)}
+        disabled={name.length > 0}
       />
       <TextField
         label="Description"
