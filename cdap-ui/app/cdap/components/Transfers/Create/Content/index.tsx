@@ -68,7 +68,7 @@ export const StageConfiguration = {
         component: TargetConfig,
       },
       {
-        label: `Review and create ${Theme.featureNames.transfers.toLowerCase()}`,
+        label: `Review configuration`,
         component: Summary,
       },
     ],

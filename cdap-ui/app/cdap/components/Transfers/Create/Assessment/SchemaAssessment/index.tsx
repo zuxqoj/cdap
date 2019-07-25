@@ -25,30 +25,110 @@ import InputLabel from '@material-ui/core/InputLabel';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import Warning from '@material-ui/icons/Warning';
 import Error from '@material-ui/icons/Error';
+import classnames from 'classnames';
 
-const styles = (): StyleRules => {
-  return {};
+const styles = (theme): StyleRules => {
+  return {
+    grid: {
+      marginTop: '15px',
+    },
+    gridRow: {
+      display: 'grid',
+      gridTemplateColumns: '50px 1fr 1fr 1fr 75px',
+      alignItems: 'center',
+      borderBottom: `1px solid ${theme.palette.grey[400]}`,
+      '& > div': {
+        padding: '7px 15px',
+      },
+    },
+    gridHeader: {
+      fontWeight: 600,
+      borderBottom: `2px solid ${theme.palette.grey[400]}`,
+    },
+    error: {
+      backgroundColor: theme.palette.red[300],
+    },
+    warning: {
+      backgroundColor: theme.palette.yellow[200],
+    },
+  };
 };
 
 interface IProps extends WithStyles<typeof styles> {}
 
-const StyledCheckCircle = withStyles({});
+const checkCircleStyles = (theme): StyleRules => {
+  return {
+    root: {
+      color: theme.palette.green[100],
+    },
+  };
+};
+const StyledCheckCircle = withStyles(checkCircleStyles)(CheckCircle);
+
+const errorStyles = (theme): StyleRules => {
+  return {
+    root: {
+      color: theme.palette.red[100],
+    },
+  };
+};
+const StyledError = withStyles(errorStyles)(Error);
+
+const warningStyles = (theme): StyleRules => {
+  return {
+    root: {
+      color: theme.palette.yellow[50],
+    },
+  };
+};
+const StyledWarning = withStyles(warningStyles)(Warning);
 
 const ICON_MAP = {
-  default: CheckCircle,
-  ERROR: Error,
-  WARNING: Warning,
+  default: StyledCheckCircle,
+  ERROR: StyledError,
+  WARNING: StyledWarning,
 };
 
-const SchemaAssessmentView: React.SFC<IProps> = ({}) => {
+const TargetTypesSelect = ({ types }) => {
+  if (!types || types.length === 0) {
+    return null;
+  }
+  if (types.length === 1) {
+    return types[0];
+  }
+
+  const [selection, setSelection] = React.useState(types[0]);
+  function handleChange(e) {
+    setSelection(e.target.value);
+  }
+
+  return (
+    <Select value={selection} onChange={handleChange}>
+      {types.map((type) => {
+        return (
+          <MenuItem key={type} value={type}>
+            {type}
+          </MenuItem>
+        );
+      })}
+    </Select>
+  );
+};
+
+const SchemaAssessmentView: React.SFC<IProps> = ({ classes }) => {
   const [table, setTable] = React.useState(0);
+
+  function handleOnChange(e) {
+    const index = e.target.value;
+    setTable(index);
+  }
 
   return (
     <div>
       <div>
         <FormControl>
           <InputLabel>Table</InputLabel>
-          <Select value={table} onChange={(e) => setTable.bind(null, e.target.value)}>
+          <Select value={table} onChange={handleOnChange}>
             {TABLES.map((tableInfo, i) => {
               return (
                 <MenuItem key={tableInfo.name} value={i}>
@@ -61,9 +141,9 @@ const SchemaAssessmentView: React.SFC<IProps> = ({}) => {
       </div>
 
       <div>
-        <div className="grid grid-container">
-          <div className="grid-header">
-            <div className="grid-row">
+        <div className={classes.grid}>
+          <div className={classes.gridHeader}>
+            <div className={classes.gridRow}>
               <div />
               <div>Field name</div>
               <div>Source Type</div>
@@ -78,13 +158,21 @@ const SchemaAssessmentView: React.SFC<IProps> = ({}) => {
                 typeof column.issue === 'string' ? ICON_MAP[column.issue] : ICON_MAP.default;
 
               return (
-                <div key={column.field} className="grid-row">
+                <div
+                  key={column.field}
+                  className={classnames(classes.gridRow, {
+                    [classes.error]: column.issue === 'ERROR',
+                    [classes.warning]: column.issue === 'WARNING',
+                  })}
+                >
                   <div>
                     <IconComp />
                   </div>
                   <div>{column.field}</div>
                   <div>{column.sourceType}</div>
-                  <div>{column.targetTypes.length ? column.targetTypes[0] : null}</div>
+                  <div>
+                    <TargetTypesSelect types={column.targetTypes} />
+                  </div>
                   <div />
                 </div>
               );
