@@ -205,14 +205,13 @@ angular.module(PKG.name + '.commons')
           'on-change': 'onChange'
         }
       },
-      'dataset-selector': {
-        element: '<my-dataset-selector></my-dataset-selector>',
+      'dataset-selector' : {
+        element: '<dataset-selector-widget></dataset-selector-widget>',
         attributes: {
-          'ng-model': 'model',
-          'dataset-type': 'dataset',
-          'config': 'myconfig',
-          'stage-name': 'stageName'
-        }
+          'value': 'model',
+          'on-change': 'onChange',
+          'placeholder': 'myconfig["widget-attributes"].placeholder',
+        },
       },
       'sql-select-fields': {
         element: '<my-sql-selector></my-sql-selector>',
