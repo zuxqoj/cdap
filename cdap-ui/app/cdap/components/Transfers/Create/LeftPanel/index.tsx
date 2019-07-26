@@ -61,10 +61,17 @@ const LeftPanelView: React.SFC<IProps> = ({ classes, stage }) => {
           <StepProgress />
         </ExpansionPanelDetails>
       </ExpansionPanel>
-      <ExpansionPanel square expanded={false} disabled>
+      <ExpansionPanel
+        square
+        expanded={stage === Stages.PUBLISH}
+        disabled={stage !== Stages.PUBLISH}
+      >
         <ExpansionPanelSummary>
           <div>{StageConfiguration[Stages.PUBLISH].label}</div>
         </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <StepProgress />
+        </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>
   );

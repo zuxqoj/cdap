@@ -25,7 +25,6 @@ import StepContent from 'components/Transfers/Create/StepContent';
 import NameDescription from 'components/Transfers/Create/Configure/NameDescription';
 import SourceConfig from 'components/Transfers/Create/Configure/SourceConfig';
 import TargetConfig from 'components/Transfers/Create/Configure/TargetConfig';
-import Summary from 'components/Transfers/Create/Summary';
 import LeftPanel from 'components/Transfers/Create/LeftPanel';
 import { Theme } from 'services/ThemeHelper';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
@@ -33,6 +32,8 @@ import Source from '../Configure/PluginPicker/Source';
 import Target from '../Configure/PluginPicker/Target';
 import GenerateAssessment from '../Assessment/GenerateAssessment';
 import ViewAssessment from '../Assessment/ViewAssessment';
+import ViewSummary from '../Publish/ViewSummary';
+import ConfigureSummary from '../Configure/Summary';
 
 const styles = (): StyleRules => {
   return {
@@ -69,7 +70,7 @@ export const StageConfiguration = {
       },
       {
         label: `Review configuration`,
-        component: Summary,
+        component: ConfigureSummary,
       },
     ],
   },
@@ -91,6 +92,7 @@ export const StageConfiguration = {
     steps: [
       {
         label: 'View summary',
+        component: ViewSummary,
       },
     ],
   },

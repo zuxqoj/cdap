@@ -16,7 +16,7 @@
 
 import * as React from 'react';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
-import { transfersCreateConnect } from '../../context';
+import { transfersCreateConnect, Stages } from '../../context';
 import StepButtons from '../../StepButtons';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import SchemaAssessment from '../SchemaAssessment';
@@ -46,9 +46,10 @@ const styles = (theme): StyleRules => {
 
 interface IProps extends WithStyles<typeof styles> {
   sourceConfig: any;
+  setStage: (stage: string) => void;
 }
 
-const ViewAssessmentView: React.SFC<IProps> = ({ classes, sourceConfig }) => {
+const ViewAssessmentView: React.SFC<IProps> = ({ classes, sourceConfig, setStage }) => {
   const [showStage, setShowStage] = React.useState(0);
 
   React.useEffect(() => {
@@ -155,7 +156,7 @@ const ViewAssessmentView: React.SFC<IProps> = ({ classes, sourceConfig }) => {
       </If>
 
       <br />
-      <StepButtons />
+      <StepButtons onComplete={setStage.bind(null, Stages.PUBLISH)} />
     </div>
   );
 };

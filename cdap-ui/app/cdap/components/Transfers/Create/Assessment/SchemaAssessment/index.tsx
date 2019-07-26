@@ -34,7 +34,7 @@ const styles = (theme): StyleRules => {
     },
     gridRow: {
       display: 'grid',
-      gridTemplateColumns: '50px 1fr 1fr 1fr 75px',
+      gridTemplateColumns: '50px 1fr 1fr 1fr 1fr 75px',
       alignItems: 'center',
       borderBottom: `1px solid ${theme.palette.grey[400]}`,
       '& > div': {
@@ -115,6 +115,37 @@ const TargetTypesSelect = ({ types }) => {
   );
 };
 
+const TransformFunction = () => {
+  const [fn, setFn] = React.useState();
+
+  function handleChange(e) {
+    setFn(e.target.value);
+  }
+
+  const fnList = [
+    'Mask',
+    'Encrypt',
+    'Truncate',
+    'Drop',
+    'Uppercase',
+    'Lowercase',
+    'PII Filter',
+    'Custom',
+  ];
+
+  return (
+    <Select value={fn} onChange={handleChange}>
+      {fnList.map((func) => {
+        return (
+          <MenuItem key={func} value={func}>
+            {func}
+          </MenuItem>
+        );
+      })}
+    </Select>
+  );
+};
+
 const SchemaAssessmentView: React.SFC<IProps> = ({ classes }) => {
   const [table, setTable] = React.useState(0);
 
@@ -148,6 +179,7 @@ const SchemaAssessmentView: React.SFC<IProps> = ({ classes }) => {
               <div>Field name</div>
               <div>Source Type</div>
               <div>Target Type</div>
+              <div>Transform</div>
               <div />
             </div>
           </div>
@@ -172,6 +204,9 @@ const SchemaAssessmentView: React.SFC<IProps> = ({ classes }) => {
                   <div>{column.sourceType}</div>
                   <div>
                     <TargetTypesSelect types={column.targetTypes} />
+                  </div>
+                  <div>
+                    <TransformFunction />
                   </div>
                   <div />
                 </div>

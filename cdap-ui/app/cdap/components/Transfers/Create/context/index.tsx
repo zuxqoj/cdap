@@ -24,8 +24,8 @@ export enum Stages {
 }
 
 export const defaultContext = {
-  stage: Stages.ASSESSMENT,
-  activeStep: 1,
+  stage: Stages.CONFIGURE,
+  activeStep: 0,
   name: '',
   description: '',
   source: {},
