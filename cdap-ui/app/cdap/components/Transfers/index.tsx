@@ -39,6 +39,7 @@ const Transfers: React.SFC = () => {
         <Route exact path={`${basepath}/create`} component={Create} />
         <Route exact path={`${basepath}/create/:id`} component={Create} />
         <Route exact path={`${basepath}/details/:id`} component={Detail} />
+        <Route exact path={`${basepath}/edit/:id`} component={Create} />
       </Switch>
     </div>
   );
