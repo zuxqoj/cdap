@@ -18,15 +18,26 @@ import * as React from 'react';
 import EntityTopPanel from 'components/EntityTopPanel';
 import Content from 'components/Transfers/Create/Content';
 import { Theme } from 'services/ThemeHelper';
+import { objectQuery } from 'services/helpers';
 
-const Create: React.SFC = () => {
+interface ICreateProps {
+  match?: {
+    params?: {
+      id: string;
+    };
+  };
+}
+
+const Create: React.SFC<ICreateProps> = ({ match }) => {
+  const id = objectQuery(match, 'params', 'id');
+
   return (
     <React.Fragment>
       <EntityTopPanel
         title={`Create a new ${Theme.featureNames.transfers.toLowerCase()}`}
         closeBtnAnchorLink={() => history.back()}
       />
-      <Content />
+      <Content id={id} />
     </React.Fragment>
   );
 };

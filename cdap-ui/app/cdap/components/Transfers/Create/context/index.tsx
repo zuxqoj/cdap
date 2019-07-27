@@ -15,15 +15,18 @@
  */
 
 import * as React from 'react';
+import { any } from 'prop-types';
 
 export enum Stages {
   CONFIGURE = 'configure',
   ASSESSMENT = 'assessment',
   PUBLISH = 'publish',
   VALIDATE = 'validate',
+  PUBLISHED = 'published',
 }
 
 export const defaultContext = {
+  id: null,
   stage: Stages.CONFIGURE,
   activeStep: 0,
   name: '',
@@ -35,11 +38,12 @@ export const defaultContext = {
   // tslint:disable:no-empty
   next: () => {},
   previous: () => {},
-  setNameDescription: (name, description) => {},
+  setNameDescription: (id, name, description) => {},
   setSource: (source, sourceConfig) => {},
   setTarget: (target, targetConfig) => {},
   setActiveStep: (step) => {},
   setStage: (stage) => {},
+  getRequestBody: (activeStep): any => {},
   // tslint:enable:no-empty
 };
 

@@ -20,13 +20,11 @@ import {
   defaultContext,
   Stages,
 } from 'components/Transfers/Create/context';
-import StepProgress from 'components/Transfers/Create/StepProgress';
 import StepContent from 'components/Transfers/Create/StepContent';
 import NameDescription from 'components/Transfers/Create/Configure/NameDescription';
 import SourceConfig from 'components/Transfers/Create/Configure/SourceConfig';
 import TargetConfig from 'components/Transfers/Create/Configure/TargetConfig';
 import LeftPanel from 'components/Transfers/Create/LeftPanel';
-import { Theme } from 'services/ThemeHelper';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
 import Source from '../Configure/PluginPicker/Source';
 import Target from '../Configure/PluginPicker/Target';
@@ -34,6 +32,8 @@ import GenerateAssessment from '../Assessment/GenerateAssessment';
 import ViewAssessment from '../Assessment/ViewAssessment';
 import ViewSummary from '../Publish/ViewSummary';
 import ConfigureSummary from '../Configure/Summary';
+import { MyDeltaApi } from 'api/delta';
+import { getCurrentNamespace } from 'services/NamespaceStore';
 
 const styles = (): StyleRules => {
   return {
@@ -98,8 +98,83 @@ export const StageConfiguration = {
   },
 };
 
-class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof defaultContext> {
-  public next = () => {
+interface IContentProps extends WithStyles<typeof styles> {
+  id: string;
+}
+
+class ContentView extends React.PureComponent<IContentProps, typeof defaultContext> {
+  public componentDidMount() {
+    const id = this.props.id;
+    if (!id) {
+      return;
+    }
+
+    // initialize state if id is present
+    const params = {
+      context: getCurrentNamespace(),
+      id,
+    };
+    MyDeltaApi.get(params).subscribe(
+      (res) => {
+        this.setState({
+          id: res.id,
+          name: res.name,
+          description: res.description,
+          ...res.properties,
+        });
+      },
+      (err) => {
+        // tslint:disable-next-line:no-console
+        console.log('Error fetching instance', err);
+      }
+    );
+  }
+
+  public getRequestBody = (activeStep) => {
+    const requestBody = {
+      name: this.state.name,
+      description: this.state.description,
+      properties: {
+        stage: this.state.stage,
+        activeStep,
+        sourceConfig: this.state.sourceConfig,
+        source: this.state.source,
+        targetConfig: this.state.targetConfig,
+        target: this.state.target,
+      },
+    };
+
+    return requestBody;
+  };
+
+  private updateStore = (activeStep = this.state.activeStep) => {
+    if (!this.state.id) {
+      return;
+    }
+    const params = {
+      context: getCurrentNamespace(),
+      id: this.state.id,
+    };
+
+    const requestBody = this.getRequestBody;
+
+    MyDeltaApi.update(params, requestBody).subscribe(
+      (res) => {
+        // tslint:disable-next-line:no-console
+        console.log('res', res);
+      },
+      (err) => {
+        // tslint:disable-next-line:no-console
+        console.log('error', err);
+      }
+    );
+  };
+
+  public next = (updateStore = true) => {
+    if (updateStore) {
+      this.updateStore(this.state.activeStep + 1);
+    }
+
     this.setState({
       activeStep: this.state.activeStep + 1,
     });
@@ -117,8 +192,9 @@ class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof 
     });
   };
 
-  public setNameDescription = (name, description) => {
+  public setNameDescription = (id, name, description) => {
     this.setState({
+      id,
       name,
       description,
     });
@@ -139,10 +215,15 @@ class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof 
   };
 
   public setStage = (stage) => {
-    this.setState({
-      stage,
-      activeStep: 0,
-    });
+    this.setState(
+      {
+        stage,
+        activeStep: 0,
+      },
+      () => {
+        this.updateStore(0);
+      }
+    );
   };
 
   public state = {
@@ -154,6 +235,7 @@ class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof 
     setTarget: this.setTarget,
     setActiveStep: this.setActiveStep,
     setStage: this.setStage,
+    getRequestBody: this.getRequestBody,
   };
 
   public render() {
@@ -161,7 +243,6 @@ class ContentView extends React.PureComponent<WithStyles<typeof styles>, typeof 
       <TransfersCreateContext.Provider value={this.state}>
         <div className={this.props.classes.root}>
           <LeftPanel />
-          {/* <StepProgress /> */}
           <StepContent />
         </div>
       </TransfersCreateContext.Provider>

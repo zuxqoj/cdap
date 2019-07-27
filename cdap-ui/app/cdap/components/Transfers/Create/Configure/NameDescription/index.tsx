@@ -18,8 +18,11 @@ import * as React from 'react';
 import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
 import { transfersCreateConnect } from 'components/Transfers/Create/context';
 import TextField from '@material-ui/core/TextField';
-import StepButtons from 'components/Transfers/Create/StepButtons';
+import Button from '@material-ui/core/Button';
+import LoadingSVG from 'components/LoadingSVG';
 import If from 'components/If';
+import { MyDeltaApi } from 'api/delta';
+import { getCurrentNamespace } from 'services/NamespaceStore';
 
 const styles = (): StyleRules => {
   return {
@@ -32,7 +35,8 @@ const styles = (): StyleRules => {
 };
 
 interface INameDescriptionProps extends WithStyles<typeof styles> {
-  setNameDescription: (name: string, description: string) => void;
+  setNameDescription: (id: string, name: string, description: string) => void;
+  next: (updateBackend: boolean) => void;
   name: string;
   description: string;
 }
@@ -42,9 +46,36 @@ const NameDescriptionView: React.SFC<INameDescriptionProps> = ({
   description,
   classes,
   setNameDescription,
+  next,
 }) => {
   const [localName, setName] = React.useState(name);
   const [localDescription, setDescription] = React.useState(description);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState();
+
+  function onNext() {
+    setLoading(true);
+    const requestBody = {
+      name: localName,
+      description: localDescription,
+    };
+
+    MyDeltaApi.create(
+      {
+        context: getCurrentNamespace(),
+      },
+      requestBody
+    ).subscribe(
+      (id) => {
+        setNameDescription(id, localName, localDescription);
+        next(false);
+      },
+      (err) => {
+        setError(err);
+        setLoading(false);
+      }
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -67,8 +98,17 @@ const NameDescriptionView: React.SFC<INameDescriptionProps> = ({
         value={localDescription}
         onChange={(e) => setDescription(e.target.value)}
       />
+      <If condition={error && error.length > 0}>
+        <div className="text-danger">{error}</div>
+      </If>
+
       <If condition={localName.length > 0}>
-        <StepButtons onNext={setNameDescription.bind(null, localName, localDescription)} />
+        <Button variant="contained" color="primary" onClick={onNext} disabled={loading}>
+          <If condition={loading}>
+            <LoadingSVG />
+          </If>
+          Next
+        </Button>
       </If>
     </div>
   );

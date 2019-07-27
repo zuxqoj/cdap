@@ -19,6 +19,7 @@ import { MyAppApi } from 'api/app';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import { Observable } from 'rxjs/Observable';
 import { MyPipelineApi } from 'api/pipeline';
+import { MyDeltaApi } from 'api/delta';
 
 // TODO: modify constants to the correct one once backend app is ready
 const programType = 'workers';
@@ -55,10 +56,17 @@ export function stop(transfer, successCb, errorCb) {
 export function deleteApp(transfer, successCb, errorCb) {
   const params = {
     namespace: getCurrentNamespace(),
-    appId: transfer.name,
+    appId: `CDC-${transfer.id}`,
   };
 
-  MyAppApi.delete(params).subscribe(successCb, errorCb);
+  const deltaParams = {
+    context: getCurrentNamespace(),
+    id: transfer.id,
+  };
+
+  MyAppApi.delete(params)
+    .combineLatest(MyDeltaApi.delete(deltaParams))
+    .subscribe(successCb, errorCb);
 }
 
 export function getStatuses(list) {

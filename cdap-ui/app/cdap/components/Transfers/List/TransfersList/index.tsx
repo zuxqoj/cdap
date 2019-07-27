@@ -15,7 +15,7 @@
  */
 
 import * as React from 'react';
-import { MyAppApi } from 'api/app';
+import { MyDeltaApi } from 'api/delta';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import { TransfersListContext, defaultContext } from 'components/Transfers/List/context';
 import Count from 'components/Transfers/List/Count';
@@ -32,19 +32,10 @@ interface IState {
 
 export default class TransfersList extends React.PureComponent<{}, IState> {
   public getTransfersList = () => {
-    const namespace = getCurrentNamespace();
-    const params = {
-      namespace,
-      artifactName: parentArtifact,
-    };
-
-    MyAppApi.list(params).subscribe((res) => {
-      this.setState(
-        {
-          list: res,
-        },
-        this.getStatuses
-      );
+    MyDeltaApi.list({ context: getCurrentNamespace() }).subscribe((res) => {
+      this.setState({
+        list: res,
+      });
     });
   };
 
@@ -57,17 +48,17 @@ export default class TransfersList extends React.PureComponent<{}, IState> {
     this.getTransfersList();
   }
 
-  private getStatuses = () => {
-    getStatuses(this.state.list).subscribe((res) => {
-      const statuses = {};
+  // private getStatuses = () => {
+  //   getStatuses(this.state.list).subscribe((res) => {
+  //     const statuses = {};
 
-      res.forEach((app) => {
-        statuses[app.appId] = app.status;
-      });
+  //     res.forEach((app) => {
+  //       statuses[app.appId] = app.status;
+  //     });
 
-      this.setState({ statuses });
-    });
-  };
+  //     this.setState({ statuses });
+  //   });
+  // };
 
   public render() {
     return (

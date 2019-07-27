@@ -19,6 +19,7 @@ import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/wit
 import { transfersCreateConnect } from 'components/Transfers/Create/context';
 import { objectQuery } from 'services/helpers';
 import { Theme } from 'services/ThemeHelper';
+import If from 'components/If';
 
 const styles = (theme): StyleRules => {
   return {
@@ -66,7 +67,8 @@ interface ISummaryProps extends WithStyles<typeof styles> {
   sourceConfig: any;
   target: any;
   targetConfig: any;
-  setActiveStep: (step) => void;
+  disableEdit: boolean;
+  setActiveStep?: (step) => void;
 }
 
 const SummaryView: React.SFC<ISummaryProps> = ({
@@ -76,7 +78,9 @@ const SummaryView: React.SFC<ISummaryProps> = ({
   sourceConfig,
   target,
   targetConfig,
-  setActiveStep,
+  // tslint:disable-next-line:no-empty
+  setActiveStep = (step) => {},
+  disableEdit,
   classes,
 }) => {
   const sourceGroups = objectQuery(sourceConfig, 'configuration-groups');
@@ -91,9 +95,11 @@ const SummaryView: React.SFC<ISummaryProps> = ({
           <h3 className={classes.heading}>
             <span>{name}</span>
           </h3>
-          <span onClick={setActiveStep.bind(null, 0)} className={classes.edit}>
-            Edit
-          </span>
+          <If condition={!disableEdit}>
+            <span onClick={setActiveStep.bind(null, 0)} className={classes.edit}>
+              Edit
+            </span>
+          </If>
         </div>
         <div>{description}</div>
       </div>
@@ -102,9 +108,11 @@ const SummaryView: React.SFC<ISummaryProps> = ({
         <div className="source">
           <div>
             <h4 className={classes.heading}>MySQL Database</h4>
-            <span onClick={setActiveStep.bind(null, 1)} className={classes.edit}>
-              Edit
-            </span>
+            <If condition={!disableEdit}>
+              <span onClick={setActiveStep.bind(null, 1)} className={classes.edit}>
+                Edit
+              </span>
+            </If>
           </div>
 
           <div>
@@ -142,9 +150,11 @@ const SummaryView: React.SFC<ISummaryProps> = ({
         <div className="target">
           <div>
             <h4 className={classes.heading}>Google BigQuery</h4>
-            <span onClick={setActiveStep.bind(null, 3)} className={classes.edit}>
-              Edit
-            </span>
+            <If condition={!disableEdit}>
+              <span onClick={setActiveStep.bind(null, 3)} className={classes.edit}>
+                Edit
+              </span>
+            </If>
           </div>
           <div>
             {targetGroups.map((group, i) => {
@@ -183,6 +193,6 @@ const SummaryView: React.SFC<ISummaryProps> = ({
   );
 };
 
-const StyledSummary = withStyles(styles)(SummaryView);
+export const StyledSummary = withStyles(styles)(SummaryView);
 const Summary = transfersCreateConnect(StyledSummary);
 export default Summary;

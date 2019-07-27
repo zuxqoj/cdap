@@ -1524,7 +1524,7 @@ features:
         TargetHeader: 'Select a field to view lineage and operations'
         TargetSubheader: "Viewing {first} to {last} of {total} fields"
       FllTable:
-        fieldsCount: 
+        fieldsCount:
           1: "{context} field"
           _: "{context} fields"
         FllField:
@@ -1535,7 +1535,7 @@ features:
         relatedFieldsCount:
           1: "{context} related field"
           _: "{context} related fields"
-          
+
   ADLSBrowser:
     directory: Directory
     EmptyMessage:
@@ -2601,8 +2601,9 @@ features:
       Table:
         Headers:
           from: From
+          lastUpdated: Last updated
           name: Name
-          status: Status
+          stage: Stage
           to: To
 
   TriggeredPipelines:

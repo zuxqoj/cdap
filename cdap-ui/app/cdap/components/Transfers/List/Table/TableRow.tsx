@@ -18,19 +18,20 @@ import * as React from 'react';
 import ActionsPopover from 'components/ActionsPopover';
 import { start, stop, deleteApp } from 'components/Transfers/utilities';
 import T from 'i18n-react';
-import StatusIndicator from 'components/StatusIndicator';
+import { Link } from 'react-router-dom';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import moment from 'moment';
+import { objectQuery } from 'services/helpers';
+import { Stages } from 'components/Transfers/Create/context';
 
 const PREFIX = 'features.Transfers.Actions';
 
 interface ITableRowProps {
   transfer: any;
   getList: () => void;
-  status: string;
 }
 
-const TableRow: React.SFC<ITableRowProps> = ({ transfer, getList, status }) => {
+const TableRow: React.SFC<ITableRowProps> = ({ transfer, getList }) => {
   const startTime = moment()
     .subtract(7, 'days')
     .format('X');
@@ -68,18 +69,29 @@ const TableRow: React.SFC<ITableRowProps> = ({ transfer, getList, status }) => {
     },
   ];
 
+  let linkPath = `/ns/${getCurrentNamespace()}/transfers/create/${transfer.id}`;
+  if (objectQuery(transfer, 'properties', 'stage') === Stages.PUBLISHED) {
+    linkPath = `/ns/${getCurrentNamespace()}/transfers/details/${transfer.id}`;
+  }
+
   return (
-    <div className="grid-row" key={transfer.name}>
+    <Link
+      to={linkPath}
+      className="grid-row"
+      style={{
+        color: 'inherit',
+      }}
+      key={transfer.id}
+    >
       <div>{transfer.name}</div>
-      <div>
-        <StatusIndicator status={status} />
-      </div>
+      <div>{objectQuery(transfer, 'properties', 'stage')}</div>
       <div>MySQL</div>
       <div>BigQuery</div>
+      <div>{moment(transfer.updated * 1000).format('MMM D, YYYY hh:mm A')}</div>
       <div>
         <ActionsPopover actions={actions} />
       </div>
-    </div>
+    </Link>
   );
 };
 

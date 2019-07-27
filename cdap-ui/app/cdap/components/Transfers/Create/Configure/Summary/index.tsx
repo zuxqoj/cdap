@@ -36,7 +36,6 @@ const ConfigureSummaryView: React.SFC<IConfigureSummary> = ({ setStage }) => {
   return (
     <div>
       <Summary />
-
       <br />
       <StepButtons onComplete={onComplete} />
     </div>
