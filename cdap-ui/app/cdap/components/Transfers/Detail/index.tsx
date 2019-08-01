@@ -20,12 +20,20 @@ import { objectQuery } from 'services/helpers';
 import { MyDeltaApi } from 'api/delta';
 import { getCurrentNamespace } from 'services/NamespaceStore';
 import moment from 'moment';
-import Configuration from './Configuration';
 import { TransfersDetailContext } from 'components/Transfers/Detail/context';
 import LoadingSVGCentered from 'components/LoadingSVGCentered';
+import TopPanel from 'components/Transfers/Detail/TopPanel';
+import Charts from './Charts';
+import Statistics from './Statistics';
+import PendingEvents from './PendingEvents';
 
 const styles = (): StyleRules => {
-  return {};
+  return {
+    separator: {
+      margin: '25px 25px 10px',
+      borderTopWidth: '3px',
+    },
+  };
 };
 
 interface IDetailProps extends WithStyles<typeof styles> {
@@ -77,6 +85,7 @@ class DetailView extends React.PureComponent<IDetailProps, IDetailState> {
     target: {},
     targetConfig: {},
     loading: true,
+    status: 'STOPPED',
   };
 
   public render() {
@@ -87,15 +96,17 @@ class DetailView extends React.PureComponent<IDetailProps, IDetailState> {
     return (
       <TransfersDetailContext.Provider value={this.state}>
         <div>
-          <div className="container">
-            <h1>{this.state.name}</h1>
+          <TopPanel />
+          <div className="text-right pr-4">
             <small>
-              Last updated {moment(this.state.updated).format('MMM D, YYYY [at] hh:mm A')}
+              Last updated {moment(this.state.updated * 1000).format('MMM D, YYYY [at] hh:mm A')}
             </small>
-            <div>{this.state.description}</div>
           </div>
-
-          <Configuration />
+          <Charts />
+          <hr className={this.props.classes.separator} />
+          <Statistics />
+          <hr className={this.props.classes.separator} />
+          <PendingEvents />
         </div>
       </TransfersDetailContext.Provider>
     );
