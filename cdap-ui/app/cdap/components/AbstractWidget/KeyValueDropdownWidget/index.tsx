@@ -15,7 +15,6 @@
  */
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import KeyValueDropdownRow, {
   IDropdownOption,
 } from 'components/AbstractWidget/KeyValueDropdownWidget/KeyValueDropdownRow';
@@ -23,15 +22,24 @@ import ThemeWrapper from 'components/ThemeWrapper';
 import AbstractMultiRowWidget, {
   IMultiRowProps,
 } from 'components/AbstractWidget/AbstractMultiRowWidget';
+import { objectQuery } from 'services/helpers';
+import { WIDGET_PROPS } from 'components/AbstractWidget/constants';
 
-interface IKeyValueDropdownWidgetProps extends IMultiRowProps {
-  keyPlaceholder?: string;
-  kvDelimiter?: string;
+interface IKeyValueDropdownWidgetProps {
+  'key-placeholder'?: string;
+  'kv-delimiter'?: string;
   dropdownOptions: IDropdownOption[];
+  delimiter?: string;
 }
 
-class KeyValueDropdownWidget extends AbstractMultiRowWidget<IKeyValueDropdownWidgetProps> {
+interface IKeyValueDropdownProps extends IMultiRowProps<IKeyValueDropdownWidgetProps> {}
+
+class KeyValueDropdownWidgetView extends AbstractMultiRowWidget<IKeyValueDropdownProps> {
   public renderRow = (id, index) => {
+    const keyPlaceholder = objectQuery(this.props, 'widgetProps', 'key-placeholder');
+    const kvDelimiter = objectQuery(this.props, 'widgetProps', 'kv-delimiter');
+    const dropdownOptions = objectQuery(this.props, 'widgetProps', 'dropdownOptions');
+
     return (
       <KeyValueDropdownRow
         key={id}
@@ -44,29 +52,21 @@ class KeyValueDropdownWidget extends AbstractMultiRowWidget<IKeyValueDropdownWid
         autofocus={this.state.autofocus === id}
         changeFocus={this.changeFocus}
         disabled={this.props.disabled}
-        keyPlaceholder={this.props.keyPlaceholder}
-        kvDelimiter={this.props.kvDelimiter}
-        dropdownOptions={this.props.dropdownOptions}
+        keyPlaceholder={keyPlaceholder}
+        kvDelimiter={kvDelimiter}
+        dropdownOptions={dropdownOptions}
         forwardedRef={this.values[id].ref}
       />
     );
   };
 }
 
-export default function StyledKeyValueDropdownWrapper(props) {
+export default function KeyValueDropdownWidget(props) {
   return (
     <ThemeWrapper>
-      <KeyValueDropdownWidget {...props} />
+      <KeyValueDropdownWidgetView {...props} />
     </ThemeWrapper>
   );
 }
 
-(StyledKeyValueDropdownWrapper as any).propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-  disabled: PropTypes.bool,
-  delimiter: PropTypes.string,
-  keyPlaceholder: PropTypes.string,
-  kvDelimiter: PropTypes.string,
-  dropdownOptions: PropTypes.array,
-};
+(KeyValueDropdownWidget as any).propTypes = WIDGET_PROPS;

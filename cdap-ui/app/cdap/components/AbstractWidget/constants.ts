@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Cask Data, Inc.
+ * Copyright © 2019 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -12,24 +12,14 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
-*/
+ */
 
-import React from 'react';
-import { Input } from 'reactstrap';
-import { WIDGET_PROPTYPES, DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
-require('./TextAreaWidget.scss');
+import PropTypes from 'prop-types';
 
-export default function TextArea({ onChange, value, widgetProps }) {
-  return (
-    <Input
-      type="textarea"
-      onChange={onChange}
-      value={value}
-      {...widgetProps}
-      className="text-area-widget"
-    />
-  );
-}
-
-TextArea.propTypes = WIDGET_PROPTYPES;
-TextArea.defaultProps = DEFAULT_WIDGET_PROPS;
+export const WIDGET_PROPS = {
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func,
+  widgetProps: PropTypes.object,
+  extraConfig: PropTypes.object,
+  disabled: PropTypes.bool,
+};

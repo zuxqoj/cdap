@@ -16,7 +16,8 @@
 
 import React from 'react';
 import { Input } from 'reactstrap';
-import { WIDGET_PROPTYPES, DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import { DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import { WIDGET_PROPS } from 'components/AbstractWidget/constants';
 require('./NumberTextbox.scss');
 
 export default function NumberTextbox({ ...props }) {
@@ -36,5 +37,5 @@ export default function NumberTextbox({ ...props }) {
     />
   );
 }
-NumberTextbox.propTypes = WIDGET_PROPTYPES;
+NumberTextbox.propTypes = WIDGET_PROPS;
 NumberTextbox.defaultProps = DEFAULT_WIDGET_PROPS;

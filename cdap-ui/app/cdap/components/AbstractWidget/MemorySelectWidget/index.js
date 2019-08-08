@@ -16,8 +16,9 @@
 
 import React from 'react';
 import SelectWithOptions from 'components/SelectWithOptions';
-import { WIDGET_PROPTYPES, DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import { DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
 import { objectQuery } from 'services/helpers';
+import { WIDGET_PROPS } from 'components/AbstractWidget/constants';
 require('./MemorySelectWidget.scss');
 
 export default function MemorySelectWidget({ ...props }) {
@@ -35,5 +36,5 @@ export default function MemorySelectWidget({ ...props }) {
   );
 }
 
-MemorySelectWidget.propTypes = WIDGET_PROPTYPES;
+MemorySelectWidget.propTypes = WIDGET_PROPS;
 MemorySelectWidget.defaultProps = DEFAULT_WIDGET_PROPS;

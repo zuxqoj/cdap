@@ -15,8 +15,9 @@
 */
 
 import React from 'react';
-import { WIDGET_PROPTYPES, DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import { DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
 import { Input } from 'reactstrap';
+import { WIDGET_PROPS } from 'components/AbstractWidget/constants';
 
 require('./MemoryTextbox.scss');
 
@@ -50,5 +51,5 @@ export default function MemoryTextbox({ ...props }) {
   );
 }
 
-MemoryTextbox.propTypes = WIDGET_PROPTYPES;
+MemoryTextbox.propTypes = WIDGET_PROPS;
 MemoryTextbox.defaultProps = DEFAULT_WIDGET_PROPS;

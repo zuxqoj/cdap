@@ -16,11 +16,12 @@
 
 import React from 'react';
 import SecureKey from 'components/AbstractWidget/SecureKey';
-import { WIDGET_PROPTYPES, DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import { DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import { WIDGET_PROPS } from 'components/AbstractWidget/constants';
 
 export default function SecureKeyText(props) {
   return <SecureKey inputTextType="text" {...props} />;
 }
 
-SecureKeyText.propTypes = WIDGET_PROPTYPES;
+SecureKeyText.propTypes = WIDGET_PROPS;
 SecureKeyText.defaultProps = DEFAULT_WIDGET_PROPS;

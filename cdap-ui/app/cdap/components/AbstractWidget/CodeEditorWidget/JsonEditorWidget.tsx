@@ -14,14 +14,26 @@
  * the License.
  */
 
-import React from 'react';
-import SecureKey from 'components/AbstractWidget/SecureKey';
-import { DEFAULT_WIDGET_PROPS } from 'components/AbstractWidget';
+import * as React from 'react';
+import { IWidgetProps } from 'components/AbstractWidget';
 import { WIDGET_PROPS } from 'components/AbstractWidget/constants';
+import PropTypes from 'prop-types';
+import JSONEditor from 'components/CodeEditor/JSONEditor';
 
-export default function SecureKeyTextarea(props) {
-  return <SecureKey inputTextType="textarea" {...props} />;
+interface IJsonEditorProps extends IWidgetProps<null> {
+  rows: number;
+  value: string;
 }
 
-SecureKeyTextarea.propTypes = WIDGET_PROPS;
-SecureKeyTextarea.defaultProps = DEFAULT_WIDGET_PROPS;
+const JsonEditorWidget: React.FC<IJsonEditorProps> = ({ value, onChange, disabled, rows }) => {
+  return (
+    <JSONEditor mode="json" rows={rows} value={value} onChange={onChange} disabled={disabled} />
+  );
+};
+
+(JsonEditorWidget as any).propTypes = {
+  ...WIDGET_PROPS,
+  rows: PropTypes.number,
+};
+
+export default JsonEditorWidget;
