@@ -200,7 +200,7 @@ angular.module(PKG.name + '.commons')
           'value': 'model',
           'on-change': 'onChange',
           'disabled': 'disabled',
-          'widge-props': 'myconfig["widget-attributes"]',
+          'widget-props': 'myconfig["widget-attributes"]',
         },
       },
       'sql-select-fields': {
