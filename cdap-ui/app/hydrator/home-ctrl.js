@@ -15,7 +15,7 @@
  */
 
 angular.module(PKG.name + '.feature.hydrator')
-  .controller('HydratorHomeController', function ($state, $stateParams, rNsList, mySessionStorage, myLoadingService) {
+  .controller('HydratorHomeController', function ($state, $stateParams, rNsList, mySessionStorage, myLoadingService, $window) {
 
     if (!rNsList.length) {
       $state.go('unauthorized');
@@ -45,22 +45,42 @@ angular.module(PKG.name + '.feature.hydrator')
         .then(function (latest) {
 
           if (latest && checkNamespace(latest)) {
-            $state.go('hydrator.list', {namespace: latest}, {reload: true});
+            $window.location.href = $window.getHydratorUrl({
+              stateName: 'hydrator.list',
+              stateParams: {
+                namespace: latest
+              },
+            });
             return;
           }
           // check for default
           if (checkNamespace('default')) {
-            $state.go('hydrator.list', {namespace: 'default'}, {reload: true});
+            $window.location.href = $window.getHydratorUrl({
+              stateName: 'hydrator.list',
+              stateParams: {
+                namespace: 'default'
+              },
+            });
             return;
           } else {
-            $state.go('hydrator.list', { namespace: rNsList[0].name }, { reload: true });
+            $window.location.href = $window.getHydratorUrl({
+              stateName: 'hydrator.list',
+              stateParams: {
+                namespace: rNsList[0].name
+              },
+            });
             return;
           }
         });
     }
     else {
       mySessionStorage.set(PREFKEY, $state.params.namespace);
-      $state.go('hydrator.list', { namespace: setNamespace }, { reload: true});
+      $window.location.href = $window.getHydratorUrl({
+        stateName: 'hydrator.list',
+        stateParams: {
+          namespace: setNamespace
+        },
+      });
     }
     myLoadingService.hideLoadingIcon();
   });
