@@ -43,34 +43,22 @@ angular.module(PKG.name + '.feature.hydrator')
     if (!n.length) {
       mySessionStorage.get(PREFKEY)
         .then(function (latest) {
+          let ns;
 
           if (latest && checkNamespace(latest)) {
-            $window.location.href = $window.getHydratorUrl({
-              stateName: 'hydrator.list',
-              stateParams: {
-                namespace: latest
-              },
-            });
-            return;
-          }
-          // check for default
-          if (checkNamespace('default')) {
-            $window.location.href = $window.getHydratorUrl({
-              stateName: 'hydrator.list',
-              stateParams: {
-                namespace: 'default'
-              },
-            });
-            return;
+            ns = latest;
+          } else if (checkNamespace('default')) {  // check for default
+            ns = 'default';
           } else {
-            $window.location.href = $window.getHydratorUrl({
-              stateName: 'hydrator.list',
-              stateParams: {
-                namespace: rNsList[0].name
-              },
-            });
-            return;
+            ns = rNsList[0].name;
           }
+
+          $window.location.href = $window.getHydratorUrl({
+            stateName: 'hydrator.list',
+            stateParams: {
+              namespace: ns,
+            },
+          });
         });
     }
     else {
