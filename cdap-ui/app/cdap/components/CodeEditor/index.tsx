@@ -35,11 +35,6 @@ const styles = (theme) => {
       zIndex: 1000,
       margin: 0,
     },
-    editor: {
-      border: `1px solid ${theme.palette.grey['300']}`,
-      borderRadius: 4,
-      margin: '10px 0 10px 10px',
-    },
   };
 };
 
@@ -96,7 +91,7 @@ class CodeEditorView extends React.Component<ICodeEditorProps> {
     return (
       <div className={classes.root}>
         <div
-          className={`${className} ${classes.editor}`}
+          className={`${className}`}
           style={{ height: `${this.props.rows * CodeEditorView.LINE_HEIGHT}px` }}
           ref={(ref) => (this.aceRef = ref)}
         >

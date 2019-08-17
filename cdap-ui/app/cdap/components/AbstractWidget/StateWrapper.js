@@ -33,6 +33,12 @@ export default class StateWrapper extends PureComponent {
     value: this.props.value || objectQuery(this.props, 'widgetProps', 'default') || '',
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.value !== nextProps.value) {
+      this.setState({ value: nextProps.value });
+    }
+  }
+
   onChange = (value) => {
     let v = objectQuery(value, 'target', 'value');
     v = isNil(v) ? value : v;
@@ -61,6 +67,7 @@ export default class StateWrapper extends PureComponent {
 
         Ways to solve this problem. Use redux or figure out a way to use React context in 16.3+
     */
+
     return (
       <Comp
         widgetProps={widgetProps}

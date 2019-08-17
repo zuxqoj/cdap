@@ -33,7 +33,7 @@ export interface IStageSchema {
 }
 
 export interface IWidgetProps<T = any> {
-  widgetProps: T;
+  widgetProps?: T;
   value: string | number;
   onChange: (value) => void | React.Dispatch<any>;
   extraConfig?: {
