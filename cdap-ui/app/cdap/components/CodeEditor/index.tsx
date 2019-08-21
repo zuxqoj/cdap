@@ -68,6 +68,16 @@ class CodeEditorView extends React.Component<ICodeEditorProps> {
   };
   public aceRef: HTMLElement;
   private editor;
+
+  public componentWillReceiveProps(nextProps) {
+    const currentValue = this.editor.getSession().getValue();
+    if (nextProps.value === currentValue) {
+      return;
+    }
+
+    this.editor.getSession().setValue(nextProps.value);
+  }
+
   public componentDidMount() {
     window.ace.config.set('basePath', '/assets/bundle/ace-editor-worker-scripts/');
     this.editor = window.ace.edit(this.aceRef);
