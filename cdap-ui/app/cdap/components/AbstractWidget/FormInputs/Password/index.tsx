@@ -64,7 +64,6 @@ function Password({ value, onChange, widgetProps, disabled, classes }: IPassword
   return (
     <InputBase
       fullWidth
-      // variant="outlined"
       type={pwdVisibility ? 'text' : 'password'}
       value={value}
       onChange={onChangeHandler}

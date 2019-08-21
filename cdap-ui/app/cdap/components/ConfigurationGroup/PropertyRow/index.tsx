@@ -47,6 +47,7 @@ interface IPropertyRowProps extends WithStyles<typeof styles> {
   pluginProperty: IPluginProperty;
   value: string;
   onChange: (value: string) => void;
+  updateAllProperties: (values) => void;
   extraConfig: any;
   disabled: boolean;
 }
@@ -66,6 +67,7 @@ const PropertyRowView: React.FC<IPropertyRowProps> = ({
   pluginProperty,
   value,
   onChange,
+  updateAllProperties,
   extraConfig,
   disabled,
   classes,
@@ -119,6 +121,7 @@ const PropertyRowView: React.FC<IPropertyRowProps> = ({
         pluginProperty={pluginProperty}
         value={value || ''}
         onChange={onChange}
+        updateAllProperties={updateAllProperties}
         extraConfig={extraConfig}
         classes={widgetClasses}
         disabled={disabled}

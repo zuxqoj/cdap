@@ -24,6 +24,7 @@ export default class StateWrapper extends PureComponent {
     comp: PropTypes.any,
     value: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
+    updateAllProperties: PropTypes.func,
     widgetProps: PropTypes.object,
     extraConfig: PropTypes.object,
     disabled: PropTypes.bool,
@@ -73,6 +74,7 @@ export default class StateWrapper extends PureComponent {
         widgetProps={widgetProps}
         value={value}
         onChange={this.onChange}
+        updateAllProperties={this.props.updateAllProperties}
         extraConfig={extraConfig}
         disabled={disabled}
       />

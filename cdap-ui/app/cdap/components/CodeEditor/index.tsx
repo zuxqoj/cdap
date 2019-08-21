@@ -18,18 +18,19 @@ import React from 'react';
 import 'ace-builds/src-min-noconflict/ace';
 import ThemeWrapper from 'components/ThemeWrapper';
 import PropTypes from 'prop-types';
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import If from 'components/If';
 
-const styles = (theme) => {
+const styles = (theme): StyleRules => {
   return {
     root: {
       display: 'block',
-      position: 'relative' as any,
+      position: 'relative',
+      border: `1px solid ${theme.palette.grey[400]}`,
     },
     button: {
-      position: 'absolute' as any,
+      position: 'absolute',
       right: 0,
       top: 0,
       zIndex: 1000,
@@ -49,6 +50,7 @@ export interface IBaseCodeEditorProps {
   activeLineMarker?: boolean;
   showPrettyPrintButton?: boolean;
   prettyPrintFunction?: (value: string) => string;
+  classes: Record<string, string>;
 }
 
 interface ICodeEditorProps extends IBaseCodeEditorProps, WithStyles<typeof styles> {}

@@ -41,6 +41,7 @@ import SqlConditionsWidget from 'components/AbstractWidget/SqlConditionsWidget';
 import SqlSelectorWidget from 'components/AbstractWidget/SqlSelectorWidget';
 import TextBox from 'components/AbstractWidget/FormInputs/TextBox';
 import ToggleSwitchWidget from 'components/AbstractWidget/ToggleSwitchWidget';
+import WranglerEditor from 'components/AbstractWidget/WranglerEditor';
 
 /**
  * Please maintain alphabetical order of the widget factory.
@@ -98,6 +99,9 @@ export const WIDGET_FACTORY = {
   'join-types': JoinTypeWidget,
   'sql-conditions': SqlConditionsWidget,
   'sql-select-fields': SqlSelectorWidget,
+
+  // Wrangler
+  'wrangler-directives': WranglerEditor,
 };
 
 export default new Proxy(WIDGET_FACTORY, {

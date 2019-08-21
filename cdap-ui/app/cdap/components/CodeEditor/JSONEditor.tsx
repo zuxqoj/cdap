@@ -48,6 +48,7 @@ function JSONEditor({ value, onChange, ...restProps }: IBaseCodeEditorProps) {
   onChange: PropTypes.func,
   rows: PropTypes.number,
   disabled: PropTypes.bool,
+  classes: PropTypes.object,
 };
 
 export default JSONEditor;

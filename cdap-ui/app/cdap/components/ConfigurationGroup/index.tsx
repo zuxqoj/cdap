@@ -91,21 +91,32 @@ const ConfigurationGroupView: React.FC<IConfigurationGroupProps> = ({
         [property]: value,
       };
 
-      // remove empty string values
-      Object.keys(newValues).forEach((propertyName) => {
-        if (typeof newValues[propertyName] === 'string' && newValues[propertyName].length === 0) {
-          delete newValues[propertyName];
-        }
-      });
-
       changeParentHandler(newValues);
     };
   }
 
-  function changeParentHandler(newValues) {
+  function updateAllProperties(updatedValues) {
+    const newValues = {
+      ...values,
+      ...updatedValues,
+    };
+
+    changeParentHandler(newValues);
+  }
+
+  function changeParentHandler(updatedValues) {
     if (!onChange || typeof onChange !== 'function') {
       return;
     }
+
+    const newValues = { ...updatedValues };
+    // remove empty string values
+    Object.keys(newValues).forEach((propertyName) => {
+      if (typeof newValues[propertyName] === 'string' && newValues[propertyName].length === 0) {
+        delete newValues[propertyName];
+      }
+    });
+
     onChange(newValues);
   }
 
@@ -136,6 +147,7 @@ const ConfigurationGroupView: React.FC<IConfigurationGroupProps> = ({
                     pluginProperty={pluginProperties[property.name]}
                     value={values[property.name]}
                     onChange={handleChange(property.name)}
+                    updateAllProperties={updateAllProperties}
                     extraConfig={extraConfig}
                     disabled={disabled}
                   />
@@ -164,7 +176,7 @@ export default ConfigurationGroup;
   widgetJson: PropTypes.object,
   pluginProperties: PropTypes.object,
   values: PropTypes.object,
-  inputSchema: PropTypes.object,
+  inputSchema: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
 };

@@ -70,6 +70,7 @@ interface IWidgetWrapperProps extends WithStyles<typeof styles> {
   pluginProperty: IPluginProperty;
   value: string;
   onChange: (value: string) => void;
+  updateAllProperties: (values) => void;
   extraConfig: any;
   disabled: boolean;
   hideDescription?: boolean;
@@ -80,6 +81,7 @@ const WidgetWrapperView: React.FC<IWidgetWrapperProps> = ({
   pluginProperty,
   value,
   onChange,
+  updateAllProperties,
   extraConfig,
   disabled,
   hideDescription,
@@ -113,6 +115,7 @@ const WidgetWrapperView: React.FC<IWidgetWrapperProps> = ({
           type={widgetType}
           value={value}
           onChange={onChange}
+          updateAllProperties={updateAllProperties}
           widgetProps={widgetProperty['widget-attributes']}
           extraConfig={extraConfig}
           disabled={disabled}

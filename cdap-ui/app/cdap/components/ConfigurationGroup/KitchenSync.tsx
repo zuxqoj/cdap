@@ -27,9 +27,9 @@ const ConfigurationGroupKitchenSync: React.FC = () => {
   const [widgetJson, setWidgetJson] = React.useState();
   const [values, setValues] = React.useState<Record<string, string>>({ importQuery: '${hahaha}' });
 
-  const pluginName = 'Database';
+  const pluginName = 'File';
   const pluginType = 'batchsource';
-  const artifactName = 'database-plugins';
+  const artifactName = 'core-plugins';
   const artifactScope = 'SYSTEM';
   const artifactVersion = '2.3.0-SNAPSHOT';
 

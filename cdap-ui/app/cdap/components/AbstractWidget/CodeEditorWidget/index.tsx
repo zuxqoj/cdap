@@ -27,6 +27,9 @@ const styles = (): StyleRules => {
     root: {
       paddingTop: '7px',
     },
+    editorRoot: {
+      border: 0,
+    },
   };
 };
 
@@ -45,7 +48,14 @@ const CodeEditorWidgetView: React.FC<ICodeEditorProps> = ({
 }) => {
   return (
     <div className={classes.root}>
-      <CodeEditor mode={mode} rows={rows} value={value} onChange={onChange} disabled={disabled} />
+      <CodeEditor
+        mode={mode}
+        rows={rows}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        classes={{ root: classes.editorRoot }}
+      />
     </div>
   );
 };

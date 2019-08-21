@@ -27,6 +27,9 @@ const styles = (): StyleRules => {
     root: {
       paddingTop: '7px',
     },
+    editorRoot: {
+      border: 0,
+    },
   };
 };
 
@@ -44,7 +47,14 @@ const JsonEditorWidgetView: React.FC<IJsonEditorProps> = ({
 }) => {
   return (
     <div className={classes.root}>
-      <JSONEditor mode="json" rows={rows} value={value} onChange={onChange} disabled={disabled} />
+      <JSONEditor
+        mode="json"
+        rows={rows}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        classes={{ root: classes.editorRoot }}
+      />
     </div>
   );
 };
