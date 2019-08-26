@@ -64,7 +64,7 @@ const EditorTypeWidgets = [
 
 const PropertyRowView: React.FC<IPropertyRowProps> = ({
   widgetProperty,
-  pluginProperty,
+  pluginProperty = {},
   value,
   onChange,
   updateAllProperties,
