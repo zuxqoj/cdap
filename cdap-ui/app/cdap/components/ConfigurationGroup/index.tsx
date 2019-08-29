@@ -127,7 +127,7 @@ const ConfigurationGroupView: React.FC<IConfigurationGroupProps> = ({
   };
 
   return (
-    <div>
+    <div data-cy="configuration-group">
       {configurationGroups.map((group, i) => {
         return (
           <div key={`${group.label}-${i}`} className={classes.group}>
