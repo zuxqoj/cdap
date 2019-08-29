@@ -19,7 +19,6 @@ import withStyles, { WithStyles, StyleRules } from '@material-ui/core/styles/wit
 import isEqual from 'lodash/isEqual';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Paper from '@material-ui/core/Paper';
 import ThemeWrapper from 'components/ThemeWrapper';
 import If from 'components/If';
 import { IWidgetProps } from 'components/AbstractWidget';

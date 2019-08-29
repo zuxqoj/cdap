@@ -25,6 +25,7 @@ import DataPrepHome from 'components/DataPrepHome';
 import { preventPropagation, objectQuery } from 'services/helpers';
 import LoadingSVG from 'components/LoadingSVG';
 import { IWidgetProps } from 'components/AbstractWidget';
+import IconSVG from 'components/IconSVG';
 // This artifact will stay until we migrate dataprep to use css-in-js
 require('./wrangler-modal.scss');
 
@@ -144,7 +145,7 @@ class WranglerEditor extends React.PureComponent<IWranglerEditorProps, IWrangler
           </If>
           <If condition={!this.state.reloadCodeEditor}>
             <CodeEditor
-              value={properties.directives}
+              value={this.props.value}
               onChange={this.onCodeEditorChange}
               placeholder={placeholder}
               rows={rows}
@@ -173,7 +174,7 @@ class WranglerEditor extends React.PureComponent<IWranglerEditorProps, IWrangler
             <div className="modal-header">
               <h5 className="modal-title">Wrangle</h5>
               <button className={classes.modalBtnClose} onClick={this.closeDataprepModal}>
-                <span>{String.fromCharCode(215)}</span>
+                <IconSVG name="icon-close" />
               </button>
             </div>
             <ModalBody>

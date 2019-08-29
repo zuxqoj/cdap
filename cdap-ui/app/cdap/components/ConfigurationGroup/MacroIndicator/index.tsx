@@ -24,7 +24,7 @@ import classnames from 'classnames';
 const styles = (theme): StyleRules => {
   return {
     macroIndicator: {
-      marginLeft: 10,
+      marginLeft: '10px',
       '&:focus': {
         outline: 0,
       },

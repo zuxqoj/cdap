@@ -30,21 +30,21 @@ const styles = (theme): StyleRules => {
     widgetWrapper: {
       border: `1px solid`,
       borderColor: theme.palette.grey[300],
-      borderRadius: 6,
+      borderRadius: '6px',
       position: 'relative',
       padding: '7px 10px 5px',
     },
     label: {
-      fontSize: 12,
+      fontSize: '12px',
       position: 'absolute',
-      top: -10,
-      left: 15,
+      top: '-10px',
+      left: '15px',
       padding: '0 5px',
       backgroundColor: theme.palette.white[50],
     },
     required: {
-      fontSize: 14,
-      marginLeft: 5,
+      fontSize: '14px',
+      marginLeft: '5px',
       lineHeight: '12px',
       verticalAlign: 'middle',
     },
@@ -53,8 +53,8 @@ const styles = (theme): StyleRules => {
     },
     tooltipContainer: {
       position: 'absolute',
-      right: 5,
-      top: 10,
+      right: '5px',
+      top: '10px',
     },
     focus: {
       borderColor: theme.palette.blue[200],

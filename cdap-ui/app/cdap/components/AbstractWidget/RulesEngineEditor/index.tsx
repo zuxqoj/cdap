@@ -29,13 +29,13 @@ import './rules-engine-modal.scss';
 const styles = (theme): StyleRules => {
   return {
     root: {
-      paddingTop: 7,
+      paddingTop: '7px',
     },
     button: {
       margin: '10px 0',
     },
     btnIcon: {
-      marginRight: 5,
+      marginRight: '5px',
     },
     modalBtnClose: {
       height: '50px',
@@ -106,7 +106,7 @@ const RulesEngineEditorView: React.FC<IRulesEngineProps> = ({
           <div className="modal-header">
             <h5 className="modal-title">Rules Engine</h5>
             <button className={classes.modalBtnClose} onClick={() => setShowModal(false)}>
-              <span>{String.fromCharCode(215)}</span>
+              <IconSVG name="icon-close" />
             </button>
           </div>
           <ModalBody>

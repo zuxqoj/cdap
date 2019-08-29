@@ -27,11 +27,11 @@ import MacroIndicator from 'components/ConfigurationGroup/MacroIndicator';
 const styles = (theme): StyleRules => {
   return {
     row: {
-      marginBottom: 15,
+      marginBottom: '15px',
       display: 'grid',
       gridTemplateColumns: '1fr 40px',
       alignItems: 'center',
-      padding: 10,
+      padding: '10px',
     },
     macroRow: {
       backgroundColor: theme.palette.grey[500],

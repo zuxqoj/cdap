@@ -24,12 +24,12 @@ const CustomizedInput = withStyles(
   (theme): StyleRules => {
     return {
       input: {
-        borderRadius: 4,
+        borderRadius: '4px',
         border: `1px solid ${theme.palette.grey[300]}`,
         padding: '10px 18px 10px 12px',
         '&:focus': {
           backgroundColor: 'transparent',
-          borderRadius: 4,
+          borderRadius: '4px',
         },
       },
     };

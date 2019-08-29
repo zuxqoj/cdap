@@ -114,12 +114,11 @@ class CodeEditorView extends React.Component<ICodeEditorProps> {
             className={classes.button}
             variant="outlined"
             onClick={() => {
-              let v;
-              const code = this.editor.getSession().getValue();
+              let code = this.editor.getSession().getValue();
               if (typeof this.props.prettyPrintFunction === 'function') {
-                v = this.props.prettyPrintFunction(code);
+                code = this.props.prettyPrintFunction(code);
               }
-              this.editor.getSession().setValue(v);
+              this.props.onChange(code);
             }}
           >
             Tidy
