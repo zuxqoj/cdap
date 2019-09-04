@@ -27,11 +27,11 @@ const ConfigurationGroupKitchenSync: React.FC = () => {
   const [widgetJson, setWidgetJson] = React.useState();
   const [values, setValues] = React.useState<Record<string, string>>({});
 
-  const pluginName = 'Database';
+  const pluginName = 'HTTP';
   const pluginType = 'batchsource';
-  const artifactName = 'database-plugins';
-  const artifactScope = 'SYSTEM';
-  const artifactVersion = '2.3.0-SNAPSHOT';
+  const artifactName = 'http-plugins';
+  const artifactScope = 'USER';
+  const artifactVersion = '1.2.0-SNAPSHOT';
 
   React.useEffect(() => {
     // Fetch plugin properties and widget json

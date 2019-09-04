@@ -46,7 +46,7 @@ interface IPropertyRowProps extends WithStyles<typeof styles> {
   widgetProperty: IWidgetProperty;
   pluginProperty: IPluginProperty;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (property, allValues, value: string) => void;
   updateAllProperties: (values) => void;
   extraConfig: any;
   disabled: boolean;
@@ -62,76 +62,169 @@ const EditorTypeWidgets = [
   'wrangler-directives',
 ];
 
-const PropertyRowView: React.FC<IPropertyRowProps> = ({
-  widgetProperty,
-  pluginProperty,
-  value,
-  onChange,
-  updateAllProperties,
-  extraConfig,
-  disabled,
-  classes,
-}) => {
-  const widgetType = objectQuery(widgetProperty, 'widget-type');
-  const [isMacroTextbox, setIsMacroTextbox] = React.useState<boolean>(
-    isMacro(value) && objectQuery(pluginProperty, 'macroSupported')
-  );
+interface IState {
+  isMacroTextbox: boolean;
+}
 
-  if (widgetType === 'hidden') {
-    return null;
-  }
-
-  const updatedWidgetProperty = {
-    ...widgetProperty,
+class PropertyRowView extends React.Component<IPropertyRowProps, IState> {
+  public state = {
+    isMacroTextbox:
+      isMacro(this.props.value) && objectQuery(this.props.pluginProperty, 'macroSupported'),
   };
 
-  function toggleMacro() {
-    if (disabled) {
+  public shouldComponentUpdate(nextProps) {
+    const rule =
+      typeof nextProps.value !== 'undefined' &&
+      (nextProps.value !== this.props.value ||
+        nextProps.widgetProperty['widget-type'] !== this.props.widgetProperty['widget-type']);
+
+    return rule;
+  }
+
+  private toggleMacro = () => {
+    if (this.props.disabled) {
       return;
     }
-    const newValue = !isMacroTextbox;
+    const newValue = !this.state.isMacroTextbox;
 
     if (newValue) {
-      onChange('${}');
+      this.handleChange('${}');
     } else {
-      onChange('');
+      this.handleChange('');
     }
 
-    setIsMacroTextbox(newValue);
-  }
+    this.setState({ isMacroTextbox: newValue });
+  };
 
-  let widgetClasses;
+  private handleChange = (value) => {
+    this.props.onChange(this.props.widgetProperty.name, this.props.extraConfig.properties, value);
+  };
 
-  if (isMacroTextbox) {
-    const currentWidget = updatedWidgetProperty['widget-type'];
-    if (EditorTypeWidgets.indexOf(currentWidget) === -1) {
-      updatedWidgetProperty['widget-type'] = 'textbox';
-      updatedWidgetProperty['widget-attributes'] = {};
-    }
+  public render() {
+    const {
+      classes,
+      pluginProperty,
+      value,
+      onChange,
+      updateAllProperties,
+      disabled,
+      extraConfig,
+      widgetProperty,
+    } = this.props;
 
-    widgetClasses = {
-      label: classes.label,
+    let widgetClasses;
+    const updatedWidgetProperty = {
+      ...widgetProperty,
     };
-  }
+    if (this.state.isMacroTextbox) {
+      const currentWidget = updatedWidgetProperty['widget-type'];
+      if (EditorTypeWidgets.indexOf(currentWidget) === -1) {
+        updatedWidgetProperty['widget-type'] = 'textbox';
+        updatedWidgetProperty['widget-attributes'] = {};
+      }
 
-  return (
-    <div className={classnames(classes.row, { [classes.macroRow]: isMacroTextbox })}>
-      <WidgetWrapper
-        widgetProperty={updatedWidgetProperty}
-        pluginProperty={pluginProperty}
-        value={value || ''}
-        onChange={onChange}
-        updateAllProperties={updateAllProperties}
-        extraConfig={extraConfig}
-        classes={widgetClasses}
-        disabled={disabled}
-      />
-      <If condition={pluginProperty.macroSupported}>
-        <MacroIndicator onClick={toggleMacro} disabled={disabled} isActive={isMacroTextbox} />
-      </If>
-    </div>
-  );
-};
+      widgetClasses = {
+        label: classes.label,
+      };
+    }
+
+    return (
+      <div className={classnames(classes.row, { [classes.macroRow]: this.state.isMacroTextbox })}>
+        <WidgetWrapper
+          widgetProperty={updatedWidgetProperty}
+          pluginProperty={pluginProperty}
+          value={value || ''}
+          // onChange={onChange}
+          onChange={this.handleChange}
+          updateAllProperties={updateAllProperties}
+          extraConfig={extraConfig}
+          classes={widgetClasses}
+          disabled={disabled}
+        />
+        <If condition={pluginProperty.macroSupported}>
+          <MacroIndicator
+            onClick={this.toggleMacro}
+            disabled={disabled}
+            isActive={this.state.isMacroTextbox}
+          />
+        </If>
+      </div>
+    );
+  }
+}
+
+// const PropertyRowView: React.FC<IPropertyRowProps> = ({
+//   widgetProperty,
+//   pluginProperty,
+//   value,
+//   onChange,
+//   updateAllProperties,
+//   extraConfig,
+//   disabled,
+//   classes,
+// }) => {
+//   // const widgetType = objectQuery(widgetProperty, 'widget-type');
+//   const [isMacroTextbox, setIsMacroTextbox] = React.useState<boolean>(
+//     isMacro(value) && objectQuery(pluginProperty, 'macroSupported')
+//   );
+
+//   if (widgetProperty['widget-type'] === 'hidden') {
+//     return null;
+//   }
+
+//   const updatedWidgetProperty = {
+//     ...widgetProperty,
+//   };
+
+//   function toggleMacro() {
+//     if (disabled) {
+//       return;
+//     }
+//     const newValue = !isMacroTextbox;
+
+//     if (newValue) {
+//       onChange('${}');
+//     } else {
+//       onChange('');
+//     }
+
+//     setIsMacroTextbox(newValue);
+//   }
+
+//   let widgetClasses;
+
+//   if (isMacroTextbox) {
+//     const currentWidget = updatedWidgetProperty['widget-type'];
+//     if (EditorTypeWidgets.indexOf(currentWidget) === -1) {
+//       updatedWidgetProperty['widget-type'] = 'textbox';
+//       updatedWidgetProperty['widget-attributes'] = {};
+//     }
+
+//     widgetClasses = {
+//       label: classes.label,
+//     };
+//   }
+
+//   console.log('update', value);
+
+//   return (
+//     <div className={classnames(classes.row, { [classes.macroRow]: isMacroTextbox })}>
+//       <WidgetWrapper
+//         widgetProperty={updatedWidgetProperty}
+//         pluginProperty={pluginProperty}
+//         value={value || ''}
+//         onChange={onChange}
+//         updateAllProperties={updateAllProperties}
+//         extraConfig={extraConfig}
+//         classes={widgetClasses}
+//         disabled={disabled}
+//       />
+//       <If condition={pluginProperty.macroSupported}>
+//         <MacroIndicator onClick={toggleMacro} disabled={disabled} isActive={isMacroTextbox} />
+//       </If>
+//     </div>
+//   );
+// };
 
 const PropertyRow = withStyles(styles)(PropertyRowView);
 export default PropertyRow;

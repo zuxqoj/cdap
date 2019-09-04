@@ -84,15 +84,14 @@ const ConfigurationGroupView: React.FC<IConfigurationGroupProps> = ({
     [widgetJson, pluginProperties]
   );
 
-  function handleChange(property) {
-    return (value) => {
-      const newValues = {
-        ...values,
-        [property]: value,
-      };
-
-      changeParentHandler(newValues);
+  function handleChange(property, allValues, value) {
+    console.log('all', allValues);
+    const newValues = {
+      ...allValues,
+      [property]: value,
     };
+
+    changeParentHandler(newValues);
   }
 
   function updateAllProperties(updatedValues) {
@@ -146,7 +145,7 @@ const ConfigurationGroupView: React.FC<IConfigurationGroupProps> = ({
                     widgetProperty={property}
                     pluginProperty={pluginProperties[property.name]}
                     value={values[property.name]}
-                    onChange={handleChange(property.name)}
+                    onChange={handleChange}
                     updateAllProperties={updateAllProperties}
                     extraConfig={extraConfig}
                     disabled={disabled}
