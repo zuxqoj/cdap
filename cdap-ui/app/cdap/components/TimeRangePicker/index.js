@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 import classnames from 'classnames';
+import If from 'components/If';
 
 require('./TimeRangePicker.scss');
 
@@ -31,10 +32,13 @@ export default class TimeRangePicker extends Component {
     end: PropTypes.number,
     displayOnly: PropTypes.bool,
     onTimeClick: PropTypes.func,
+    showRange: PropTypes.bool,
+    format: PropTypes.string, // what options should there be for formats? (for sending to backend)
   };
 
   static defaultProps = {
     displayOnly: false,
+    showRange: true, // for backward compatibility
   };
 
   state = {
@@ -126,8 +130,12 @@ export default class TimeRangePicker extends Component {
   };
 
   displayStartTime = () => {
-    if (!this.state.start) {
+    if (!this.state.start && this.props.showRange) {
       return 'Start Time';
+    }
+
+    if (!this.state.start && !this.props.showRange) {
+      return 'Select Time';
     }
 
     return moment(this.state.start).format(format);
@@ -260,19 +268,20 @@ export default class TimeRangePicker extends Component {
               {this.displayStartTime()}
             </div>
           </div>
+          <If condition={this.props.showRange}>
+            <div className="separator text-center">to</div>
 
-          <div className="separator text-center">to</div>
-
-          <div className="time">
-            <div
-              className={classnames('time-wrapper', {
-                active: !this.props.displayOnly && this.state.displayCalendar === 'end',
-              })}
-              onClick={this.changeDisplay.bind(this, 'end')}
-            >
-              {this.displayEndTime()}
+            <div className="time">
+              <div
+                className={classnames('time-wrapper', {
+                  active: !this.props.displayOnly && this.state.displayCalendar === 'end',
+                })}
+                onClick={this.changeDisplay.bind(this, 'end')}
+              >
+                {this.displayEndTime()}
+              </div>
             </div>
-          </div>
+          </If>
         </div>
 
         {this.renderCalendar()}

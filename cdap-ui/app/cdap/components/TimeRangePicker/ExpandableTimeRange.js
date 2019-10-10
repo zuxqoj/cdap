@@ -28,10 +28,14 @@ export default class ExpandableTimeRange extends Component {
     end: PropTypes.number,
     onDone: PropTypes.func,
     inSeconds: PropTypes.bool,
+    showRange: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     inSeconds: false,
+    showRange: true, // For backward compatibility
+    disabled: false,
   };
 
   state = {
@@ -43,7 +47,7 @@ export default class ExpandableTimeRange extends Component {
   onTimeClick = () => {
     this.subscribeClick();
     this.setState({
-      displayOnly: false,
+      displayOnly: this.props.disabled,
     });
   };
 
@@ -78,9 +82,10 @@ export default class ExpandableTimeRange extends Component {
   };
 
   done = () => {
-    if (!this.state.start || !this.state.end) {
-      return;
-    }
+    // Not sure this is necessary since the Done button should be disabled in this case?
+    // if (!this.state.start || (!this.state.end && this.props.showRange)) {
+    //   return;
+    // }
 
     if (typeof this.props.onDone === 'function') {
       let start = parseInt(this.state.start, 10),
@@ -108,7 +113,7 @@ export default class ExpandableTimeRange extends Component {
     return (
       <div
         className={classnames('done-button text-center', {
-          disabled: !this.state.start || !this.state.end,
+          disabled: !this.state.start || (!this.state.end && this.props.showRange),
         })}
         onClick={this.done}
       >
@@ -131,6 +136,7 @@ export default class ExpandableTimeRange extends Component {
           start={this.state.start}
           end={this.state.end}
           onTimeClick={this.onTimeClick}
+          showRange={this.props.showRange}
         />
 
         {this.renderDoneButton()}
