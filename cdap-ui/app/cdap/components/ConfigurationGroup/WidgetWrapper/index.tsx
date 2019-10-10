@@ -34,6 +34,7 @@ const styles = (theme): StyleRules => {
       borderRadius: '6px',
       position: 'relative',
       padding: '7px 10px 5px',
+      minHeight: '40px',
     },
     errorBorder: {
       border: '2px solid',

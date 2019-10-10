@@ -59,6 +59,15 @@ angular.module(PKG.name + '.commons')
       //     'data-label': 'Date'
       //   }
       // },
+      'datetime': {
+        element: '<date-time-widget></date-time-widget>',
+        attributes: {
+          'value': 'model',
+          'widget-props': 'myconfig["widget-attributes"]',
+          'on-change': 'onChange',
+          'disabled': 'disabled',
+        }
+      },
       'csv': {
         element: '<csv-widget></csv-widget>',
         attributes: {

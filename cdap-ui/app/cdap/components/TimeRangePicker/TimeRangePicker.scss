@@ -83,6 +83,18 @@ $contrast: 0;
     }
   }
 }
+.abstract-widget-wrapper {
+  .time-range-picker-container {
+    .time-range-selector {
+      .time {
+        .time-wrapper {
+          border: none;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
 
 .time-range-picker-container {
   .time-range-selector {

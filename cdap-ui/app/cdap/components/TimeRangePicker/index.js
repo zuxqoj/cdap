@@ -33,7 +33,6 @@ export default class TimeRangePicker extends Component {
     displayOnly: PropTypes.bool,
     onTimeClick: PropTypes.func,
     showRange: PropTypes.bool,
-    format: PropTypes.string, // what options should there be for formats? (for sending to backend)
   };
 
   static defaultProps = {
