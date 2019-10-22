@@ -18,20 +18,41 @@ const urlHelper = require('../../../server/url-helper'),
   cdapConfigurator = require('../../../server/cdap-config.js'),
   resolversCommon = require('../../resolvers-common.js');
 
+const find = require('lodash/find');
+const chunk = require('lodash/chunk');
+const flatten = require('lodash/flatten');
+
 let cdapConfig;
 cdapConfigurator.getCDAPConfig().then(function(value) {
   cdapConfig = value;
 });
 
-async function applicationRecordTypeApplicationDetailResolver(parent, args, context) {
-  const namespace = context.namespace;
-  const name = parent.name;
-  const options = resolversCommon.getGETRequestOptions();
-  options.url = urlHelper.constructUrl(cdapConfig, `/v3/namespaces/${namespace}/apps/${name}`);
+async function batchTotalRuns(req, auth) {
+  const namespace = req[0].namespace;
+  const options = resolversCommon.getPOSTRequestOptions();
+  options.url = urlHelper.constructUrl(cdapConfig, `/v3/namespaces/${namespace}/runcount`);
+  const body = req.map((reqObj) => reqObj.program);
+  const chunkedBody = chunk(body, 100);
 
-  return await resolversCommon.requestPromiseWrapper(options, context.auth);
+  let runInfo = await Promise.all(
+    chunkedBody.map((reqBody) => {
+      const reqOptions = {
+        ...options,
+        body: reqBody,
+      };
+      return resolversCommon.requestPromiseWrapper(reqOptions, auth);
+    })
+  );
+
+  runInfo = flatten(runInfo);
+
+  return body.map((program) => {
+    return find(runInfo, (run) => {
+      return program.appId === run.appId && program.programId === run.programId;
+    });
+  });
 }
 
 module.exports = {
-  applicationRecordTypeApplicationDetailResolver,
+  batchTotalRuns,
 };

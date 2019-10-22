@@ -18,28 +18,28 @@ const urlHelper = require('../../../server/url-helper'),
   cdapConfigurator = require('../../../server/cdap-config.js'),
   resolversCommon = require('../../resolvers-common.js');
 
+const find = require('lodash/find');
+
 let cdapConfig;
-cdapConfigurator.getCDAPConfig().then(function(value) {
+cdapConfigurator.getCDAPConfig().then(function (value) {
   cdapConfig = value;
 });
 
-async function scheduleDetailTypeNextRuntimesResolver(parent, args, context) {
-  const namespace = context.namespace;
-  const name = parent.application;
-  const workflow = context.workflow;
-  const options = resolversCommon.getGETRequestOptions();
-  options.url = urlHelper.constructUrl(
-    cdapConfig,
-    `/v3/namespaces/${namespace}/apps/${name}/workflows/${workflow}/nextruntime`
-  );
+async function batchProgramRuns(req, auth) {
+  const namespace = req[0].namespace;
+  const options = resolversCommon.getPOSTRequestOptions();
+  options.url = urlHelper.constructUrl(cdapConfig, `/v3/namespaces/${namespace}/runs`);
+  options.body = req.map((reqObj) => reqObj.program);
 
-  const times = await resolversCommon.requestPromiseWrapper(options, context.auth);
+  const runInfo = await resolversCommon.requestPromiseWrapper(options, auth);
 
-  return times.map((time) => {
-    return time.time;
+  return options.body.map((program) => {
+    return find(runInfo, (run) => {
+      return program.appId === run.appId && program.programId === run.programId;
+    });
   });
 }
 
 module.exports = {
-  scheduleDetailTypeNextRuntimesResolver,
+  batchProgramRuns,
 };

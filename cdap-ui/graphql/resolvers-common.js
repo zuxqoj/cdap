@@ -30,7 +30,7 @@ function getPOSTRequestOptions() {
   };
 }
 
-function requestPromiseWrapper(options, token) {
+function requestPromiseWrapper(options, token, bodyModifiersFn) {
   if (token) {
     options.headers = {
       Authorization: token,
@@ -54,7 +54,12 @@ function requestPromiseWrapper(options, token) {
         return reject(error);
       }
 
-      return resolve(body);
+      let resultBody = body;
+      if (typeof bodyModifiersFn === 'function') {
+        resultBody = bodyModifiersFn(body);
+      }
+
+      return resolve(resultBody);
     });
   });
 }

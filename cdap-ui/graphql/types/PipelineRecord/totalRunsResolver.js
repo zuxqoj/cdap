@@ -14,27 +14,34 @@
  * the License.
  */
 
-const urlHelper = require('../../../server/url-helper'),
-  cdapConfigurator = require('../../../server/cdap-config.js'),
-  resolversCommon = require('../../resolvers-common.js');
+const { PIPELINE_PROGRAMS_MAP } = require('./common');
 
-let cdapConfig;
-cdapConfigurator.getCDAPConfig().then(function(value) {
-  cdapConfig = value;
-});
-
-async function applicationDetailTypeMetadataResolver(parent, args, context) {
+async function totalRunsResolvers(parent, args, context) {
   const namespace = context.namespace;
   const name = parent.name;
-  const options = resolversCommon.getGETRequestOptions();
-  options.url = urlHelper.constructUrl(
-    cdapConfig,
-    `/v3/namespaces/${namespace}/apps/${name}/metadata/tags\?responseFormat=v6`
-  );
 
-  return await resolversCommon.requestPromiseWrapper(options, context.auth);
+  const pipelineType = parent.artifact.name || 'cdap-data-pipeline';
+
+  const { programType, programId } = PIPELINE_PROGRAMS_MAP[pipelineType];
+
+  const program = {
+    appId: name,
+    programType: programType,
+    programId: programId,
+  };
+
+  const runInfo = await context.loaders.totalRuns.load({
+    namespace,
+    program,
+  });
+
+  if (!runInfo || !runInfo.runCount) {
+    return 0;
+  }
+
+  return runInfo.runCount;
 }
 
 module.exports = {
-  applicationDetailTypeMetadataResolver,
+  totalRunsResolvers,
 };
