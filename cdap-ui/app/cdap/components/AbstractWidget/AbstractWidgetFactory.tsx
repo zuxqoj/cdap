@@ -19,6 +19,7 @@ import { objectQuery } from 'services/helpers';
 import CodeEditorWidget from 'components/AbstractWidget/CodeEditorWidget';
 import CSVWidget from 'components/AbstractWidget/CSVWidget';
 import DatasetSelector from 'components/AbstractWidget/DatasetSelectorWidget';
+import DateRangeWidget from 'components/AbstractWidget/DateRangeWidget';
 import DateTimeWidget from 'components/AbstractWidget/DateTimeWidget';
 import FunctionDropdownAliasWidget from 'components/AbstractWidget/FunctionDropdownAliasWidget';
 import GetSchemaWidget from 'components/AbstractWidget/GetSchemaWidget';
@@ -57,6 +58,7 @@ export const WIDGET_FACTORY = {
   'connection-browser': PluginConnectionBrowser,
   csv: CSVWidget,
   'dataset-selector': DatasetSelector,
+  'date-range-widget': DateRangeWidget,
   'date-time-widget': DateTimeWidget,
   'ds-multiplevalues': MultipleValuesWidget,
   dsv: CSVWidget,

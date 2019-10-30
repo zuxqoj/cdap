@@ -105,6 +105,7 @@ var ConfigurationGroupUtilities = require('../cdap/components/ConfigurationGroup
 var DynamicFiltersUtilities = require('../cdap/components/ConfigurationGroup/utilities/DynamicPluginFilters');
 var LoadingSVG = require('../cdap/components/LoadingSVG').default;
 var DateTimeWidget = require('../cdap/components/AbstractWidget/DateTimeWidget').default;
+var DateRangeWidget = require('../cdap/components/AbstractWidget/DateRangeWidget').default;
 
 export {
   Store,
@@ -184,4 +185,5 @@ export {
   DynamicFiltersUtilities,
   LoadingSVG,
   DateTimeWidget,
+  DateRangeWidget,
 };

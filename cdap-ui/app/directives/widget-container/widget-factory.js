@@ -68,6 +68,15 @@ angular.module(PKG.name + '.commons')
           'disabled': 'disabled',
         }
       },
+      'daterange': {
+        element: '<date-range-widget></date-range-widget>',
+        attributes: {
+          'value': 'model',
+          'widget-props': 'myconfig["widget-attributes"]',
+          'on-change': 'onChange',
+          'disabled': 'disabled',
+        }
+      },
       'csv': {
         element: '<csv-widget></csv-widget>',
         attributes: {

@@ -20,6 +20,7 @@ import Calendar from 'react-calendar';
 import moment from 'moment';
 import classnames from 'classnames';
 import If from 'components/If';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 
 require('./TimeRangePicker.scss');
 
@@ -129,20 +130,31 @@ export default class TimeRangePicker extends Component {
   };
 
   displayStartTime = () => {
-    if (!this.state.start && this.props.showRange) {
-      return 'Start Time';
-    }
+    const startHint = this.props.showRange ? 'Start Time' : 'Select Time';
 
-    if (!this.state.start && !this.props.showRange) {
-      return 'Select Time';
+    if (!this.state.start) {
+      return (
+        <div className="time-select">
+          <span className="calendar-icon">
+            <DateRangeIcon />
+          </span>
+          <div>{startHint}</div>
+        </div>
+      );
     }
-
     return moment(this.state.start).format(format);
   };
 
   displayEndTime = () => {
     if (!this.state.end) {
-      return 'End Time';
+      return (
+        <div className="time-select">
+          <span className="calendar-icon">
+            <DateRangeIcon />
+          </span>
+          <div>{'End Time'}</div>
+        </div>
+      );
     }
 
     return moment(this.state.end).format(format);

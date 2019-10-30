@@ -80,7 +80,7 @@ export default class ExpandableTimeRange extends Component {
       end,
     });
     if (typeof this.props.onChange === 'function') {
-      this.props.onChange(start);
+      this.props.onChange({ start, end });
     }
   };
 

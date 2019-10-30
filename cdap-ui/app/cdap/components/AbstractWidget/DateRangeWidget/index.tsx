@@ -18,34 +18,46 @@ import React, { useState } from 'react';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { IWidgetProps } from 'components/AbstractWidget';
 import ExpandableTimeRange from 'components/TimeRangePicker/ExpandableTimeRange';
+import { DatePickerStyles } from 'components/AbstractWidget/DateTimeWidget';
 
-export const DatePickerStyles = () => {
+const styles = () => {
   return {
-    root: {
-      height: '44px',
-    },
+    ...DatePickerStyles(),
   };
 };
 
-interface IDateTimeWidgetProps extends IWidgetProps<null>, WithStyles<typeof DatePickerStyles> {
+interface IDateRangeWidgetProps extends IWidgetProps<null>, WithStyles<typeof styles> {
   format?: string; // If we want to be able to specify formats for sending to backend
 }
 
-const DateTimeWidget: React.FC<IDateTimeWidgetProps> = ({ value, onChange, disabled, classes }) => {
-  const initStart = typeof value === 'string' ? parseInt(value, 10) : 0;
-  const [startTime, updateStart] = useState(initStart);
+const DateRangeWidget: React.FC<IDateRangeWidgetProps> = ({
+  value,
+  onChange,
+  disabled,
+  classes,
+}) => {
+  const delimiter = ',';
+  const initRange = typeof value === 'string' ? value.split(delimiter) : ['0', '0'];
+  const [startTime, updateStart] = useState(parseInt(initRange[0], 10));
+  const [endTime, updateEnd] = useState(parseInt(initRange[1], 10));
 
-  const onChangeHandler = ({ start }) => {
-    const newStart = parseInt(start, 10) || 0;
+  const onChangeHandler = ({ start, end }) => {
+    const newStart: number = start || 0;
+    const newEnd: number = end || 0;
+
     updateStart(newStart);
-    onChange(newStart.toString());
+    updateEnd(newEnd);
+
+    const updatedValue = [newStart, newEnd].join(delimiter);
+    onChange(updatedValue);
   };
 
   return (
     <div className={classes.root}>
       <ExpandableTimeRange
-        showRange={false}
+        showRange={true}
         start={startTime}
+        end={endTime}
         onChange={onChangeHandler}
         disabled={disabled}
       />
@@ -53,6 +65,6 @@ const DateTimeWidget: React.FC<IDateTimeWidgetProps> = ({ value, onChange, disab
   );
 };
 
-const StyledDateTimeWidget = withStyles(DatePickerStyles)(DateTimeWidget);
+const StyledDateRangeWidget = withStyles(styles)(DateRangeWidget);
 
-export default StyledDateTimeWidget;
+export default StyledDateRangeWidget;

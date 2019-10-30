@@ -147,4 +147,7 @@ angular
   })
   .directive('dateTimeWidget', function(reactDirective) {
     return reactDirective(window.CaskCommon.DateTimeWidget);
+  })
+  .directive('dateRangeWidget', function(reactDirective) {
+    return reactDirective(window.CaskCommon.DateRangeWidget);
   });
