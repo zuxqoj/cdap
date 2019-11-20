@@ -67,10 +67,18 @@ export class DAGProvider extends React.Component<any, IDagProviderState> {
       nodes: this.state.nodes.filter((node) => node.id !== nodeId) as List<INode>,
     });
   private getConnections = (): List<IConnection> => this.state.connections;
-  private addConnection = (connection: IConnection) =>
+  private addConnection = (connection: IConnection) => {
+    if (
+      this.state.connections.find(
+        (conn) => conn.sourceId === connection.sourceId && conn.targetId === connection.targetId
+      )
+    ) {
+      return;
+    }
     this.setState({
       connections: this.state.connections.push(connection),
     });
+  };
   private removeConnection = (connectionObj: IConnection) => {
     const newConnections = this.state.connections.filter(
       (connection: IConnection) =>

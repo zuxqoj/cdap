@@ -72,8 +72,22 @@ export class DAGRenderer extends React.Component<IDAGRendererProps, any> {
         Container: DAG_CONTAINER_ID,
       });
       jsPlumbInstance.setContainer(document.getElementById(DAG_CONTAINER_ID));
-      jsPlumbInstance.bind('connection', this.props.onConnection);
-      jsPlumbInstance.bind('connectionDetached', this.props.onConnectionDetached);
+      jsPlumbInstance.bind('connection', (connObj: IConnection, originalEvent: boolean) => {
+        if (!originalEvent) {
+          return;
+        }
+        const newConnObj = this.getNewConnectionObj(connObj);
+        this.props.onConnection(newConnObj);
+        this.state.jsPlumbInstance.repaintEverything();
+      });
+      jsPlumbInstance.bind('connectionDetached', (connObj: IConnection, originalEvent: boolean) => {
+        if (!originalEvent) {
+          return;
+        }
+        const newConnObj = this.getNewConnectionObj(connObj);
+        this.props.onConnectionDetached(newConnObj);
+        this.state.jsPlumbInstance.repaintEverything();
+      });
       this.registerTypes(jsPlumbInstance);
       this.setState({
         isJsPlumbInstanceCreated: true,
@@ -125,7 +139,7 @@ export class DAGRenderer extends React.Component<IDAGRendererProps, any> {
       ) {
         newConnObj.source = newConnObj.sourceId;
         newConnObj.target = newConnObj.targetId;
-        this.state.jsPlumbInstance.connect(connObj);
+        this.state.jsPlumbInstance.connect(newConnObj);
       }
     });
   };

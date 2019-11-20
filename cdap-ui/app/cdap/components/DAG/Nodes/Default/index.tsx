@@ -25,6 +25,19 @@ export class DefaultNode extends React.Component<INodeComponentProps, any> {
     const source = {
       isSource: true,
       maxConnections: -1, // -1 means unlimited connections
+      paintStyle: {
+        connectorStyle: {
+          lineWidth: 2,
+          outlineColor: 'transparent',
+          outlineWidth: 4,
+          strokeStyle: '#4e5568',
+          strokeWidth: 3,
+        },
+        fill: 'black',
+        lineWidth: 3,
+        radius: 5,
+        stroke: 'black',
+      },
     };
     if (this.props.initNode && typeof this.props.initNode === 'function') {
       const initConfig = {
