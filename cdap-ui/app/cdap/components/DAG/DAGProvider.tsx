@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Cask Data, Inc.
+ * Copyright © 2019 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -58,14 +58,16 @@ export const MyContext = React.createContext({} as Readonly<IDagStore>);
 
 export class DAGProvider extends React.Component<any, IDagProviderState> {
   private getNodes = (): List<INode> => this.state.nodes;
-  private addNode = (node: INode) =>
+  private addNode = (node: INode) => {
     this.setState({
       nodes: this.state.nodes.push(node),
     });
-  private removeNode = (nodeId: string) =>
+  };
+  private removeNode = (nodeId: string) => {
     this.setState({
       nodes: this.state.nodes.filter((node) => node.id !== nodeId) as List<INode>,
     });
+  };
   private getConnections = (): List<IConnection> => this.state.connections;
   private addConnection = (connection: IConnection) => {
     if (
@@ -82,7 +84,7 @@ export class DAGProvider extends React.Component<any, IDagProviderState> {
   private removeConnection = (connectionObj: IConnection) => {
     const newConnections = this.state.connections.filter(
       (connection: IConnection) =>
-        connection.from === connectionObj.from && connection.to === connectionObj.to
+        connection.from !== connectionObj.from && connection.to !== connectionObj.to
     ) as List<IConnection>;
     this.setState({
       connections: newConnections,

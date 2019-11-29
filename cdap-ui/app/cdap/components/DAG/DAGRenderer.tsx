@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Cask Data, Inc.
+ * Copyright © 2019 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,7 +21,7 @@ import { DefaultNode } from 'components/DAG/Nodes/Default';
 import { List } from 'immutable';
 import uuidV4 from 'uuid/v4';
 
-const DAG_CONTAINER_ID = uuidV4();
+const DAG_CONTAINER_ID = `dag-${uuidV4()}`;
 
 export interface IEndPointArgs {
   element: HTMLElement | null;
@@ -78,7 +78,6 @@ export class DAGRenderer extends React.Component<IDAGRendererProps, any> {
         }
         const newConnObj = this.getNewConnectionObj(connObj);
         this.props.onConnection(newConnObj);
-        this.state.jsPlumbInstance.repaintEverything();
       });
       jsPlumbInstance.bind('connectionDetached', (connObj: IConnection, originalEvent: boolean) => {
         if (!originalEvent) {
@@ -86,7 +85,6 @@ export class DAGRenderer extends React.Component<IDAGRendererProps, any> {
         }
         const newConnObj = this.getNewConnectionObj(connObj);
         this.props.onConnectionDetached(newConnObj);
-        this.state.jsPlumbInstance.repaintEverything();
       });
       this.registerTypes(jsPlumbInstance);
       this.setState({
