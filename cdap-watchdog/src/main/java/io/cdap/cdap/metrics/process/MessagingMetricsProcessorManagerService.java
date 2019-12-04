@@ -20,7 +20,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.AbstractExecutionThreadService;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import io.cdap.cdap.api.common.Bytes;
@@ -72,13 +71,14 @@ import javax.annotation.Nullable;
 /**
  * Process metrics by consuming metrics being published to TMS.
  */
-public class MessagingMetricsProcessorService extends AbstractExecutionThreadService {
+public class MessagingMetricsProcessorManagerService extends AbstractExecutionThreadService {
 
-  HashMap<String, MessagingMetricsProcessorServiceChild> metricsProcessorServiceMap;
+  HashMap<String, MessagingMetricsProcessorService> metricsProcessorServiceMap;
   List<MetricsForwarderExtension> metricsForwarderExtensions;
+  long metricsProcessIntervalMillis;
 
   @Inject
-  MessagingMetricsProcessorService(CConfiguration cConf,
+  MessagingMetricsProcessorManagerService(CConfiguration cConf,
     MetricDatasetFactory metricDatasetFactory,
     MessagingService messagingService,
     SchemaGenerator schemaGenerator,
@@ -93,7 +93,7 @@ public class MessagingMetricsProcessorService extends AbstractExecutionThreadSer
   }
 
   @VisibleForTesting
-  MessagingMetricsProcessorService(CConfiguration cConf,
+  MessagingMetricsProcessorManagerService(CConfiguration cConf,
     MetricDatasetFactory metricDatasetFactory,
     MessagingService messagingService,
     SchemaGenerator schemaGenerator,
@@ -106,19 +106,20 @@ public class MessagingMetricsProcessorService extends AbstractExecutionThreadSer
     this.metricsForwarderExtensions = new ArrayList<>();
     this.metricsProcessorServiceMap = new HashMap<>();
     this.metricsForwarderExtensions.add(new MetricStoreMetricsForwarderExtension(metricStore, metricsContext));
+    this.metricsProcessIntervalMillis = metricsProcessIntervalMillis;
 
     for (MetricsForwarderExtension metricsExtension : this.metricsForwarderExtensions) {
       metricsProcessorServiceMap.put(metricsExtension.getID(),
-                                     new MessagingMetricsProcessorServiceChild(cConf,
-                                                                               metricDatasetFactory,
-                                                                               messagingService,
-                                                                               schemaGenerator,
-                                                                               readerFactory,
-                                                                               metricsExtension,
-                                                                               topicNumbers,
-                                                                               metricsContext,
-                                                                               metricsProcessIntervalMillis,
-                                                                               instanceId));
+                                     new MessagingMetricsProcessorService(cConf,
+                                                                          metricDatasetFactory,
+                                                                          messagingService,
+                                                                          schemaGenerator,
+                                                                          readerFactory,
+                                                                          metricsExtension,
+                                                                          topicNumbers,
+                                                                          metricsContext,
+                                                                          metricsProcessIntervalMillis,
+                                                                          instanceId));
 
     }
 
@@ -127,30 +128,38 @@ public class MessagingMetricsProcessorService extends AbstractExecutionThreadSer
 
   @Override
   protected void run() {
-    while (isRunning()) {
-      for (MessagingMetricsProcessorServiceChild processorService : this.metricsProcessorServiceMap.values()) {
-        if(!processorService.isRunning()){
-          processorService.startAndWait();
-        }
 
-
+    // All processor services for the different metrics forwarding endpoints
+    for (MessagingMetricsProcessorService processorService : this.metricsProcessorServiceMap.values()) {
+      if (!processorService.isRunning() && isRunning()) {
+        processorService.startAndWait();
       }
+    }
 
+    // Wait for all processor services to complete
+    for (MessagingMetricsProcessorService processorService : this.metricsProcessorServiceMap.values()) {
+      while (processorService.isRunning()) {
+        try {
+          Thread.sleep(metricsProcessIntervalMillis);
+        } catch (InterruptedException e) {
+          break;
+        }
+      }
     }
   }
 
   @Override
   protected void triggerShutdown() {
-    for (MessagingMetricsProcessorServiceChild processorService : this.metricsProcessorServiceMap.values()) {
-      processorService.triggerShutdown();
+    for (MessagingMetricsProcessorService processorService : this.metricsProcessorServiceMap.values()) {
+      processorService.stopAndWait();
     }
   }
 
 }
 
-class MessagingMetricsProcessorServiceChild extends AbstractExecutionThreadService {
+class MessagingMetricsProcessorService extends AbstractExecutionThreadService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MessagingMetricsProcessorService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MessagingMetricsProcessorManagerService.class);
   // Log the metrics processing progress no more than once per minute.
   private static final Logger PROGRESS_LOG = Loggers.sampling(LOG, LogSamplers.limitRate(60000));
 
@@ -180,7 +189,7 @@ class MessagingMetricsProcessorServiceChild extends AbstractExecutionThreadServi
   private volatile boolean stopping;
 
   @Inject
-  MessagingMetricsProcessorServiceChild(CConfiguration cConf,
+  MessagingMetricsProcessorService(CConfiguration cConf,
     MetricDatasetFactory metricDatasetFactory,
     MessagingService messagingService,
     SchemaGenerator schemaGenerator,
@@ -195,7 +204,7 @@ class MessagingMetricsProcessorServiceChild extends AbstractExecutionThreadServi
   }
 
   @VisibleForTesting
-  MessagingMetricsProcessorServiceChild(CConfiguration cConf,
+  MessagingMetricsProcessorService(CConfiguration cConf,
     MetricDatasetFactory metricDatasetFactory,
     MessagingService messagingService,
     SchemaGenerator schemaGenerator,
@@ -258,7 +267,7 @@ class MessagingMetricsProcessorServiceChild extends AbstractExecutionThreadServi
 
   @Override
   protected void run() {
-    LOG.info("Start running MessagingMetricsProcessorService");
+    LOG.info("Start running MessagingMetricsProcessorManagerService");
     MetricsConsumerMetaTable metaTable = getMetaTable();
     if (metaTable == null) {
       LOG.info("Could not get MetricsConsumerMetaTable, seems like we are being shut down");
