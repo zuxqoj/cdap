@@ -67,12 +67,13 @@ public class MessagingMetricsProcessorManagerServiceTest extends MetricsProcesso
     injector.getInstance(DatasetService.class).startAndWait();
 
     Set<Integer> partitions = IntStream.range(0, cConf.getInt(Constants.Metrics.MESSAGING_TOPIC_NUM))
-      .boxed().collect(Collectors.toSet());
+                                       .boxed().collect(Collectors.toSet());
 
     long startTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 
     for (int iteration = 0; iteration < 50; iteration++) {
-      // First publish all metrics before MessagingMetricsProcessorManagerService starts, so that fetchers of different topics
+      // First publish all metrics before MessagingMetricsProcessorManagerService starts, so that fetchers of
+      // different topics
       // will fetch metrics concurrently.
       for (int i = 0; i < 50; i++) {
         // TOPIC_PREFIX + (i % PARTITION_SIZE) decides which topic the metric is published to
@@ -84,10 +85,12 @@ public class MessagingMetricsProcessorManagerServiceTest extends MetricsProcesso
       }
 
       final MockMetricStore metricStore = new MockMetricStore();
-      // Create new MessagingMetricsProcessorManagerService instance every time because the same instance cannot be started
+      // Create new MessagingMetricsProcessorManagerService instance every time because the same instance cannot be
+      // started
       // again after it's stopped
       MessagingMetricsProcessorManagerService messagingMetricsProcessorManagerService =
-        new MessagingMetricsProcessorManagerService(cConf, injector.getInstance(MetricDatasetFactory.class), messagingService,
+        new MessagingMetricsProcessorManagerService(cConf, injector.getInstance(MetricDatasetFactory.class),
+                                                    messagingService,
                                                     injector.getInstance(SchemaGenerator.class),
                                                     injector.getInstance(DatumReaderFactory.class), metricStore,
                                                     partitions, new NoopMetricsContext(), 50, 0);
@@ -110,7 +113,8 @@ public class MessagingMetricsProcessorManagerServiceTest extends MetricsProcesso
       Tasks.waitFor(101L, () -> metricStore.getMetricsProcessedByMetricsProcessor(),
                     15, TimeUnit.SECONDS, 100, TimeUnit.MILLISECONDS);
 
-      // in MessagingMetricsProcessorManagerService, before persisting the metrics and topic metas, a copy of the topic metas
+      // in MessagingMetricsProcessorManagerService, before persisting the metrics and topic metas, a copy of the
+      // topic metas
       // containing the metrics processor delay metrics is made before making a copy of metric values.
       // Therefore, there can be a very small chance where all metric values are persisted but the corresponding
       // topic metas are not yet persisted. Wait for all topic metas to be persisted

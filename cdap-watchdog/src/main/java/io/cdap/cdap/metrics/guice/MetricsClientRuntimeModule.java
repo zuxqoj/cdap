@@ -57,7 +57,8 @@ public final class MetricsClientRuntimeModule extends RuntimeModule {
         // Bind a processor for consuming metrics from TMS and write to MetricsStore
         bind(Integer.class).annotatedWith(Names.named(Constants.Metrics.TWILL_INSTANCE_ID)).toInstance(0);
         install(new FactoryModuleBuilder()
-                  .implement(MessagingMetricsProcessorManagerService.class, MessagingMetricsProcessorManagerService.class)
+                  .implement(MessagingMetricsProcessorManagerService.class,
+                             MessagingMetricsProcessorManagerService.class)
                   .build(MessagingMetricsProcessorServiceFactory.class));
 
         // We have to expose the factory in order for the optional injection in the LocalMetricsCollectionService

@@ -148,7 +148,7 @@ public class MetricsProcessorServiceTest extends MetricsProcessorServiceTestBase
    * Checks whether all expected metrics can be obtained with query
    */
   private boolean canQueryAllMetrics(MetricStore metricStore, Map<String, String> metricsContext,
-                                     Map<String, Long> expected, List<String> missingMetricNames) {
+    Map<String, Long> expected, List<String> missingMetricNames) {
     missingMetricNames.clear();
     for (Map.Entry<String, Long> metric : expected.entrySet()) {
       Collection<MetricTimeSeries> queryResult =
@@ -163,7 +163,7 @@ public class MetricsProcessorServiceTest extends MetricsProcessorServiceTestBase
   }
 
   private void assertMetricsResult(MetricStore metricStore, Map<String, String> metricsContext,
-                                   Map<String, Long> expected) {
+    Map<String, Long> expected) {
     for (Map.Entry<String, Long> metric : expected.entrySet()) {
       Collection<MetricTimeSeries> queryResult =
         metricStore.query(new MetricDataQuery(0, Integer.MAX_VALUE, Integer.MAX_VALUE,
