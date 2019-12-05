@@ -353,6 +353,7 @@ class DLPRow extends AbstractRow<IDLPRowProps, IDLPRowState> {
       config.values = this.state.transformProperties;
       config.classes = this.props.classes;
       config.onChange = this.handleChangeTransformOptions.bind(this);
+      config.inputSchema = this.props.extraConfig.inputSchema;
 
       if (nestedErrors.length > 0) {
         this.handleChange('expanded', true);

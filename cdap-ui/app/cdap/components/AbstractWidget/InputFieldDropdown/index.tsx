@@ -60,20 +60,28 @@ function getFields(schemas: IStageSchema[], allowedTypes: string[]) {
 // Function that checks if types contains a type that is in allowedTypes
 // This is meant to handle nullable fields since a nullable string type is
 // presented as ['string','null'].
-function containsType(types: string[], allowedTypes: string[]) {
+function containsType(types: Array<object | string>, allowedTypes: string[]) {
   if (allowedTypes.length == 0) {
     return true;
   }
 
-  for (const allowedType of allowedTypes) {
-    if (types.length === 1 && types[0] === allowedType) {
-      return true;
-    } else if (types.length === 2 && types.includes(allowedType) && types.includes('null')) {
-      return true;
+  return allowedTypes.includes(extractType(types));
+}
+
+function extractType(types) {
+  let value = types;
+  if (types instanceof Array) {
+    if (types.length === 1) {
+      value = types[0];
+    } else if (types.length === 2 && types.includes('null')) {
+      value = types.indexOf('null') === 0 ? types[1] : types[0];
     }
   }
 
-  return false;
+  if (typeof value === 'object') {
+    value = value.logicalType || value;
+  }
+  return value;
 }
 
 const InputFieldDropdown: React.FC<IInputFieldProps> = ({
