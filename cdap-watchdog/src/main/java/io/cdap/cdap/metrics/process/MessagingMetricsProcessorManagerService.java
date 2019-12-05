@@ -35,13 +35,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Process metrics by consuming metrics being published to TMS.
+ * Manage MessagingMetricsProcessorServices with different MetricsWriters
  */
 public class MessagingMetricsProcessorManagerService extends AbstractIdleService {
 
-  final private List<MessagingMetricsProcessorService> metricsProcessorServices;
-  final private List<MetricsWriter> metricsWriters;
-  final long metricsProcessIntervalMillis;
+  private final List<MessagingMetricsProcessorService> metricsProcessorServices;
+  private final List<MetricsWriter> metricsWriters;
 
   @Inject
   MessagingMetricsProcessorManagerService(CConfiguration cConf,
@@ -72,7 +71,6 @@ public class MessagingMetricsProcessorManagerService extends AbstractIdleService
     this.metricsWriters = new ArrayList<>();
     this.metricsProcessorServices = new ArrayList<>();
     this.metricsWriters.add(new MetricStoreMetricsWriter(metricStore, metricsContext));
-    this.metricsProcessIntervalMillis = metricsProcessIntervalMillis;
 
     for (MetricsWriter metricsExtension : this.metricsWriters) {
       metricsProcessorServices.add(new MessagingMetricsProcessorService(cConf,
@@ -92,7 +90,7 @@ public class MessagingMetricsProcessorManagerService extends AbstractIdleService
   @Override
   protected void startUp() throws Exception {
     for (MessagingMetricsProcessorService processorService : metricsProcessorServices) {
-      if (!processorService.isRunning()) {
+      if (! processorService.isRunning()) {
         processorService.startAndWait();
       }
     }

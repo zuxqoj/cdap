@@ -51,6 +51,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
+/**
+ * Process metrics by consuming metrics being published to TMS.
+ */
 public class MessagingMetricsProcessorService extends AbstractExecutionThreadService {
 
   private static final Logger LOG = LoggerFactory.getLogger(MessagingMetricsProcessorManagerService.class);
