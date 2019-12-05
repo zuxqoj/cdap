@@ -21,17 +21,18 @@ import io.cdap.cdap.api.metrics.MetricStore;
 import io.cdap.cdap.api.metrics.MetricValues;
 import io.cdap.cdap.api.metrics.MetricsContext;
 
+import java.io.IOException;
 import java.util.Deque;
 
 /**
  * Metrics Forwarder for the MetricStore
  */
-public class MetricStoreMetricsForwarderExtension implements MetricsForwarderExtension {
+public class MetricStoreMetricsWriter implements MetricsWriter {
 
 
   private MetricStore metricStore;
 
-  public MetricStoreMetricsForwarderExtension(MetricStore metricStore, MetricsContext metricsContext) {
+  public MetricStoreMetricsWriter(MetricStore metricStore, MetricsContext metricsContext) {
 
     this.metricStore = metricStore;
     this.metricStore.setMetricsContext(metricsContext);
@@ -39,12 +40,22 @@ public class MetricStoreMetricsForwarderExtension implements MetricsForwarderExt
   }
 
   @Override
-  public void add(Deque<MetricValues> metricValues) {
+  public void write(Deque<MetricValues> metricValues) {
     this.metricStore.add(metricValues);
+  }
+
+  @Override
+  public void initialize() {
+    // no-op
   }
 
   @Override
   public String getID() {
     return "METRICS_STORE";
+  }
+
+  @Override
+  public void close() throws IOException {
+
   }
 }

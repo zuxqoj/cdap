@@ -67,7 +67,7 @@ public class MessagingMetricsProcessorManagerServiceTest extends MetricsProcesso
     injector.getInstance(DatasetService.class).startAndWait();
 
     Set<Integer> partitions = IntStream.range(0, cConf.getInt(Constants.Metrics.MESSAGING_TOPIC_NUM))
-                                       .boxed().collect(Collectors.toSet());
+      .boxed().collect(Collectors.toSet());
 
     long startTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 

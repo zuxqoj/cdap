@@ -19,14 +19,28 @@ package io.cdap.cdap.metrics.process;
 
 import io.cdap.cdap.api.metrics.MetricValues;
 
+import java.io.Closeable;
 import java.util.Deque;
 
 /**
  * Interface for extensions that will forward CDAP metrics to another metrics system
  */
-public interface MetricsForwarderExtension {
+public interface MetricsWriter extends Closeable {
 
-  void add(Deque<MetricValues> metricValues);
+  /**
+   * Method to write metrics to the target endpoint
+   * @param metricValues Deque of MetricValues to write to the endpoint
+   */
+  void write(Deque<MetricValues> metricValues);
 
+  /**
+   * Init method to setup any configurations/connections that this MetricsWriter may need
+   */
+  void initialize();
+
+  /**
+   * Getter for the unique ID of this MetricsWriter
+   * @return ID of this MetricsWriter
+   */
   String getID();
 }
