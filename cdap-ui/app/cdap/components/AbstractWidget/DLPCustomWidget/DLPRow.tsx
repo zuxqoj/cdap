@@ -37,8 +37,6 @@ import FormControl from '@material-ui/core/FormControl';
 import ConfigurationGroup, { IConfigurationGroupProps } from 'components/ConfigurationGroup';
 import { IErrorObj } from 'components/ConfigurationGroup/utilities';
 import {
-  parseTransformOptions,
-  parseNestedErrors,
   extractAndSplitMatchingErrors,
   getConfigurationGroupConfig,
 } from './utilities/index';
