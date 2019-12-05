@@ -35,11 +35,6 @@ interface IDLPWidgetProps {
 interface IDLPProps extends IMultiRowProps<IDLPWidgetProps> {}
 
 class DLPWidgetView extends AbstractMultiRowWidget<IDLPProps> {
-  public editRow = (id, value) => {
-    this.values[id].value = value;
-    this.onChange();
-  };
-
   public deconstructValues = (props) => {
     try {
       return JSON.parse(props.value);

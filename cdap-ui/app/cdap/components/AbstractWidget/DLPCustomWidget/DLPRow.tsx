@@ -36,6 +36,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FormControl from '@material-ui/core/FormControl';
 import ConfigurationGroup, { IConfigurationGroupProps } from 'components/ConfigurationGroup';
 import { IErrorObj } from 'components/ConfigurationGroup/utilities';
+import {
+  parseTransformOptions,
+  parseNestedErrors,
+  extractAndSplitMatchingErrors,
+  getConfigurationGroupConfig,
+} from './utilities/index';
 
 const styles = (theme): StyleRules => {
   return {
@@ -89,7 +95,7 @@ const styles = (theme): StyleRules => {
   };
 };
 
-interface IErrorConfig {
+export interface IErrorConfig {
   transform: string;
   fields: string;
   filters: string;
@@ -106,13 +112,13 @@ export interface ITransformProp {
 }
 export type FilterOption = IOption | string;
 
-interface IDLPRowProps extends IAbstractRowProps<typeof styles> {
+export interface IDLPRowProps extends IAbstractRowProps<typeof styles> {
   transforms: ITransformProp[];
   filters: FilterOption[];
   extraConfig: any;
 }
 
-interface IDLPRowState {
+export interface IDLPRowState {
   fields: string;
   transform: string;
   filters: string;
@@ -191,7 +197,15 @@ class DLPRow extends AbstractRow<IDLPRowProps, IDLPRowState> {
   };
 
   private handleChangeTransformOptions(values: Record<string, string>) {
-    // Comparing new values to current state
+    // Code below is meant to ensure that the values have actually been updated/changed
+    // before calling this.handleChange. Without these checks we get stuck in an inifinite
+    // loop becasuse the onChange handler is called from ConfigurationGroup when the default values
+    // are set on init. This causes the row to be re-rendered, which re-renders the ConfigurationGroup
+    // which repeats the whole cycle
+
+    // Comparing new values to current state. Have to account for the case where the current values and
+    // new values are not equal in length. ex. one of the fields had it's value cleared so it doesnt
+    // appear in the new values dict
     const newValuesKeys = Object.keys(values);
     const oldValuesKeys = Object.keys(this.state.transformProperties);
     const longerKeysList =
@@ -247,38 +261,11 @@ class DLPRow extends AbstractRow<IDLPRowProps, IDLPRowState> {
       };
     });
 
-    // Filtering for errors that apply to this row
-    const errors = this.props.errors
-      ? this.props.errors.filter((err) => {
-          try {
-            const errorConfig: IErrorConfig = JSON.parse(err.element);
-            return (
-              errorConfig.fields === this.state.fields &&
-              errorConfig.transform === this.state.transform &&
-              errorConfig.filters === this.state.filters
-            );
-          } catch (error) {
-            return false;
-          }
-        })
-      : [];
-
     // Splitting erros between localErrors (errors that apply to the transform, filters or fields)
     // and nestedErrors (errors that apply to the nested transform properties)
-    const localErrors: IErrorObj[] = [];
-    const nestedErrors: IErrorObj[] = [];
-    errors.forEach((err) => {
-      try {
-        const errorConfig: IErrorConfig = JSON.parse(err.element);
-        if (errorConfig.isNestedError) {
-          nestedErrors.push(err);
-        } else {
-          localErrors.push(err);
-        }
-      } catch (error) {
-        return;
-      }
-    });
+    let localErrors: IErrorObj[] = [];
+    let nestedErrors: IErrorObj[] = [];
+    [localErrors, nestedErrors] = extractAndSplitMatchingErrors(this.state, this.props.errors);
 
     const transforms = this.props.transforms;
 
@@ -289,75 +276,30 @@ class DLPRow extends AbstractRow<IDLPRowProps, IDLPRowState> {
     };
 
     // WidgetProps for ConfiguartionGroup that will hold transform properties
-    const properties: PluginProperties = {};
-    const config: IConfigurationGroupProps = {
+    let config: IConfigurationGroupProps = {
       classes: {},
       errors: {},
       values: {},
-      pluginProperties: properties,
+      pluginProperties: {},
     };
 
     if (this.state.transform !== '') {
-      inputFieldProps.allowedTypes =
-        transforms.filter((trans) => trans.name === this.state.transform)[0].supportedTypes || [];
-
+      if (nestedErrors.length > 0) {
+        this.handleChange('expanded', true);
+      }
       const transform: ITransformProp = transforms.filter(
         (t) => t.name === this.state.transform
       )[0];
 
-      // Populating the pluginProperties for each transform property
-      transform.options.forEach((transProp) => {
-        const pluginProp: IPluginProperty = {
-          name: transProp.name,
-        };
-        if (transProp['widget-attributes']) {
-          if (transProp['widget-attributes'].macro) {
-            pluginProp.macroSupported = transProp['widget-attributes'].macro;
-          }
-          if (transProp['widget-attributes'].description) {
-            pluginProp.description = transProp['widget-attributes'].description;
-          }
-          if (transProp['widget-attributes'].required) {
-            pluginProp.required = transProp['widget-attributes'].required;
-          }
-        }
-        properties[transProp.name] = pluginProp;
-      });
+      inputFieldProps.allowedTypes = transform.supportedTypes || [];
 
-      config.pluginProperties = properties;
-      // Parsing errors for ConfigurationGroup
-      config.errors = {};
-      nestedErrors.forEach((err) => {
-        try {
-          const errorConfig: IErrorConfig = JSON.parse(err.element);
-          const errorObj = { msg: err.msg };
-          if (errorConfig.transformPropertyId in config.errors) {
-            config.errors[errorConfig.transformPropertyId].push(errorObj);
-          } else {
-            config.errors[errorConfig.transformPropertyId] = [errorObj];
-          }
-        } catch (error) {
-          return;
-        }
-      });
-
-      config.widgetJson = {
-        'configuration-groups': [
-          {
-            label: transform.label + ' properties',
-            properties: transform.options,
-          },
-        ],
-        filters: transform.filters, // Passing ConfigurationGroup filters to allow for dynamic showing/hiding of properties
-      };
-      config.values = this.state.transformProperties;
-      config.classes = this.props.classes;
-      config.onChange = this.handleChangeTransformOptions.bind(this);
-      config.inputSchema = this.props.extraConfig.inputSchema;
-
-      if (nestedErrors.length > 0) {
-        this.handleChange('expanded', true);
-      }
+      config = getConfigurationGroupConfig(
+        this.state,
+        this.props,
+        transform,
+        nestedErrors,
+        this.handleChangeTransformOptions.bind(this)
+      );
     }
 
     return (
@@ -401,9 +343,13 @@ class DLPRow extends AbstractRow<IDLPRowProps, IDLPRowState> {
 
           {localErrors.map((err) => {
             try {
-              return <div className={this.props.classes.errorText}>{err.msg}</div>;
+              return (
+                <div key={err.element} className={this.props.classes.errorText}>
+                  {err.msg}
+                </div>
+              );
             } catch (error) {
-              return;
+              return null;
             }
           })}
           <div className={this.props.classes.transformContainer}>
