@@ -90,7 +90,7 @@ public class MessagingMetricsProcessorManagerService extends AbstractIdleService
   @Override
   protected void startUp() throws Exception {
     for (MessagingMetricsProcessorService processorService : metricsProcessorServices) {
-      if (! processorService.isRunning()) {
+      if (!processorService.isRunning()) {
         processorService.startAndWait();
       }
     }
