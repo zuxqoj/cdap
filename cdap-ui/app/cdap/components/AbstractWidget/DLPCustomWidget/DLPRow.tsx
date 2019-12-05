@@ -36,10 +36,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FormControl from '@material-ui/core/FormControl';
 import ConfigurationGroup, { IConfigurationGroupProps } from 'components/ConfigurationGroup';
 import { IErrorObj } from 'components/ConfigurationGroup/utilities';
-import {
-  extractAndSplitMatchingErrors,
-  getConfigurationGroupConfig,
-} from './utilities/index';
+import { extractAndSplitMatchingErrors, getConfigurationGroupConfig } from './utilities/index';
 
 const styles = (theme): StyleRules => {
   return {
