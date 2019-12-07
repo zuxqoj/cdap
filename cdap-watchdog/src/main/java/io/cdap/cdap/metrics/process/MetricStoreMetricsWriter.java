@@ -22,31 +22,28 @@ import io.cdap.cdap.api.metrics.MetricValues;
 import io.cdap.cdap.api.metrics.MetricsContext;
 
 import java.io.IOException;
-import java.util.Deque;
+import java.util.Collection;
 
 /**
  * Metrics Forwarder for the MetricStore
  */
 public class MetricStoreMetricsWriter implements MetricsWriter {
 
+  private final MetricStore metricStore;
 
-  private MetricStore metricStore;
-
-  public MetricStoreMetricsWriter(MetricStore metricStore, MetricsContext metricsContext) {
-
+  public MetricStoreMetricsWriter(MetricStore metricStore) {
     this.metricStore = metricStore;
-    this.metricStore.setMetricsContext(metricsContext);
 
   }
 
   @Override
-  public void write(Deque<MetricValues> metricValues) {
+  public void write(Collection<MetricValues> metricValues) {
     this.metricStore.add(metricValues);
   }
 
   @Override
-  public void initialize() {
-    // no-op
+  public void initialize(MetricsContext metricsContext) {
+    this.metricStore.setMetricsContext(metricsContext);
   }
 
   @Override
@@ -56,6 +53,6 @@ public class MetricStoreMetricsWriter implements MetricsWriter {
 
   @Override
   public void close() throws IOException {
-
+    //no-op
   }
 }

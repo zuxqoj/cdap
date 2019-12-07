@@ -18,9 +18,10 @@
 package io.cdap.cdap.metrics.process;
 
 import io.cdap.cdap.api.metrics.MetricValues;
+import io.cdap.cdap.api.metrics.MetricsContext;
 
 import java.io.Closeable;
-import java.util.Deque;
+import java.util.Collection;
 
 /**
  * Interface for extensions that will forward CDAP metrics to another metrics system
@@ -31,12 +32,13 @@ public interface MetricsWriter extends Closeable {
    * Method to write metrics to the target endpoint
    * @param metricValues Deque of MetricValues to write to the endpoint
    */
-  void write(Deque<MetricValues> metricValues);
+  void write(Collection<MetricValues> metricValues);
 
   /**
-   * Init method to setup any configurations/connections that this MetricsWriter may need
+   * Init method to setup configurations for this MetricsWriter
+   * @param metricsContext metricsContext to be used for the MetricsWriter
    */
-  void initialize();
+  void initialize(MetricsContext metricsContext);
 
   /**
    * Getter for the unique ID of this MetricsWriter

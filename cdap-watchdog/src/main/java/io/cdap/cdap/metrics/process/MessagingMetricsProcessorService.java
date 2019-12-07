@@ -180,7 +180,7 @@ public class MessagingMetricsProcessorService extends AbstractExecutionThreadSer
 
   @Override
   protected void run() {
-    LOG.info("Start running MessagingMetricsProcessorService for " + metricsWriter.getID());
+    LOG.info("Start running MessagingMetricsProcessorService for {}", metricsWriter.getID());
     MetricsConsumerMetaTable metaTable = getMetaTable();
     if (metaTable == null) {
       LOG.info("Could not get MetricsConsumerMetaTable, seems like we are being shut down");

@@ -70,7 +70,9 @@ public class MessagingMetricsProcessorManagerService extends AbstractIdleService
                                           int instanceId) {
     this.metricsWriters = new ArrayList<>();
     this.metricsProcessorServices = new ArrayList<>();
-    this.metricsWriters.add(new MetricStoreMetricsWriter(metricStore, metricsContext));
+    MetricStoreMetricsWriter metricsWriter = new MetricStoreMetricsWriter(metricStore);
+    metricsWriter.initialize(metricsContext);
+    this.metricsWriters.add(metricsWriter);
 
     for (MetricsWriter metricsExtension : this.metricsWriters) {
       metricsProcessorServices.add(new MessagingMetricsProcessorService(cConf,
@@ -90,16 +92,22 @@ public class MessagingMetricsProcessorManagerService extends AbstractIdleService
   @Override
   protected void startUp() throws Exception {
     for (MessagingMetricsProcessorService processorService : metricsProcessorServices) {
-      if (!processorService.isRunning()) {
-        processorService.startAndWait();
-      }
+      processorService.startAndWait();
     }
   }
 
   @Override
   protected void shutDown() throws Exception {
+    Exception exceptions = new Exception();
     for (MessagingMetricsProcessorService processorService : metricsProcessorServices) {
-      processorService.stopAndWait();
+      try {
+        processorService.stopAndWait();
+      }catch(Exception e) {
+        exceptions.addSuppressed(e);
+      }
+    }
+    if (exceptions.getSuppressed().length>0){
+      throw exceptions;
     }
   }
 }
