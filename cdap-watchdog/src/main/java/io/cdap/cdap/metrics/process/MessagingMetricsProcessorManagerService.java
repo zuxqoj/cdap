@@ -102,11 +102,11 @@ public class MessagingMetricsProcessorManagerService extends AbstractIdleService
     for (MessagingMetricsProcessorService processorService : metricsProcessorServices) {
       try {
         processorService.stopAndWait();
-      }catch(Exception e) {
+      } catch (Exception e) {
         exceptions.addSuppressed(e);
       }
     }
-    if (exceptions.getSuppressed().length>0){
+    if (exceptions.getSuppressed().length > 0) {
       throw exceptions;
     }
   }

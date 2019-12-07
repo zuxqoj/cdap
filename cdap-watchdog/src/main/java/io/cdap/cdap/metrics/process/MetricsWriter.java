@@ -30,18 +30,21 @@ public interface MetricsWriter extends Closeable {
 
   /**
    * Method to write metrics to the target endpoint
+   *
    * @param metricValues Deque of MetricValues to write to the endpoint
    */
   void write(Collection<MetricValues> metricValues);
 
   /**
    * Init method to setup configurations for this MetricsWriter
+   *
    * @param metricsContext metricsContext to be used for the MetricsWriter
    */
   void initialize(MetricsContext metricsContext);
 
   /**
    * Getter for the unique ID of this MetricsWriter
+   *
    * @return ID of this MetricsWriter
    */
   String getID();
